@@ -1,28 +1,187 @@
 package model;
 
+import controller.OwnMeepleException;
+import controller.game.Game;
+import controller.game.Status;
+
 //import java.io.Serializable;
 
 public class BoardSet extends Board /*implements Serializable*/ {
 
 	//private static final long serialVersionUID = -6925781465692944476L;
-	Position newPosition;
+	private Position newPosition;
 	public BoardSet() {
 		super();
 	}
-	
-	public boolean setMeeple(Position position, Content content, int diceValue) {
+
+	public boolean setMeeple(Position position, Content content, Game game) throws OwnMeepleException {
+
 		if (position.getIndex() + diceValue >= 40) {
-			board[(position.getIndex() + diceValue) - 40] = content;
 			newPosition = new Position((position.getIndex() + diceValue) - 40);
+			if (checkNearEnd(content, position)) {
+				enterStreet(position, content);
+				game.endMessage();
+			} else {
+				checkEnemy(content);
+				board[(position.getIndex() + diceValue) - 40] = content;
+			}
 		}else {
-		board[position.getIndex() + diceValue] = content;
-		newPosition = new Position(position.getIndex() + diceValue);
+			newPosition = new Position(position.getIndex() + diceValue);
+			if (checkNearEnd(content, position)) {
+				enterStreet(position, content);
+				game.endMessage();
+			} else {
+				checkEnemy(content);
+				board[position.getIndex() + diceValue] = content;
+			}
 		}
-		
+
+
 		if(diceValue != 0) {
-		board[position.getIndex()] = Content.FREE;
+			board[position.getIndex()] = Content.FREE;
 		}
-		
+
 		return true;
 	}
+
+	public void enterStreet(Position position, Content content) {
+		int diff;
+		switch(content) {
+		case YELLOW: 
+			diff = (diceValue - (ENDY.getIndex() - position.getIndex())-1);
+			streetY[diff] = content; 
+			break;
+		case GREEN:
+			diff = (diceValue - (ENDG.getIndex() - position.getIndex())-1);
+			streetG[diff] = content; 
+			break;
+		case BLUE:
+			diff = (diceValue - (ENDB.getIndex() - position.getIndex())-1);
+			streetB[diff] = content; 
+			break;
+		case RED:
+			diff = (diceValue - (ENDR.getIndex() - position.getIndex())-1);
+			streetR[diff] = content; 
+			break;
+			default: break;
+		}	
 	}
+	
+	public void checkEnemy(Content content) throws OwnMeepleException {
+		if (board[newPosition.getIndex()] != Content.FREE) {
+			if (board[newPosition.getIndex()] == content) {
+				throw new OwnMeepleException();
+				
+			} else {
+				switch(board[newPosition.getIndex()]) {
+				case YELLOW: houseY++; break;
+				case GREEN: houseG++; break;
+				case BLUE: houseB++; break;
+				case RED: houseR++; break;
+				default:
+					break;}
+			}
+		}
+	}
+
+	public boolean checkNearEnd(Content content, Position position) {
+		switch(content) {
+		case YELLOW: 
+			if(position.getIndex() > 6 &&(position.getIndex()+diceValue >= 39 && position.getIndex()+diceValue <= 44)) {return true;} break;
+		case GREEN: 
+			if(position.getIndex() <= 9 &&(position.getIndex()+diceValue >= 9 && position.getIndex()+diceValue <= 14)) {return true;} break;
+		case BLUE: 
+			if(position.getIndex() <= 19 &&(position.getIndex()+diceValue >= 19 && position.getIndex()+diceValue <= 24)) {return true;} break;
+		case RED: 
+			if(position.getIndex() <= 29 &&(position.getIndex()+diceValue >= 29 && position.getIndex()+diceValue <= 34)) {return true;} break;
+		default:
+			break;
+		}
+		return false;
+	}
+
+	public void leaveHouse(Status status, Game game) throws OwnMeepleException {
+		int throwCount = 1;
+		switch (status) {
+		case PLAYER1:
+			while (throwCount < 3 || (throwCount == 3 && diceValue == 6) ) {
+				if (diceValue == 6) {
+					diceValue = 0;
+					setMeeple(STARTY, Content.YELLOW, game);
+					houseY--;
+					diceValue = dice.throwDice();
+					//Benachrichtigt die Spiellogik, dem Spieler mitzuteilen,
+					// dass der Würfel neu gesetzt wurde;
+					game.diceMessage();
+					setMeeple(STARTY, Content.YELLOW, game);
+					break;
+				} else {
+					throwCount++;
+					diceValue = dice.throwDice();
+					game.diceMessage();
+				}
+			}
+			break;
+
+		case PLAYER2:
+			while (throwCount < 3 || (throwCount == 3 && diceValue == 6) ) {
+				if (diceValue == 6) {
+					diceValue = 0;
+					setMeeple(STARTG, Content.GREEN, game);
+					houseG--;
+					diceValue = dice.throwDice();
+					//Benachrichtigt die Spiellogik, dem Spieler mitzuteilen,
+					// dass der Würfel neu gesetzt wurde;
+					game.diceMessage();
+					setMeeple(STARTG, Content.GREEN, game);
+					break;
+				} else {
+					throwCount++;
+					diceValue = dice.throwDice();
+					game.diceMessage();
+				}
+			}
+			break;
+
+		case PLAYER3:
+			while (throwCount < 3 || (throwCount == 3 && diceValue == 6) ) {
+				if (diceValue == 6) {
+					diceValue = 0;
+					setMeeple(STARTB, Content.BLUE, game);
+					houseB--;
+					diceValue = dice.throwDice();
+					//Benachrichtigt die Spiellogik, dem Spieler mitzuteilen,
+					// dass der Würfel neu gesetzt wurde;
+					game.diceMessage();
+					setMeeple(STARTB, Content.BLUE, game);
+					break;
+				} else {
+					throwCount++;
+					diceValue = dice.throwDice();
+					game.diceMessage();
+				}
+			}
+			break;
+
+		case PLAYER4:
+			while (throwCount < 3 || (throwCount == 3 && diceValue == 6) ) {
+				if (diceValue == 6) {
+					diceValue = 0;
+					setMeeple(STARTR, Content.RED, game);
+					houseR--;
+					diceValue = dice.throwDice();
+					//Benachrichtigt die Spiellogik, dem Spieler mitzuteilen,
+					// dass der Würfel neu gesetzt wurde;
+					game.diceMessage();
+					setMeeple(STARTR, Content.RED, game);
+					break;
+				} else {
+					throwCount++;
+					diceValue = dice.throwDice();
+					game.diceMessage();
+				}
+			}		
+		default: 
+		}
+	}
+}

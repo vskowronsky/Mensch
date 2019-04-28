@@ -34,7 +34,7 @@ public class PlayerCUI implements Player {
 		do {
 			System.out.println("Sie sind dran, Spieler " + id);
 			System.out.println(
-					"Wollen Sie eine Spielfigur setzen, einen Spielstand speichern oder einen Spielstand laden oder ? 0 für Setzen, 1 für Speichern, 2 für Laden");
+					"Wollen Sie eine Spielfigur setzen, einen Spielstand speichern oder einen Spielstand laden? \n 0 für Setzen, 1 für Speichern, 2 für Laden");
 			sl = readInt();
 
 		} while (sl < 0 || sl > 2);
@@ -102,6 +102,7 @@ public class PlayerCUI implements Player {
 
 	private void update() {
 		game.update();
+			
 	}
 
 	private void safe() {
@@ -109,12 +110,25 @@ public class PlayerCUI implements Player {
 	}
 
 	private void load() {
-		game.load();
+		
+			game.load();
+		
 	}
 
 	public void diceResult() {
 		System.out.println("Sie haben eine " + game.dice() + " gewürfelt.");
 	}
 	
+	public void endOverrun() {
+		System.out.println("Spielzug nicht möglich, übers Ziel hinaus.");
+	}
+	
+	public void throwOwnMeeple() {
+		System.out.println("Sie können sich nicht selber vom Spielbrett werfen.");
+	}
+	
+	public void doubleDiceResult() {
+		System.out.println("Sie dürfen nochmal würfeln. Sie haben eine " + game.dice() + "gewürfelt");
+	}
 	
 }

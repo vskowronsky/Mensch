@@ -1,5 +1,7 @@
 package model;
 
+import controller.game.Status;
+
 public class Board {
 	protected Content[] board;
 	protected Content[] streetY;
@@ -18,9 +20,17 @@ public class Board {
 	protected int houseG;
 	protected int houseB;
 	protected int houseR;
+	protected int finishedY;
+	protected int finishedG;
+	protected int finishedB;
+	protected int finishedR;
+	protected Dice dice;
+	protected int diceValue;
 
 	public Board() {
 
+		dice = new Dice(); 
+		
 		board = new Content[40];
 		for (int i = 0; i < board.length; i++) {
 			board[i] = Content.FREE;
@@ -42,50 +52,61 @@ public class Board {
 		for (int i = 0; i < streetR.length; i++) {
 			streetR[i] = Content.FREE;
 		}
-
+//zum Testen von CheckThreeThrows; muss auf Null gesetzt werden!!
 		houseY = 4;
 		houseG = 4;
 		houseB = 4;
 		houseR = 4;
 		
+		finishedY = 0;
+		finishedG = 0;
+		finishedB = 0;
+		finishedR = 0;	
+	}
+	
+	public void diceThrow() {
+		diceValue = dice.throwDice();	
+	}
+	
+	public int getDiceValue() {
+		return diceValue;
+	}
+	
+	public boolean checkThreeThrows(Status status) {
+		switch (status) {
+		case PLAYER1: if(houseY + finishedY == 4) {return true;} break;
+		case PLAYER2: if(houseG + finishedG == 4) {return true;} break;
+		case PLAYER3: if(houseB + finishedB == 4) {return true;} break;
+		case PLAYER4: if(houseR + finishedR == 4) {return true;} break;
 		
-		//!!!!!! NUR ZUM TESTEN
-//		board[5] = Content.GREEN;
-//		board[2] = Content.YELLOW;
+		default: break;
+	}
+		return false;
+				
+	}
+	
+	public boolean checkNumHouse(Status status) {
+		switch (status) {
+		case PLAYER1: if (houseY != 0) {return true;} break;
+		case PLAYER2: if (houseG != 0) {return true;} break;
+		case PLAYER3: if (houseB != 0) {return true;} break;
+		case PLAYER4: if (houseR != 0) {return true;} break;
 		
+		default: break;
+		}
+		return false;
+	}
+	
+	public boolean checkDoubleDice(Status status) {
+		switch (status) {
+		case PLAYER1: if (houseY == 0) {return true;} break;
+		case PLAYER2: if (houseG == 0) {return true;} break;
+		case PLAYER3: if (houseB == 0) {return true;} break;
+		case PLAYER4: if (houseR == 0) {return true;} break;
 		
-	}
-
-	public int getHouseY() {
-		return houseY;
-	}
-
-	public void setHouseY(int houseY) {
-		this.houseY = houseY;
-	}
-
-	public int getHouseG() {
-		return houseG;
-	}
-
-	public void setHouseG(int houseG) {
-		this.houseG = houseG;
-	}
-
-	public int getHouseB() {
-		return houseB;
-	}
-
-	public void setHouseB(int houseB) {
-		this.houseB = houseB;
-	}
-
-	public int getHouseR() {
-		return houseR;
-	}
-
-	public void setHouseR(int houseR) {
-		this.houseR = houseR;
+		default: break;
+		}
+		return false;
 	}
 
 	public boolean checkWin(Content content) {

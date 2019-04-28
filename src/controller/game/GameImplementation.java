@@ -1,6 +1,7 @@
 package controller.game;
 
 import controller.IO;
+import controller.OwnMeepleException;
 import controller.player.Player;
 import model.*;
 
@@ -11,12 +12,9 @@ public class GameImplementation implements Game {
 	private Player player4;
 	private BoardSet board;
 	private Status status;
-	private Dice dice;
-	private int diceValue;
-	private Position position;
+	private boolean error;
 
 	public GameImplementation(Player player1, Player player2, Player player3, Player player4) {
-		dice = new Dice();
 		board = new BoardSet();
 		this.player1 = player1;
 		this.player2 = player2;
@@ -37,61 +35,143 @@ public class GameImplementation implements Game {
 			player3.disable();
 			player4.disable();
 			player1.enable();
-			System.out.println("Spieler 1 ist dran.");
 		} else if (status == Status.PLAYER2) {
 			player1.disable();
 			player3.disable();
 			player4.disable();
 			player2.enable();
-			System.out.println("Spieler 2 ist dran.");
 		} else if (status == Status.PLAYER3) {
 			player1.disable();
 			player2.disable();
 			player4.disable();
 			player3.enable();
-			System.out.println("Spieler 3 ist dran.");
 		} else if (status == Status.PLAYER4) {
 			player1.disable();
 			player2.disable();
 			player3.disable();
 			player4.enable();
-			System.out.println("Spieler 4 ist dran.");
 		}
 	}
 
 	@Override
 	public void update() {
-		diceValue = dice.throwDice();
 
-		if (!leaveHouse()) {
+		board.diceThrow();
 
-			switch (status) {
-			case PLAYER1:
-				if (board.setMeeple(player1.chooseMeeple(), Content.YELLOW, diceValue)) {
+		do {
+			try {
+				error = true;
+				switch (status) {
+				case PLAYER1:
+					if (board.checkThreeThrows(status)) {
+						player1.diceResult();
+						board.leaveHouse(status, this);
+					} else if (dice() == 6 && board.checkNumHouse(status)) {
+						player1.diceResult();
+						board.leaveHouse(status, this);
+					} else if (dice () == 6 && board.checkDoubleDice(status)) {
+						board.setMeeple(player1.chooseMeeple(), Content.YELLOW, this);
+						
+						board.diceThrow();
+						player1.doubleDiceResult();
+						
+						board.setMeeple(player1.chooseMeeple(), Content.YELLOW, this);
+					}else {
+						if (board.setMeeple(player1.chooseMeeple(), Content.YELLOW, this)) {
+
+						} else {
+							// player.nachrichtSpielzugNichtMoeglich();
+						}
+					}
 					status = Status.PLAYER2;
 					player1.disable();
-				}
-				break;
-			case PLAYER2:
-				if (board.setMeeple(player2.chooseMeeple(), Content.GREEN, diceValue)) {
+					break;
+
+				case PLAYER2:
+					if (board.checkThreeThrows(status)) {
+						player2.diceResult();
+						board.leaveHouse(status, this);
+					} else if (dice() == 6 && board.checkNumHouse(status)) {
+						player2.diceResult();
+						board.leaveHouse(status, this);
+					} else if (dice () == 6 && board.checkDoubleDice(status)) {
+						board.setMeeple(player2.chooseMeeple(), Content.GREEN, this);
+						
+						board.diceThrow();
+						player2.doubleDiceResult();
+						
+						board.setMeeple(player2.chooseMeeple(), Content.GREEN, this);
+					} else {
+						if (board.setMeeple(player2.chooseMeeple(), Content.GREEN, this)) {
+							
+						} else {
+							// player.nachrichtSpielzugNichtMoeglich();
+						}
+					}
 					status = Status.PLAYER3;
 					player2.disable();
-				}
-				break;
-			case PLAYER3:
-				if (board.setMeeple(player3.chooseMeeple(), Content.BLUE, diceValue)) {
+					break;
+
+				case PLAYER3:
+					if (board.checkThreeThrows(status)) {
+						player3.diceResult();
+						board.leaveHouse(status, this);
+					} else if (dice() == 6 && board.checkNumHouse(status)) {
+						player3.diceResult();
+						board.leaveHouse(status, this);
+					} else if (dice () == 6 && board.checkDoubleDice(status)) {
+						board.setMeeple(player3.chooseMeeple(), Content.BLUE, this);
+						
+						board.diceThrow();
+						player3.doubleDiceResult();
+						
+						board.setMeeple(player3.chooseMeeple(), Content.BLUE, this);	
+						
+					} else {
+						if (board.setMeeple(player3.chooseMeeple(), Content.BLUE, this)) {
+
+						} else {
+							// player.nachrichtSpielzugNichtMoeglich();
+						}
+					}
 					status = Status.PLAYER4;
 					player3.disable();
-				}
-				break;
-			case PLAYER4:
-				if (board.setMeeple(player4.chooseMeeple(), Content.RED, diceValue)) {
+					break;
+
+				case PLAYER4:
+					if (board.checkThreeThrows(status)) {
+						player4.diceResult();
+						board.leaveHouse(status, this);
+					} else if (dice() == 6 && board.checkNumHouse(status)) {
+						player4.diceResult();
+						board.leaveHouse(status, this);
+						
+					} else if (dice () == 6 && board.checkDoubleDice(status)) {
+						board.setMeeple(player4.chooseMeeple(), Content.RED, this);
+						
+						board.diceThrow();
+						player4.doubleDiceResult();
+						
+						board.setMeeple(player4.chooseMeeple(), Content.RED, this);
+					} else {
+						if (board.setMeeple(player4.chooseMeeple(), Content.RED, this)) {
+
+						} else {
+							// player.nachrichtSpielzugNichtMoeglich();
+						}
+					}
 					status = Status.PLAYER1;
 					player4.disable();
+					break;
+					
+					default: break;
 				}
-				break;
+				error = false;
+
+			} catch (OwnMeepleException e) {
+				ownMeepleMessage();
 			}
-		}
+		} while (error);
 
 		if (board.checkWin(Content.YELLOW)) {
 			status = Status.WINPLAYER1;
@@ -128,6 +208,7 @@ public class GameImplementation implements Game {
 		} else if (status == Status.PLAYER4) {
 			player4.enable();
 		}
+
 	}
 
 	public void safe() {
@@ -136,12 +217,14 @@ public class GameImplementation implements Game {
 	}
 
 	public void load() {
-//		PersistenceObject po = SaveLoad.load();
-//		status = po.getStatus();
-//		board = po.getBoard();
+		// PersistenceObject po = SaveLoad.load();
+		// status = po.getStatus();
+		// board = po.getBoard();
 
 		start();
+
 		update();
+
 	}
 
 	public Board getBoard() {
@@ -152,64 +235,65 @@ public class GameImplementation implements Game {
 		return board.checkPosition(chosenPosition);
 	}
 
-	public boolean leaveHouse() {
-		int throwCount = 1;
+	public int dice() {
+		return board.getDiceValue();
+	}
+
+	public void diceMessage() {
 		switch (status) {
 		case PLAYER1:
 			player1.diceResult();
-			if (board.getHouseY() == 4) {
-				while (throwCount < 3) {
-					if (diceValue == 6) {
-						board.setMeeple(board.STARTY, Content.YELLOW, 0);
-						board.setHouseY(3);
-						diceValue = dice.throwDice();
-						player1.diceResult();
-						board.setMeeple(board.STARTY, Content.YELLOW, diceValue);
-						break;
-
-					} else {
-						throwCount++;
-						diceValue = dice.throwDice();
-						player1.diceResult();
-					}
-				}
-
-				status = Status.PLAYER2;
-				player1.disable();
-				return true;
-			}
-			// else Haus >0<4; zweimal würfeln, Männchen raus
-			// board.setHouse(getHouse()-1);
-
-			// Schwieriger Fall, muss ausgelagert werden
-			// else Haus = 0, aber ne 6; zweimal würfeln, Figur setzen
-			// status = Status.PLAYER2;
-			// player1.disable();
-			// return true;
-
-			return false;
-
+			break;
 		case PLAYER2:
 			player2.diceResult();
-
-			return false;
+			break;
 		case PLAYER3:
 			player3.diceResult();
-
-			return false;
+			break;
 		case PLAYER4:
 			player4.diceResult();
-
-			return false;
-			default: 
-				return false;
+			break;
+		default:
+			break;
 		}
-
-
 	}
 
-	public int dice() {
-		return diceValue;
+	public void endMessage() {
+		switch (status) {
+		case PLAYER1:
+			player1.endOverrun();
+			break;
+		case PLAYER2:
+			player2.endOverrun();
+			break;
+		case PLAYER3:
+			player3.endOverrun();
+			break;
+		case PLAYER4:
+			player4.endOverrun();
+			break;
+		default:
+			break;
+		}
+	}
+
+	public void ownMeepleMessage() {
+		switch (status) {
+		case PLAYER1:
+			player1.throwOwnMeeple();
+			break;
+		case PLAYER2:
+			player2.throwOwnMeeple();
+			break;
+		case PLAYER3:
+			player3.throwOwnMeeple();
+			break;
+		case PLAYER4:
+			player4.throwOwnMeeple();
+			break;
+		default:
+			break;
+		}
 	}
 
 }

@@ -1,5 +1,6 @@
 package controller.game;
 
+import controller.OwnMeepleException;
 import model.Board;
 import model.Content;
 import model.Position;
@@ -12,6 +13,7 @@ public interface Game {
 	public void start();
 	/**
 	 * The player calls the method update, pointing that he is ready for the next turn
+	 * @throws OwnMeepleException 
 	 */
 	public void update();
 	
@@ -22,6 +24,7 @@ public interface Game {
 	
 	/**
 	 * The player calls this method to load the game
+	 * @throws OwnMeepleException 
 	 */
 	public void load();
 	
@@ -35,7 +38,15 @@ public interface Game {
 	 */
 	public int dice();
 	
-	public boolean leaveHouse();
+	/**
+	 * Gibt die Würfelzahl an den Player als Text aus
+	 */
+	public void diceMessage();
+	
+	
+	public void endMessage();
+	
+	public void ownMeepleMessage();
 	
 	public Content checkPosition(Position chosenPosition);
 

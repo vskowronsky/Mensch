@@ -35,4 +35,10 @@ public interface Player {
 	 * Wird aufgerufen, um dem Spieler zu sagen, dass er die Würfelzahl abfragen soll
 	 */
 	public void diceResult();
+	
+	public void endOverrun();
+	
+	public void throwOwnMeeple();
+	
+	public void doubleDiceResult();
 }
