@@ -48,6 +48,8 @@ public interface Game {
 	
 	public void ownMeepleMessage();
 	
+	public void enemyMessage();
+	
 	public Content checkPosition(Position chosenPosition);
 
 }

@@ -296,4 +296,13 @@ public class GameImplementation implements Game {
 		}
 	}
 
+	public void enemyMessage() {
+		switch (status) {
+		case PLAYER1: player1.enemyResult(); break;
+		case PLAYER2: player2.enemyResult(); break;
+		case PLAYER3: player3.enemyResult(); break;
+		case PLAYER4: player4.enemyResult(); break;
+		default: break;
+		}
+	}
 }

@@ -131,4 +131,8 @@ public class PlayerCUI implements Player {
 		System.out.println("Sie dürfen nochmal würfeln. Sie haben eine " + game.dice() + "gewürfelt");
 	}
 	
+	public void enemyResult() {
+		System.out.println("Eine Figur wurde geworfen.");
+	}
+	
 }

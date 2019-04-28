@@ -41,4 +41,6 @@ public interface Player {
 	public void throwOwnMeeple();
 	
 	public void doubleDiceResult();
+	
+	public void enemyResult();
 }

@@ -22,7 +22,7 @@ public class BoardSet extends Board /*implements Serializable*/ {
 				enterStreet(position, content);
 				game.endMessage();
 			} else {
-				checkEnemy(content);
+				checkEnemy(content, game);
 				board[(position.getIndex() + diceValue) - 40] = content;
 			}
 		}else {
@@ -31,7 +31,7 @@ public class BoardSet extends Board /*implements Serializable*/ {
 				enterStreet(position, content);
 				game.endMessage();
 			} else {
-				checkEnemy(content);
+				checkEnemy(content, game);
 				board[position.getIndex() + diceValue] = content;
 			}
 		}
@@ -48,6 +48,7 @@ public class BoardSet extends Board /*implements Serializable*/ {
 		int diff;
 		switch(content) {
 		case YELLOW: 
+			
 			diff = (diceValue - (ENDY.getIndex() - position.getIndex())-1);
 			streetY[diff] = content; 
 			break;
@@ -67,17 +68,17 @@ public class BoardSet extends Board /*implements Serializable*/ {
 		}	
 	}
 	
-	public void checkEnemy(Content content) throws OwnMeepleException {
+	public void checkEnemy(Content content, Game game) throws OwnMeepleException {
 		if (board[newPosition.getIndex()] != Content.FREE) {
 			if (board[newPosition.getIndex()] == content) {
 				throw new OwnMeepleException();
 				
 			} else {
 				switch(board[newPosition.getIndex()]) {
-				case YELLOW: houseY++; break;
-				case GREEN: houseG++; break;
-				case BLUE: houseB++; break;
-				case RED: houseR++; break;
+				case YELLOW: houseY++; game.enemyMessage(); break;
+				case GREEN: houseG++; game.enemyMessage(); break;
+				case BLUE: houseB++; game.enemyMessage(); break;
+				case RED: houseR++; game.enemyMessage(); break;
 				default:
 					break;}
 			}
@@ -87,13 +88,13 @@ public class BoardSet extends Board /*implements Serializable*/ {
 	public boolean checkNearEnd(Content content, Position position) {
 		switch(content) {
 		case YELLOW: 
-			if(position.getIndex() > 6 &&(position.getIndex()+diceValue >= 39 && position.getIndex()+diceValue <= 44)) {return true;} break;
+			if(position.getIndex() > 6 &&(position.getIndex()+diceValue > 39 && position.getIndex()+diceValue <= 45)) {return true;} break;
 		case GREEN: 
-			if(position.getIndex() <= 9 &&(position.getIndex()+diceValue >= 9 && position.getIndex()+diceValue <= 14)) {return true;} break;
+			if(position.getIndex() <= 9 &&(position.getIndex()+diceValue > 9 && position.getIndex()+diceValue <= 15)) {return true;} break;
 		case BLUE: 
-			if(position.getIndex() <= 19 &&(position.getIndex()+diceValue >= 19 && position.getIndex()+diceValue <= 24)) {return true;} break;
+			if(position.getIndex() <= 19 &&(position.getIndex()+diceValue > 19 && position.getIndex()+diceValue <= 25)) {return true;} break;
 		case RED: 
-			if(position.getIndex() <= 29 &&(position.getIndex()+diceValue >= 29 && position.getIndex()+diceValue <= 34)) {return true;} break;
+			if(position.getIndex() <= 29 &&(position.getIndex()+diceValue > 29 && position.getIndex()+diceValue <= 35)) {return true;} break;
 		default:
 			break;
 		}
