@@ -1,6 +1,7 @@
 package controller.game;
 
 import controller.IO;
+import controller.MoveException;
 import controller.OwnMeepleException;
 import controller.player.Player;
 import model.*;
@@ -171,6 +172,9 @@ public class GameImplementation implements Game {
 			} catch (OwnMeepleException e) {
 				ownMeepleMessage();
 			}
+			catch (MoveException e) {
+				moveNotPossibleMessage();
+			}
 		} while (error);
 
 		if (board.checkWin(Content.YELLOW)) {
@@ -258,19 +262,19 @@ public class GameImplementation implements Game {
 		}
 	}
 
-	public void endMessage() {
+	public void moveNotPossibleMessage() {
 		switch (status) {
 		case PLAYER1:
-			player1.endOverrun();
+			player1.moveOverrun();
 			break;
 		case PLAYER2:
-			player2.endOverrun();
+			player2.moveOverrun();
 			break;
 		case PLAYER3:
-			player3.endOverrun();
+			player3.moveOverrun();
 			break;
 		case PLAYER4:
-			player4.endOverrun();
+			player4.moveOverrun();
 			break;
 		default:
 			break;

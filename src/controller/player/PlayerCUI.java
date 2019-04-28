@@ -119,8 +119,8 @@ public class PlayerCUI implements Player {
 		System.out.println("Sie haben eine " + game.dice() + " gewürfelt.");
 	}
 	
-	public void endOverrun() {
-		System.out.println("Spielzug nicht möglich, übers Ziel hinaus.");
+	public void moveOverrun() {
+		System.out.println("Spielzug nicht möglich. Sie müssen neu setzen.");
 	}
 	
 	public void throwOwnMeeple() {
@@ -128,7 +128,7 @@ public class PlayerCUI implements Player {
 	}
 	
 	public void doubleDiceResult() {
-		System.out.println("Sie dürfen nochmal würfeln. Sie haben eine " + game.dice() + "gewürfelt");
+		System.out.println("Sie dürfen nochmal würfeln. Sie haben eine " + game.dice() + " gewürfelt");
 	}
 	
 	public void enemyResult() {

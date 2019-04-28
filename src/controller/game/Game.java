@@ -44,7 +44,7 @@ public interface Game {
 	public void diceMessage();
 	
 	
-	public void endMessage();
+	public void moveNotPossibleMessage();
 	
 	public void ownMeepleMessage();
 	

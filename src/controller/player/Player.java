@@ -36,7 +36,7 @@ public interface Player {
 	 */
 	public void diceResult();
 	
-	public void endOverrun();
+	public void moveOverrun();
 	
 	public void throwOwnMeeple();
 	
