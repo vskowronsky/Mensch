@@ -1,6 +1,6 @@
 package model;
 
-import controller.MoveException;
+import controller.MoveStreetException;
 import controller.OwnMeepleException;
 import controller.game.Game;
 import controller.game.Status;
@@ -15,13 +15,13 @@ public class BoardSet extends Board /*implements Serializable*/ {
 		super();
 	}
 
-	public boolean setMeeple(Position position, Content content, Game game) throws OwnMeepleException, MoveException {
+	public boolean setMeeple(Position position, Content content, Game game) throws OwnMeepleException, MoveStreetException {
 
 		if (position.getIndex() + diceValue >= 40) {
 			newPosition = new Position((position.getIndex() + diceValue) - 40);
 			if (checkNearEnd(content, position)) {
 				enterStreet(position, content);
-				
+
 			} else {
 				checkEnemy(content, game);
 				board[(position.getIndex() + diceValue) - 40] = content;
@@ -30,7 +30,7 @@ public class BoardSet extends Board /*implements Serializable*/ {
 			newPosition = new Position(position.getIndex() + diceValue);
 			if (checkNearEnd(content, position)) {
 				enterStreet(position, content);
-				
+
 			} else {
 				checkEnemy(content, game);
 				board[position.getIndex() + diceValue] = content;
@@ -44,8 +44,8 @@ public class BoardSet extends Board /*implements Serializable*/ {
 
 		return true;
 	}
-//Methode, um zu prüfen, ob es leeren Stellen von meiner Position aus bis zum Ende gibt 
-//Kann der Meeple noch vor ziehen?
+	//Methode, um zu prüfen, ob es leeren Stellen von meiner Position aus bis zum Ende gibt 
+	//Kann der Meeple noch vor ziehen?
 	public boolean isFinished(int diff, Content content) {
 		switch (content) {
 		case YELLOW: for (int i = diff; i < 4; i++) {
@@ -68,11 +68,11 @@ public class BoardSet extends Board /*implements Serializable*/ {
 				return false;
 			}
 		} return true;
-		
+
 		default: return false;
 		}
 	}
-	
+
 	public int nextStreetMeeple(Content content) {
 		switch (content) {
 		case YELLOW:
@@ -103,12 +103,12 @@ public class BoardSet extends Board /*implements Serializable*/ {
 				}	
 			}
 			return 4;
-			
-			default: return -1;
-			} 
+
+		default: return -1;
+		} 
 	}
 
-	public void enterStreet(Position position, Content content) throws MoveException {
+	public void enterStreet(Position position, Content content) throws MoveStreetException {
 		int diff;
 		switch(content) {
 		case YELLOW: 
@@ -116,9 +116,9 @@ public class BoardSet extends Board /*implements Serializable*/ {
 			if (diff < nextStreetMeeple(content))  {
 				streetY[diff] = content; 
 			} else {
-				throw new MoveException();
+				throw new MoveStreetException();
 			}
-			
+
 			if (isFinished(diff, content)) {
 				finishedY++;
 			}
@@ -172,7 +172,7 @@ public class BoardSet extends Board /*implements Serializable*/ {
 		return false;
 	}
 
-	public void leaveHouse(Status status, Game game) throws OwnMeepleException, MoveException {
+	public void leaveHouse(Status status, Game game) throws OwnMeepleException, MoveStreetException {
 		int throwCount = 1;
 		switch (status) {
 		case PLAYER1:

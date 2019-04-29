@@ -1,7 +1,7 @@
 package controller.game;
 
 import controller.IO;
-import controller.MoveException;
+import controller.MoveStreetException;
 import controller.OwnMeepleException;
 import controller.player.Player;
 import model.*;
@@ -172,7 +172,7 @@ public class GameImplementation implements Game {
 			} catch (OwnMeepleException e) {
 				ownMeepleMessage();
 			}
-			catch (MoveException e) {
+			catch (MoveStreetException e) {
 				moveNotPossibleMessage();
 			}
 		} while (error);

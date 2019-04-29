@@ -1,6 +1,6 @@
 package controller;
 
-public class MoveException extends Exception{
+public class MoveStreetException extends Exception{
 
 	/**
 	 * 

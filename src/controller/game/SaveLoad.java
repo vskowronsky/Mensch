@@ -21,7 +21,7 @@ import model.Position;
 */
 public class SaveLoad {
 	/**
-	 * Static method for saving a PersistenceObject into the file TicTacToe.ser.
+	 * Static method for saving a PersistenceObject into the file Mensch.ser.
 	 * @param po the object to safe
 	 */
 	public static void save(PersistenceObject po) {
@@ -93,7 +93,7 @@ public class SaveLoad {
 	}
 
 	/**
-	 * Static method for loading a PersistenceObject from the file TicTacToe.csv.
+	 * Static method for loading a PersistenceObject from the file Mensch.csv.
 	 * @return the loaded PersistenceObject.
 	 
 	public static PersistenceObject loadCSV(){
