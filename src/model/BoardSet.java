@@ -21,7 +21,7 @@ public class BoardSet extends Board /*implements Serializable*/ {
 			newPosition = new Position((position.getIndex() + diceValue) - 40);
 			if (checkNearEnd(content, position)) {
 				enterStreet(position, content);
-				//game.endMessage();
+				
 			} else {
 				checkEnemy(content, game);
 				board[(position.getIndex() + diceValue) - 40] = content;
@@ -30,7 +30,7 @@ public class BoardSet extends Board /*implements Serializable*/ {
 			newPosition = new Position(position.getIndex() + diceValue);
 			if (checkNearEnd(content, position)) {
 				enterStreet(position, content);
-				//game.endMessage();
+				
 			} else {
 				checkEnemy(content, game);
 				board[position.getIndex() + diceValue] = content;

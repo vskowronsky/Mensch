@@ -42,16 +42,35 @@ public class GameRemote implements Game {
 		return 0;
 	}
 
-	@Override
-	public boolean leaveHouse() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	@Override
 	public Content checkPosition(Position chosenPosition) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void diceMessage() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void moveNotPossibleMessage() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void ownMeepleMessage() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void enemyMessage() {
+		// TODO Auto-generated method stub
+		
 	}
 
 

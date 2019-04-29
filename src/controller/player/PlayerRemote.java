@@ -82,4 +82,28 @@ public class PlayerRemote implements Player {
 		
 	}
 
+	@Override
+	public void moveOverrun() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void throwOwnMeeple() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void doubleDiceResult() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void enemyResult() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
