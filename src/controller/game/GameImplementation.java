@@ -223,12 +223,8 @@ public class GameImplementation implements Game {
 	public void load() {
 		PersistenceObject po = SaveLoad.load();
 		status = po.getStatus();
-		Board board = po.getBoard();
-
-		//start();
-
-		//update();
-
+		board = po.getBoard();
+		System.out.println(board);
 	}
 
 	public Board getBoard() {

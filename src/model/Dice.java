@@ -1,8 +1,13 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class Dice {
+public class Dice implements Serializable {
+/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7817119889713205449L;
 private Random random;
 
 public Dice() {

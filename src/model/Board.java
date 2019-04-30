@@ -5,6 +5,10 @@ import java.io.Serializable;
 import controller.game.Status;
 
 public class Board implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -928528169455344979L;
 	protected Content[] board;
 	protected Content[] streetY;
 	protected Content[] streetG;
@@ -26,16 +30,16 @@ public class Board implements Serializable {
 	protected int finishedG;
 	protected int finishedB;
 	protected int finishedR;
-	protected transient Dice dice;
+	protected Dice dice;
 	protected int diceValue;
 
-	public Board()
-	{
-		dice = new Dice();
-		System.out.println("created board");
-	}
+//	public Board()
+//	{
+//		dice = new Dice();
+//		System.out.println("Board geladen");
+//	}
 	
-	public Board(String test) {
+	public Board() {
 
 		dice = new Dice(); 
 

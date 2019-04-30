@@ -9,9 +9,7 @@ import model.Board;
 public class MainCUI {
 	public static void main(String[] args) {
 		Game game = new GameImplementation(new PlayerCUI(), new PlayerKI(),new PlayerKI(),new PlayerKI());
-		//game.load();
-		//Board board = new Board();
-		//System.out.println(board.toString());
+		
 		
 	}
 }
