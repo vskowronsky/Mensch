@@ -1,8 +1,10 @@
 package model;
 
+import java.io.Serializable;
+
 import controller.game.Status;
 
-public class Board {
+public class Board implements Serializable {
 	protected Content[] board;
 	protected Content[] streetY;
 	protected Content[] streetG;
@@ -24,10 +26,16 @@ public class Board {
 	protected int finishedG;
 	protected int finishedB;
 	protected int finishedR;
-	protected Dice dice;
+	protected transient Dice dice;
 	protected int diceValue;
 
-	public Board() {
+	public Board()
+	{
+		dice = new Dice();
+		System.out.println("created board");
+	}
+	
+	public Board(String test) {
 
 		dice = new Dice(); 
 

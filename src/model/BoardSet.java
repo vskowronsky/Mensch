@@ -13,7 +13,7 @@ public class BoardSet extends Board implements Serializable {
 	private Position newPosition;
 	private Position streetPosition;
 	public BoardSet() {
-		super();
+		super("test");
 	}
 
 	public boolean setMeeple(Position position, Content content, Game game) throws OwnMeepleException, MoveStreetException {
