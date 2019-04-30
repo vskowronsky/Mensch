@@ -30,7 +30,7 @@ public class Board {
 	public Board() {
 
 		dice = new Dice(); 
-		
+
 		board = new Content[40];
 		for (int i = 0; i < board.length; i++) {
 			board[i] = Content.FREE;
@@ -52,58 +52,58 @@ public class Board {
 		for (int i = 0; i < streetR.length; i++) {
 			streetR[i] = Content.FREE;
 		}
-//zum Testen von CheckThreeThrows; muss auf Null gesetzt werden!!
+		//zum Testen von CheckThreeThrows; muss auf Null gesetzt werden!!
 		houseY = 4;
 		houseG = 4;
 		houseB = 4;
 		houseR = 4;
-		
+
 		finishedY = 0;
 		finishedG = 0;
 		finishedB = 0;
 		finishedR = 0;	
 	}
-	
+
 	public void diceThrow() {
 		diceValue = dice.throwDice();	
 	}
-	
+
 	public int getDiceValue() {
 		return diceValue;
 	}
-	
+
 	public boolean checkThreeThrows(Status status) {
 		switch (status) {
 		case PLAYER1: if(houseY + finishedY == 4) {return true;} break;
 		case PLAYER2: if(houseG + finishedG == 4) {return true;} break;
 		case PLAYER3: if(houseB + finishedB == 4) {return true;} break;
 		case PLAYER4: if(houseR + finishedR == 4) {return true;} break;
-		
+
 		default: break;
-	}
+		}
 		return false;
-				
+
 	}
-	
+
 	public boolean checkNumHouse(Status status) {
 		switch (status) {
 		case PLAYER1: if (houseY != 0) {return true;} break;
 		case PLAYER2: if (houseG != 0) {return true;} break;
 		case PLAYER3: if (houseB != 0) {return true;} break;
 		case PLAYER4: if (houseR != 0) {return true;} break;
-		
+
 		default: break;
 		}
 		return false;
 	}
-	
+
 	public boolean checkDoubleDice(Status status) {
 		switch (status) {
 		case PLAYER1: if (houseY == 0) {return true;} break;
 		case PLAYER2: if (houseG == 0) {return true;} break;
 		case PLAYER3: if (houseB == 0) {return true;} break;
 		case PLAYER4: if (houseR == 0) {return true;} break;
-		
+
 		default: break;
 		}
 		return false;
@@ -139,17 +139,28 @@ public class Board {
 				}
 			}
 			return true;
-			default: return false;
+		default: return false;
 		}
 	}
 
-	public Content checkPosition(Position chosenPosition) {
-		
+	public Content checkPosition(Position chosenPosition, Content content) {
+		if(chosenPosition.getIndex() > 50) {
+			Position streetP = chosenPosition;
+			switch(content) {
+			case YELLOW: return streetY[streetP.getIndex()-50];
+			case GREEN: return streetG[streetP.getIndex()-50];
+			case BLUE: return streetB[streetP.getIndex()-50];
+			case RED: return streetR[streetP.getIndex()-50];
+			default: break;
+			}
+		}else {
 
-		// Gibt den Inhalt im Board an der ausgewählen Position zurück
-		return board[chosenPosition.getIndex()];
+			// Gibt den Inhalt im Board an der ausgewählen Position zurück
+			return board[chosenPosition.getIndex()];
+		}
+		return null;
 	}
-	
+
 	public String toString() {
 		String path = "";
 		path += "Anzahl Figuren zu Hause: \n";

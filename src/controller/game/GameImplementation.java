@@ -215,19 +215,19 @@ public class GameImplementation implements Game {
 
 	}
 
-	public void safe() {
+	public void save() {
 		PersistenceObject po = new PersistenceObject(status, board);
 		SaveLoad.save(po);
 	}
 
 	public void load() {
-		// PersistenceObject po = SaveLoad.load();
-		// status = po.getStatus();
-		// board = po.getBoard();
+		PersistenceObject po = SaveLoad.load();
+		status = po.getStatus();
+		board = po.getBoard();
 
-		start();
+		//start();
 
-		update();
+		//update();
 
 	}
 
@@ -235,8 +235,8 @@ public class GameImplementation implements Game {
 		return board;
 	}
 
-	public Content checkPosition(Position chosenPosition) {
-		return board.checkPosition(chosenPosition);
+	public Content checkPosition(Position chosenPosition, Content content) {
+		return board.checkPosition(chosenPosition, content);
 	}
 
 	public int dice() {
@@ -309,4 +309,5 @@ public class GameImplementation implements Game {
 		default: break;
 		}
 	}
+
 }

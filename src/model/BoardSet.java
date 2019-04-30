@@ -5,18 +5,18 @@ import controller.OwnMeepleException;
 import controller.game.Game;
 import controller.game.Status;
 
-//import java.io.Serializable;
+import java.io.Serializable;
 
-public class BoardSet extends Board /*implements Serializable*/ {
+public class BoardSet extends Board implements Serializable {
 
-	//private static final long serialVersionUID = -6925781465692944476L;
+	private static final long serialVersionUID = -6925781465692944476L;
 	private Position newPosition;
+	private Position streetPosition;
 	public BoardSet() {
 		super();
 	}
 
 	public boolean setMeeple(Position position, Content content, Game game) throws OwnMeepleException, MoveStreetException {
-
 		if (position.getIndex() + diceValue >= 40) {
 			newPosition = new Position((position.getIndex() + diceValue) - 40);
 			if (checkNearEnd(content, position)) {
@@ -35,7 +35,13 @@ public class BoardSet extends Board /*implements Serializable*/ {
 				checkEnemy(content, game);
 				board[position.getIndex() + diceValue] = content;
 			}
-		}
+			
+		} 
+//		if(position.getIndex() + diceValue > 50){
+//			streetPosition = new Position((position.getIndex() + diceValue)-40);
+//			positionInStreet(content, streetPosition);
+//
+//		}
 
 
 		if(diceValue != 0) {
@@ -44,6 +50,19 @@ public class BoardSet extends Board /*implements Serializable*/ {
 
 		return true;
 	}
+
+//	public void positionInStreet(Content content, Position streetPosition) {
+//		switch(content) {
+//		case YELLOW: streetY[streetPosition.getIndex() + diceValue] = Content.YELLOW; break;
+//		case GREEN: streetG[streetPosition.getIndex() + diceValue]  = Content.GREEN; break;
+//		case BLUE: streetB[streetPosition.getIndex()+ diceValue] = Content.BLUE; break;
+//		case RED: streetR[streetPosition.getIndex()+ diceValue] = Content.RED; break;
+//
+//		default: break;
+//		}
+//	}
+	
+	
 	//Methode, um zu prüfen, ob es leeren Stellen von meiner Position aus bis zum Ende gibt 
 	//Kann der Meeple noch vor ziehen?
 	public boolean isFinished(int diff, Content content) {
@@ -196,7 +215,7 @@ public class BoardSet extends Board /*implements Serializable*/ {
 			break;
 
 		case PLAYER2:
-			while (throwCount < 3 || (throwCount == 3 && diceValue == 6) ) {
+			while (throwCount < 3 || (throwCount == 3 && diceValue == 6) || (throwCount ==2 && diceValue == 6) ) {
 				if (diceValue == 6) {
 					diceValue = 0;
 					setMeeple(STARTG, Content.GREEN, game);
@@ -216,7 +235,7 @@ public class BoardSet extends Board /*implements Serializable*/ {
 			break;
 
 		case PLAYER3:
-			while (throwCount < 3 || (throwCount == 3 && diceValue == 6) ) {
+			while (throwCount < 3 || (throwCount == 3 && diceValue == 6) || (throwCount ==2 && diceValue == 6)) {
 				if (diceValue == 6) {
 					diceValue = 0;
 					setMeeple(STARTB, Content.BLUE, game);
@@ -236,7 +255,7 @@ public class BoardSet extends Board /*implements Serializable*/ {
 			break;
 
 		case PLAYER4:
-			while (throwCount < 3 || (throwCount == 3 && diceValue == 6) ) {
+			while (throwCount < 3 || (throwCount == 3 && diceValue == 6) || (throwCount ==2 && diceValue == 6)) {
 				if (diceValue == 6) {
 					diceValue = 0;
 					setMeeple(STARTR, Content.RED, game);

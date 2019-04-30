@@ -20,7 +20,7 @@ public interface Game {
 	/**
 	 * The player calls this method to safe the game 
 	 */
-	public void safe();
+	public void save();
 	
 	/**
 	 * The player calls this method to load the game
@@ -50,6 +50,6 @@ public interface Game {
 	
 	public void enemyMessage();
 	
-	public Content checkPosition(Position chosenPosition);
+	public Content checkPosition(Position chosenPosition, Content content);
 
 }

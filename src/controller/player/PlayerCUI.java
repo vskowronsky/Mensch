@@ -41,7 +41,7 @@ public class PlayerCUI implements Player {
 		if (sl == 0)
 			update();
 		if (sl == 1)
-			safe();
+			save();
 		if (sl == 2) {
 			load();
 			update();
@@ -86,7 +86,7 @@ public class PlayerCUI implements Player {
 			chosen = readInt();
 			if (chosen != -1) {
 				Position chosenPosition = new Position(chosen);
-				if (this.content == game.checkPosition(chosenPosition)) {
+				if (this.content == game.checkPosition(chosenPosition, content)) {
 					return chosenPosition;
 				}else {
 					System.out.println("Bitte wählen Sie ein Feld mit einer Ihrer Figuren aus.");
@@ -105,13 +105,13 @@ public class PlayerCUI implements Player {
 			
 	}
 
-	private void safe() {
-		game.safe();
+	private void save() {
+		game.save();
 	}
 
 	private void load() {
 		
-			game.load();
+		game.load();
 		
 	}
 
