@@ -3,7 +3,6 @@ package controller.player;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import controller.IO;
 import controller.game.Game;
 import model.Content;
 import model.Position;
@@ -28,7 +27,7 @@ public class PlayerCUI implements Player {
 
 	@Override
 	public void enable() {
-		IO.println("NEUE RUNDE!");
+		System.out.println("NEUE RUNDE!");
 		int sl = -1;
 		System.out.println(game.getBoard());
 		do {

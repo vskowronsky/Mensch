@@ -1,6 +1,5 @@
 package controller.game;
 
-import controller.IO;
 import controller.MoveStreetException;
 import controller.OwnMeepleException;
 import controller.player.Player;
