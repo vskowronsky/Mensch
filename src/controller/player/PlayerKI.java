@@ -1,8 +1,8 @@
 package controller.player;
 
 
+import controller.NoMoveException;
 import controller.game.Game;
-import model.Board;
 import model.Content;
 import model.Position;
 
@@ -11,7 +11,7 @@ public class PlayerKI implements Player {
 	private int id;
 	private Content content;
 	private Game game;
-	private Board board;
+	private int meeple;
 
 	public PlayerKI(){
 		id = 0;
@@ -23,32 +23,38 @@ public class PlayerKI implements Player {
 		this.content = content;
 		this.game = game;
 		this.id = id;
+
 	}
 
 	//setzt die "0" zum Setzen auf dem Board
 	public void enable() {
+
+		this.meeple = 1;
 		System.out.println("NEUE RUNDE!");
-		board = game.getBoard();
 		System.out.println("KI " +id + " ist dran.");
-		System.out.println(board);
+		System.out.println(game.getBoard());
 		game.update();
 	}
 
 	public void disable() {
 
 	}
-	
+
 	//KI soll über das Array board gehen und die erste Figur, die seinem Content entspricht, 
 	//zurückgeben
 	@Override
-	public Position chooseMeeple() {
-		for(int i = 0; i <40; i++) {
-			if (board.checkPosition(new Position (i), this.content) == content) {
+	public Position chooseMeeple() throws NoMoveException {
+		int currentMeeple = 1;
+		
+		for(int i = 0; i <75; i++) {
+			if ((game.checkPosition(new Position (i), this.content) == content) && meeple == currentMeeple) {
 				System.out.println("Figur an Position "+i+" wurde ausgewählt.");
 				return new Position(i);
+			} else if (game.checkPosition(new Position (i), this.content) == content) {
+				currentMeeple++;
 			}
 		}
-		return null;
+		throw new NoMoveException();
 	}
 
 
@@ -60,17 +66,19 @@ public class PlayerKI implements Player {
 
 	@Override
 	public void diceResult() {
-		System.out.println("KI "+id+ "hat eine" + game.dice() + " gewürfelt.");
+		System.out.println("KI "+id+ " hat eine " + game.dice() + " gewürfelt.");
 	}
 
 	@Override
-	public void moveOverrun() {
-		System.out.println("Spielzug nicht möglich. Sie müssen neu setzen.");
+	public void moveNotPossible() {
+		System.out.println("Die KI wählt eine andere Figur.");
+		meeple++;
 	}
 
 	@Override
 	public void throwOwnMeeple() {
-		System.out.println("Sie können sich nicht selber vom Spielbrett werfen.");
+		System.out.println("Die KI darf sich nicht selber vom Spielbrett werfen.");
+		meeple++;
 	}
 
 	@Override
@@ -81,6 +89,10 @@ public class PlayerKI implements Player {
 	@Override
 	public void enemyResult() {
 		System.out.println("Eine Figur wurde geworfen.");
+	}
+	
+	public void noMoveAtAll(){
+		System.out.println("Die KI kann keinen Zug ausführen.");
 	}
 
 }

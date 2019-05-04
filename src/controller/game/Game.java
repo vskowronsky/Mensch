@@ -19,14 +19,15 @@ public interface Game {
 	
 	/**
 	 * The player calls this method to safe the game 
+	 * @param string 
 	 */
-	public void save();
+	public void save(String string);
 	
 	/**
 	 * The player calls this method to load the game
 	 * @throws OwnMeepleException 
 	 */
-	public void load();
+	public void load(String string);
 	
 	/**
 	 * Returns the current board with actual settings. The game controls the board and submits it to the players.

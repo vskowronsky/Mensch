@@ -33,12 +33,7 @@ public class Board implements Serializable {
 	protected Dice dice;
 	protected int diceValue;
 
-//	public Board()
-//	{
-//		dice = new Dice();
-//		System.out.println("Board geladen");
-//	}
-	
+
 	public Board() {
 
 		dice = new Dice(); 
@@ -64,7 +59,7 @@ public class Board implements Serializable {
 		for (int i = 0; i < streetR.length; i++) {
 			streetR[i] = Content.FREE;
 		}
-		//zum Testen von CheckThreeThrows; muss auf Null gesetzt werden!!
+	
 		houseY = 4;
 		houseG = 4;
 		houseB = 4;
@@ -156,19 +151,49 @@ public class Board implements Serializable {
 	}
 
 	public Content checkPosition(Position chosenPosition, Content content) {
-		if(chosenPosition.getIndex() > 50) {
-			Position streetP = chosenPosition;
-			switch(content) {
-			case YELLOW: return streetY[streetP.getIndex()-50];
-			case GREEN: return streetG[streetP.getIndex()-50];
-			case BLUE: return streetB[streetP.getIndex()-50];
-			case RED: return streetR[streetP.getIndex()-50];
-			default: break;
-			}
-		}else {
+		try {
+			int streetPosition;
+			if(chosenPosition.getIndex() >= 40) {
 
-			// Gibt den Inhalt im Board an der ausgewählen Position zurück
-			return board[chosenPosition.getIndex()];
+				switch(content) {
+				case YELLOW:
+					streetPosition = chosenPosition.getIndex()-40;
+					if (finishedY + streetPosition >= 4) {
+						return null;
+					}else {
+						return streetY[streetPosition];
+					}
+				case GREEN: 
+					streetPosition = chosenPosition.getIndex()-50;
+					if (finishedG + streetPosition >= 4) {
+						return null;
+					}else {
+						return streetG[streetPosition];
+					}
+				case BLUE: 
+					streetPosition = chosenPosition.getIndex()-60;
+					if (finishedB + streetPosition >= 4) {
+						return null;
+					}else {
+						return streetB[streetPosition];
+					}
+				case RED: 
+
+					streetPosition = chosenPosition.getIndex()-70;
+					if (finishedR + streetPosition >= 4) {
+						return null;
+					}else {
+						return streetR[streetPosition];
+					}
+				default: break;
+				}
+			}else {
+
+				// Gibt den Inhalt im Board an der ausgewählen Position zurück
+				return board[chosenPosition.getIndex()];
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			return null;
 		}
 		return null;
 	}

@@ -1,5 +1,6 @@
 package controller.player;
 
+import controller.NoMoveException;
 import controller.game.Game;
 import model.Content;
 import model.Position;
@@ -28,7 +29,7 @@ public interface Player {
 	 */
 	public void lose();	
 	
-	public Position chooseMeeple();
+	public Position chooseMeeple() throws NoMoveException;
 
 	
 	/**
@@ -36,11 +37,13 @@ public interface Player {
 	 */
 	public void diceResult();
 	
-	public void moveOverrun();
+	public void moveNotPossible();
 	
 	public void throwOwnMeeple();
 	
 	public void doubleDiceResult();
 	
 	public void enemyResult();
+	
+	public void noMoveAtAll();
 }

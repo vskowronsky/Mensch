@@ -1,6 +1,7 @@
 package controller.game;
 
 import controller.MoveStreetException;
+import controller.NoMoveException;
 import controller.OwnMeepleException;
 import controller.player.Player;
 import model.*;
@@ -80,7 +81,7 @@ public class GameImplementation implements Game {
 						if (board.setMeeple(player1.chooseMeeple(), Content.YELLOW, this)) {
 
 						} else {
-							// player.nachrichtSpielzugNichtMoeglich();
+							throw new MoveStreetException();						
 						}
 					}
 					status = Status.PLAYER2;
@@ -105,7 +106,7 @@ public class GameImplementation implements Game {
 						if (board.setMeeple(player2.chooseMeeple(), Content.GREEN, this)) {
 							
 						} else {
-							// player.nachrichtSpielzugNichtMoeglich();
+							throw new MoveStreetException();
 						}
 					}
 					status = Status.PLAYER3;
@@ -131,7 +132,7 @@ public class GameImplementation implements Game {
 						if (board.setMeeple(player3.chooseMeeple(), Content.BLUE, this)) {
 
 						} else {
-							// player.nachrichtSpielzugNichtMoeglich();
+							throw new MoveStreetException();
 						}
 					}
 					status = Status.PLAYER4;
@@ -157,7 +158,7 @@ public class GameImplementation implements Game {
 						if (board.setMeeple(player4.chooseMeeple(), Content.RED, this)) {
 
 						} else {
-							// player.nachrichtSpielzugNichtMoeglich();
+							throw new MoveStreetException();
 						}
 					}
 					status = Status.PLAYER1;
@@ -173,6 +174,33 @@ public class GameImplementation implements Game {
 			}
 			catch (MoveStreetException e) {
 				moveNotPossibleMessage();
+			}
+			catch (NoMoveException e) {
+				error = false;
+				
+				switch(status) {
+				case PLAYER1:
+					player1.noMoveAtAll();
+					status = Status.PLAYER2;
+					player1.disable();
+					break;
+				case PLAYER2:
+					player2.noMoveAtAll();
+					status = Status.PLAYER3;
+					player2.disable();
+					break;
+				case PLAYER3:
+					player3.noMoveAtAll();
+					status = Status.PLAYER4;
+					player3.disable();
+					break;
+				case PLAYER4: 
+					player4.noMoveAtAll();
+					status = Status.PLAYER1;
+					player4.disable();
+					break;
+				default: break;
+				}
 			}
 		} while (error);
 
@@ -214,13 +242,13 @@ public class GameImplementation implements Game {
 
 	}
 
-	public void save() {
+	public void save(String fileName) {
 		PersistenceObject po = new PersistenceObject(status, board);
-		SaveLoad.save(po);
+		SaveLoad.save(po, fileName);
 	}
 
-	public void load() {
-		PersistenceObject po = SaveLoad.load();
+	public void load(String fileName) {
+		PersistenceObject po = SaveLoad.load(fileName);
 		status = po.getStatus();
 		board = po.getBoard();
 		System.out.println(board);
@@ -260,16 +288,16 @@ public class GameImplementation implements Game {
 	public void moveNotPossibleMessage() {
 		switch (status) {
 		case PLAYER1:
-			player1.moveOverrun();
+			player1.moveNotPossible();
 			break;
 		case PLAYER2:
-			player2.moveOverrun();
+			player2.moveNotPossible();
 			break;
 		case PLAYER3:
-			player3.moveOverrun();
+			player3.moveNotPossible();
 			break;
 		case PLAYER4:
-			player4.moveOverrun();
+			player4.moveNotPossible();
 			break;
 		default:
 			break;

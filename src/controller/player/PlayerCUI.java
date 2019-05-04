@@ -3,6 +3,7 @@ package controller.player;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import controller.NoMoveException;
 import controller.game.Game;
 import model.Content;
 import model.Position;
@@ -37,16 +38,33 @@ public class PlayerCUI implements Player {
 			sl = readInt();
 
 		} while (sl < 0 || sl > 2);
-		if (sl == 0)
+		if (sl == 0) {
 			update();
-		if (sl == 1)
+		}
+		if (sl == 1) {
 			save();
+			update();
+		}
 		if (sl == 2) {
 			load();
 			update();
 		}
 	}
 
+	private String readString() {
+		try {
+			BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+			 String eingabe = input.readLine();
+		return eingabe;
+		}catch (Exception e) {
+			return null;
+		}
+	}
+	
+	private String enterFileName() {
+		return (readString());
+	}
+	
 	private int readInt() {
 		try {
 			BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
@@ -61,22 +79,7 @@ public class PlayerCUI implements Player {
 	}
 
 	@Override
-	public void disable() {
-		System.out.println("Ein Spielstein wurde gesetzt. Der Spielzug ist beendet.");
-	}
-
-	@Override
-	public void win() {
-		System.out.println("Spieler" + id + "hat gewonnen!");
-	}
-
-	@Override
-	public void lose() {
-		System.out.println("Spieler" + id + "hat verloren!");
-	}
-
-	@Override
-	public Position chooseMeeple() {
+	public Position chooseMeeple() throws NoMoveException {
 		int chosen = -1;
 		diceResult();
 		System.out.println("Wählen Sie eine Spielfigur aus.");
@@ -88,7 +91,7 @@ public class PlayerCUI implements Player {
 				if (this.content == game.checkPosition(chosenPosition, content)) {
 					return chosenPosition;
 				}else {
-					System.out.println("Bitte wählen Sie ein Feld mit einer Ihrer Figuren aus.");
+					System.out.println("Bitte wählen Sie ein Feld mit einer Ihrer noch bewegbaren Figuren aus.");
 					chosen = -1;
 				}
 				
@@ -105,21 +108,38 @@ public class PlayerCUI implements Player {
 	}
 
 	private void save() {
-		game.save();
+		System.out.println("Bitte geben Sie der zu speichernden Datei einen Namen.");
+		game.save(enterFileName());
 	}
 
 	private void load() {
+		System.out.println("Bitte geben Sie den Namen der zu ladenden Datei ein.");
+		game.load(enterFileName());
 		
-		game.load();
-		
+	}
+	
+	@Override
+	public void disable() {
+		System.out.println("Ein Spielstein wurde gesetzt. Der Spielzug ist beendet.");
+	}
+
+	@Override
+	public void win() {
+		System.out.println("Spieler " + id + " hat gewonnen!");
+		System.out.println(game.getBoard());
+	}
+
+	@Override
+	public void lose() {
+		System.out.println("Spieler " + id + " hat verloren!");
 	}
 
 	public void diceResult() {
 		System.out.println("Sie haben eine " + game.dice() + " gewürfelt.");
 	}
 	
-	public void moveOverrun() {
-		System.out.println("Spielzug nicht möglich. Sie müssen neu setzen.");
+	public void moveNotPossible() {
+		System.out.println("Spielzug nicht möglich. Wählen Sie eine andere Figur.");
 	}
 	
 	public void throwOwnMeeple() {
@@ -134,4 +154,7 @@ public class PlayerCUI implements Player {
 		System.out.println("Eine Figur wurde geworfen.");
 	}
 	
+	public void noMoveAtAll() {
+		System.out.println("Kein Zug ist möglich. Der nächste Spiel ist dran.");
+	}
 }

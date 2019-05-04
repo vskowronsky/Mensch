@@ -1,6 +1,7 @@
 package model;
 
 import controller.MoveStreetException;
+import controller.NoMoveException;
 import controller.OwnMeepleException;
 import controller.game.Game;
 import controller.game.Status;
@@ -11,58 +12,96 @@ public class BoardSet extends Board implements Serializable {
 
 	private static final long serialVersionUID = -6925781465692944476L;
 	private Position newPosition;
-	private Position streetPosition;
 	public BoardSet() {
 		super();
 	}
 
-	public boolean setMeeple(Position position, Content content, Game game) throws OwnMeepleException, MoveStreetException {
-		if (position.getIndex() + diceValue >= 40) {
-			newPosition = new Position((position.getIndex() + diceValue) - 40);
-			if (checkNearEnd(content, position)) {
-				enterStreet(position, content);
-
+	public boolean setMeeple(Position position, Content content, Game game) throws OwnMeepleException, MoveStreetException, NoMoveException {
+		if(position.getIndex() >= 40){
+			Position currentPos = positionInStreet(content, position);
+			if (currentPos.getIndex() + diceValue < nextStreetMeeple(currentPos,content)) {
+				setStreet(content, currentPos);
 			} else {
-				checkEnemy(content, game);
-				board[(position.getIndex() + diceValue) - 40] = content;
+				return false;
 			}
-		}else {
-			newPosition = new Position(position.getIndex() + diceValue);
-			if (checkNearEnd(content, position)) {
-				enterStreet(position, content);
+		} else {
+			if (position.getIndex() + diceValue >= 40) {
+				newPosition = new Position((position.getIndex() + diceValue) - 40);
+				if (checkNearEnd(content, position)) {
+					enterStreet(position, content);
 
+				} else {
+					checkEnemy(content, game);
+					board[(position.getIndex() + diceValue) - 40] = content;
+				}
 			} else {
-				checkEnemy(content, game);
-				board[position.getIndex() + diceValue] = content;
+				newPosition = new Position(position.getIndex() + diceValue);
+				if (checkNearEnd(content, position)) {
+					enterStreet(position, content);
+
+				} else {
+					checkEnemy(content, game);
+					board[position.getIndex() + diceValue] = content;
+				}
+
+			} 
+			if(diceValue != 0) {
+				board[position.getIndex()] = Content.FREE;
 			}
-			
-		} 
-//		if(position.getIndex() + diceValue > 50){
-//			streetPosition = new Position((position.getIndex() + diceValue)-40);
-//			positionInStreet(content, streetPosition);
-//
-//		}
-
-
-		if(diceValue != 0) {
-			board[position.getIndex()] = Content.FREE;
 		}
+
+		
 
 		return true;
 	}
 
-//	public void positionInStreet(Content content, Position streetPosition) {
-//		switch(content) {
-//		case YELLOW: streetY[streetPosition.getIndex() + diceValue] = Content.YELLOW; break;
-//		case GREEN: streetG[streetPosition.getIndex() + diceValue]  = Content.GREEN; break;
-//		case BLUE: streetB[streetPosition.getIndex()+ diceValue] = Content.BLUE; break;
-//		case RED: streetR[streetPosition.getIndex()+ diceValue] = Content.RED; break;
-//
-//		default: break;
-//		}
-//	}
-	
-	
+	public void setStreet(Content content, Position currentPos) {
+		switch(content) {
+		case YELLOW: 
+			streetY[currentPos.getIndex() + diceValue] = content;
+			streetY[currentPos.getIndex()] = Content.FREE;
+			if(isFinished(currentPos.getIndex() + diceValue, content)){
+				finishedY++;
+			}
+			break;
+		case GREEN: 
+			streetG[currentPos.getIndex() + diceValue] = content;
+			streetG[currentPos.getIndex()] = Content.FREE;
+			if(isFinished(currentPos.getIndex() + diceValue, content)){
+				finishedG++;
+			}
+			break;
+		case BLUE: 
+			streetB[currentPos.getIndex() + diceValue] = content;
+			streetB[currentPos.getIndex()] = Content.FREE;
+			if(isFinished(currentPos.getIndex() + diceValue, content)){
+				finishedB++;
+			}
+			break;
+		case RED: 
+			streetR[currentPos.getIndex() + diceValue] = content;
+			streetR[currentPos.getIndex()] = Content.FREE;
+			if(isFinished(currentPos.getIndex() + diceValue, content)){
+				finishedR++;
+			}
+			break;
+
+		default: break;
+		}
+	}
+
+	public Position positionInStreet(Content content, Position position) {
+		switch(content) {
+		case YELLOW: return (new Position(position.getIndex() - 40));
+		case GREEN: return (new Position(position.getIndex() - 50));
+		case BLUE: return (new Position(position.getIndex() - 60));
+		case RED: return (new Position(position.getIndex() - 70));
+
+		default: return null;
+		}
+	}
+
+
 	//Methode, um zu prüfen, ob es leeren Stellen von meiner Position aus bis zum Ende gibt 
 	//Kann der Meeple noch vor ziehen?
 	public boolean isFinished(int diff, Content content) {
@@ -92,31 +131,32 @@ public class BoardSet extends Board implements Serializable {
 		}
 	}
 
-	public int nextStreetMeeple(Content content) {
+	public int nextStreetMeeple(Position position, Content content) {
+		int nextPos = position.getIndex()+1;
 		switch (content) {
 		case YELLOW:
-			for(int i = 0; i < 4; i++) {
+			for(int i = nextPos; i < 4; i++) {
 				if(streetY[i] == Content.YELLOW) {
 					return i;
 				}	
 			}
 			return 4;
 		case GREEN:
-			for(int i = 0; i < 4; i++) {
+			for(int i = nextPos; i < 4; i++) {
 				if(streetG[i] == Content.GREEN) {
 					return i;
 				}	
 			}
 			return 4;
 		case BLUE:
-			for(int i = 0; i < 4; i++) {
+			for(int i = nextPos; i < 4; i++) {
 				if(streetB[i] == Content.BLUE) {
 					return i;
 				}	
 			}
 			return 4;
 		case RED:
-			for(int i = 0; i < 4; i++) {
+			for(int i = nextPos; i < 4; i++) {
 				if(streetR[i] == Content.RED) {
 					return i;
 				}	
@@ -132,7 +172,7 @@ public class BoardSet extends Board implements Serializable {
 		switch(content) {
 		case YELLOW: 
 			diff = (diceValue - (ENDY.getIndex() - position.getIndex())-1);
-			if (diff < nextStreetMeeple(content))  {
+			if (diff < nextStreetMeeple(new Position(-1),content))  {
 				streetY[diff] = content; 
 			} else {
 				throw new MoveStreetException();
@@ -144,15 +184,39 @@ public class BoardSet extends Board implements Serializable {
 			break;
 		case GREEN:
 			diff = (diceValue - (ENDG.getIndex() - position.getIndex())-1);
-			streetG[diff] = content; 
+			if (diff < nextStreetMeeple(new Position(-1),content))  {
+				streetG[diff] = content; 
+			} else {
+				throw new MoveStreetException();
+			}
+
+			if (isFinished(diff, content)) {
+				finishedG++;
+			}
 			break;
 		case BLUE:
 			diff = (diceValue - (ENDB.getIndex() - position.getIndex())-1);
-			streetB[diff] = content; 
+			if (diff < nextStreetMeeple(new Position(-1),content))  {
+				streetB[diff] = content; 
+			} else {
+				throw new MoveStreetException();
+			}
+
+			if (isFinished(diff, content)) {
+				finishedB++;
+			}
 			break;
 		case RED:
 			diff = (diceValue - (ENDR.getIndex() - position.getIndex())-1);
-			streetR[diff] = content; 
+			if (diff < nextStreetMeeple(new Position(-1),content))  {
+				streetR[diff] = content; 
+			} else {
+				throw new MoveStreetException();
+			}
+
+			if (isFinished(diff, content)) {
+				finishedR++;
+			}
 			break;
 		default: break;
 		}	
@@ -191,7 +255,7 @@ public class BoardSet extends Board implements Serializable {
 		return false;
 	}
 
-	public void leaveHouse(Status status, Game game) throws OwnMeepleException, MoveStreetException {
+	public void leaveHouse(Status status, Game game) throws OwnMeepleException, MoveStreetException, NoMoveException {
 		int throwCount = 1;
 		switch (status) {
 		case PLAYER1:
