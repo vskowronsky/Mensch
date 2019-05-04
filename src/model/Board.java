@@ -116,6 +116,33 @@ public class Board implements Serializable {
 		}
 		return false;
 	}
+	
+	public boolean checkNearEnd(Content content, Position position) {
+		switch(content) {
+		case YELLOW: 
+			if(position.getIndex() > 6 &&(position.getIndex()+diceValue > 39 && position.getIndex()+diceValue <= 45)) {return true;} break;
+		case GREEN: 
+			if(position.getIndex() <= 9 &&(position.getIndex()+diceValue > 9 && position.getIndex()+diceValue <= 15)) {return true;} break;
+		case BLUE: 
+			if(position.getIndex() <= 19 &&(position.getIndex()+diceValue > 19 && position.getIndex()+diceValue <= 25)) {return true;} break;
+		case RED: 
+			if(position.getIndex() <= 29 &&(position.getIndex()+diceValue > 29 && position.getIndex()+diceValue <= 35)) {return true;} break;
+		default:
+			break;
+		}
+		return false;
+	}
+	
+	public boolean checkStartFree(Content content) {
+		switch(content) {
+		case YELLOW: if(board[0] == Content.YELLOW) {return true;} break;
+		case GREEN: if(board[10] == Content.GREEN) {return true;} break;
+		case BLUE: if(board[20] == Content.BLUE) {return true;} break;
+		case RED: if(board[30] == Content.RED) {return true;} break;
+		default: break;
+		}
+		return false;
+	}
 
 	public boolean checkWin(Content content) {
 		switch (content) {

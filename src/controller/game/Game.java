@@ -39,6 +39,8 @@ public interface Game {
 	 */
 	public int dice();
 	
+	public boolean movePossible();
+	
 	/**
 	 * Gibt die Würfelzahl an den Player als Text aus
 	 */

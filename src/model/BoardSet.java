@@ -45,26 +45,16 @@ public class BoardSet extends Board implements Serializable {
 				}
 
 			} 
-			if(diceValue != 0) {
+			if (diceValue != 0) {
 				board[position.getIndex()] = Content.FREE;
 			}
 		}
 
-		
-
 		return true;
 	}
 
-	public boolean checkStartFree(Content content) {
-		switch(content) {
-		case YELLOW: if(board[0] == Content.YELLOW) {return true;} break;
-		case GREEN: if(board[10] == Content.GREEN) {return true;} break;
-		case BLUE: if(board[20] == Content.BLUE) {return true;} break;
-		case RED: if(board[30] == Content.RED) {return true;} break;
-		default: break;
-		}
-		return false;
-	}
+
+	
 	
 	public void setStart(Status status, Game game) throws OwnMeepleException, MoveStreetException, NoMoveException  {
 		switch(status) {
@@ -76,6 +66,10 @@ public class BoardSet extends Board implements Serializable {
 		}
 	}
 	
+	public boolean movePossible() {
+		//ist setMeeple für irgendeins der Figuren der Farbe möglich?
+		return false;
+	}
 	
 	public void setStreet(Content content, Position currentPos) {
 		switch(content) {
@@ -261,21 +255,6 @@ public class BoardSet extends Board implements Serializable {
 		}
 	}
 
-	public boolean checkNearEnd(Content content, Position position) {
-		switch(content) {
-		case YELLOW: 
-			if(position.getIndex() > 6 &&(position.getIndex()+diceValue > 39 && position.getIndex()+diceValue <= 45)) {return true;} break;
-		case GREEN: 
-			if(position.getIndex() <= 9 &&(position.getIndex()+diceValue > 9 && position.getIndex()+diceValue <= 15)) {return true;} break;
-		case BLUE: 
-			if(position.getIndex() <= 19 &&(position.getIndex()+diceValue > 19 && position.getIndex()+diceValue <= 25)) {return true;} break;
-		case RED: 
-			if(position.getIndex() <= 29 &&(position.getIndex()+diceValue > 29 && position.getIndex()+diceValue <= 35)) {return true;} break;
-		default:
-			break;
-		}
-		return false;
-	}
 
 	public void leaveHouse(Status status, Game game) throws OwnMeepleException, MoveStreetException, NoMoveException {
 		int throwCount = 1;

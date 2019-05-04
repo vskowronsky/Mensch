@@ -344,6 +344,12 @@ public class GameImplementation implements Game {
 		default: break;
 		}
 	}
+
+	@Override
+	public boolean movePossible() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 
 }

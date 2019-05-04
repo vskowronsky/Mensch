@@ -83,6 +83,10 @@ public class PlayerCUI implements Player {
 	public Position chooseMeeple() throws NoMoveException {
 		int chosen = -1;
 		diceResult();
+		
+		if(!game.movePossible()) {
+		//An dieser Stelle muss geprüft werden, ob ein Zug mit der Würfelzahl möglich ist.
+		//Erst wenn hier ein true von SetMeeple zurück kommt, dann wird eine Figur ausgewählt
 		System.out.println("Wählen Sie eine Spielfigur aus.");
 
 		while (chosen == -1) {
@@ -101,6 +105,10 @@ public class PlayerCUI implements Player {
 			}
 		}
 		return null;
+		} else {
+		//wahrscheinlich eine Ebene weiter unten werden in Logik
+		throw new NoMoveException();
+		}
 	}
 
 	private void update() {
