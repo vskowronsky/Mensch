@@ -2,6 +2,7 @@ package controller.player;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
 
 import controller.NoMoveException;
 import controller.game.Game;
@@ -113,9 +114,17 @@ public class PlayerCUI implements Player {
 	}
 
 	private void load() {
-		System.out.println("Bitte geben Sie den Namen der zu ladenden Datei ein.");
-		game.load(enterFileName());
-		
+//		int name = -1;
+//		while (name != -1) {
+System.out.println("Bitte geben Sie den Namen der zu ladenden Datei ein.");
+//			if ((enterFileName()) {
+game.load(enterFileName());
+//		} else {
+//			System.out.println("Der Name der zu ladenen Datei existiert nicht. Bitte gegen Sie ihn erneut ein.");
+//			name = -1;
+//		}
+//		}
+//		
 	}
 	
 	@Override
@@ -156,5 +165,9 @@ public class PlayerCUI implements Player {
 	
 	public void noMoveAtAll() {
 		System.out.println("Kein Zug ist möglich. Der nächste Spiel ist dran.");
+	}
+	
+	public void freeStart() {
+		System.out.println("Das Startfeld war belegt und musste vorrangig gespielt werden.");
 	}
 }

@@ -64,7 +64,10 @@ public class GameImplementation implements Game {
 				error = true;
 				switch (status) {
 				case PLAYER1:
-					if (board.checkThreeThrows(status)) {
+					if (board.checkStartFree(Content.YELLOW)) {
+						board.setStart(status, this);
+						player1.freeStart();
+					} else if (board.checkThreeThrows(status)) {
 						player1.diceResult();
 						board.leaveHouse(status, this);
 					} else if (dice() == 6 && board.checkNumHouse(status)) {
@@ -89,7 +92,10 @@ public class GameImplementation implements Game {
 					break;
 
 				case PLAYER2:
-					if (board.checkThreeThrows(status)) {
+					if (board.checkStartFree(Content.GREEN)) {
+						board.setStart(status, this);
+						player2.freeStart();
+					} else if (board.checkThreeThrows(status)) {
 						player2.diceResult();
 						board.leaveHouse(status, this);
 					} else if (dice() == 6 && board.checkNumHouse(status)) {
@@ -114,7 +120,10 @@ public class GameImplementation implements Game {
 					break;
 
 				case PLAYER3:
-					if (board.checkThreeThrows(status)) {
+					if (board.checkStartFree(Content.BLUE)) {
+						board.setStart(status, this);
+						player3.freeStart();
+					} else if (board.checkThreeThrows(status)) {
 						player3.diceResult();
 						board.leaveHouse(status, this);
 					} else if (dice() == 6 && board.checkNumHouse(status)) {
@@ -140,7 +149,10 @@ public class GameImplementation implements Game {
 					break;
 
 				case PLAYER4:
-					if (board.checkThreeThrows(status)) {
+					if (board.checkStartFree(Content.RED)) {
+						board.setStart(status, this);
+						player4.freeStart();
+					} else if (board.checkThreeThrows(status)) {
 						player4.diceResult();
 						board.leaveHouse(status, this);
 					} else if (dice() == 6 && board.checkNumHouse(status)) {
@@ -332,5 +344,6 @@ public class GameImplementation implements Game {
 		default: break;
 		}
 	}
+	
 
 }

@@ -46,4 +46,7 @@ public interface Player {
 	public void enemyResult();
 	
 	public void noMoveAtAll();
+	
+	public void freeStart();
+	
 }

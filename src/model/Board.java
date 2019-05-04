@@ -78,6 +78,7 @@ public class Board implements Serializable {
 	public int getDiceValue() {
 		return diceValue;
 	}
+	
 
 	public boolean checkThreeThrows(Status status) {
 		switch (status) {

@@ -55,6 +55,28 @@ public class BoardSet extends Board implements Serializable {
 		return true;
 	}
 
+	public boolean checkStartFree(Content content) {
+		switch(content) {
+		case YELLOW: if(board[0] == Content.YELLOW) {return true;} break;
+		case GREEN: if(board[10] == Content.GREEN) {return true;} break;
+		case BLUE: if(board[20] == Content.BLUE) {return true;} break;
+		case RED: if(board[30] == Content.RED) {return true;} break;
+		default: break;
+		}
+		return false;
+	}
+	
+	public void setStart(Status status, Game game) throws OwnMeepleException, MoveStreetException, NoMoveException  {
+		switch(status) {
+		case PLAYER1: setMeeple(STARTY, Content.YELLOW, game);
+		case PLAYER2: setMeeple(STARTR, Content.RED, game);
+		case PLAYER3: setMeeple(STARTB, Content.BLUE, game);
+		case PLAYER4: setMeeple(STARTR, Content.RED, game);
+		default: break;
+		}
+	}
+	
+	
 	public void setStreet(Content content, Position currentPos) {
 		switch(content) {
 		case YELLOW: 

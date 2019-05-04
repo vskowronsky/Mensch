@@ -45,8 +45,20 @@ public class PlayerKI implements Player {
 	@Override
 	public Position chooseMeeple() throws NoMoveException {
 		int currentMeeple = 1;
+		//int streetMoved = 0;
 		
-		for(int i = 0; i <75; i++) {
+		for (int i = 40; i < 75; i++) {
+			if ((game.checkPosition(new Position (i), this.content) == content) && meeple == currentMeeple) {
+				System.out.println("Figur an Position "+i+" wurde ausgewählt.");
+				//streetMoved = 1;
+				return new Position(i);
+				
+			} else if (game.checkPosition(new Position (i), this.content) == content) {
+				currentMeeple++;
+			}
+		} 
+		
+		for (int i = 0; i <39; i++) {
 			if ((game.checkPosition(new Position (i), this.content) == content) && meeple == currentMeeple) {
 				System.out.println("Figur an Position "+i+" wurde ausgewählt.");
 				return new Position(i);
@@ -56,6 +68,8 @@ public class PlayerKI implements Player {
 		}
 		throw new NoMoveException();
 	}
+
+	
 
 
 	public void win() {
@@ -93,6 +107,11 @@ public class PlayerKI implements Player {
 	
 	public void noMoveAtAll(){
 		System.out.println("Die KI kann keinen Zug ausführen.");
+	}
+
+	@Override
+	public void freeStart() {
+		System.out.println("Das Startfeld war belegt und musste vorrangig gespielt werden.");	
 	}
 
 }
