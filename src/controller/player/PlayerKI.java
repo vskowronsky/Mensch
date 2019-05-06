@@ -37,7 +37,7 @@ public class PlayerKI implements Player {
 	}
 
 	public void disable() {
-
+		System.out.println("Ein Spielstein wurde gesetzt. Der Spielzug ist beendet.");
 	}
 
 	//KI soll über das Array board gehen und die erste Figur, die seinem Content entspricht, 
@@ -46,35 +46,36 @@ public class PlayerKI implements Player {
 	public Position chooseMeeple() throws NoMoveException {
 		int currentMeeple = 1;
 		diceResult();
-		
-		for (int i = 40; i < 75; i++) {
-			if ((game.checkPosition(new Position (i), this.content) == content) && meeple == currentMeeple) {
-				System.out.println("Figur an Position "+i+" wurde ausgewählt.");
-				return new Position(i);
-				
-			} else if (game.checkPosition(new Position (i), this.content) == content) {
-				currentMeeple++;
+			for (int i = 40; i < 75; i++) {
+				if ((game.checkPosition(new Position (i), this.content) == content) && meeple == currentMeeple) {
+					System.out.println("Figur an Position "+i+" wurde ausgewählt.");
+					return new Position(i);
+					
+				} else if (game.checkPosition(new Position (i), this.content) == content) {
+					currentMeeple++;
+				}
+			} 
+			
+			for (int i = 0; i <=39; i++) {
+				if ((game.checkPosition(new Position (i), this.content) == content) && meeple == currentMeeple) {
+					System.out.println("Figur an Position "+i+" wurde ausgewählt.");
+					return new Position(i);
+				} else if (game.checkPosition(new Position (i), this.content) == content) {
+					currentMeeple++;
+				}
 			}
-		} 
-		
-		for (int i = 0; i <=39; i++) {
-			if ((game.checkPosition(new Position (i), this.content) == content) && meeple == currentMeeple) {
-				System.out.println("Figur an Position "+i+" wurde ausgewählt.");
-				return new Position(i);
-			} else if (game.checkPosition(new Position (i), this.content) == content) {
-				currentMeeple++;
-			}
-		}
-		throw new NoMoveException();
+			throw new NoMoveException();
 	}
 
 	
 
 
 	public void win() {
+		System.out.println("Spieler " + id + " hat gewonnen!");
 	}
 
 	public void lose() {
+		System.out.println("Spieler " + id + " hat verloren!");
 	}
 
 	@Override
@@ -96,7 +97,7 @@ public class PlayerKI implements Player {
 
 	@Override
 	public void doubleDiceResult() {
-		System.out.println("Die KI durfte noch einmal würfen. Würfelzahl: " + game.dice());
+		System.out.println("Die KI durfte noch einmal würfeln. Würfelzahl: " + game.dice());
 	}
 
 	@Override

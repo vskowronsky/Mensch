@@ -49,28 +49,47 @@ public class BoardSet extends Board implements Serializable {
 				board[position.getIndex()] = Content.FREE;
 			}
 		}
-
+//		System.out.println("Y: " +finishedY);
+//		System.out.println("G: " +finishedG);
+//		System.out.println("B: " +finishedB);
+//		System.out.println("R: " +finishedR);
 		return true;
 	}
 
 
-	
-	
 	public void setStart(Status status, Game game) throws OwnMeepleException, MoveStreetException, NoMoveException  {
 		switch(status) {
-		case PLAYER1: setMeeple(STARTY, Content.YELLOW, game);
-		case PLAYER2: setMeeple(STARTR, Content.RED, game);
-		case PLAYER3: setMeeple(STARTB, Content.BLUE, game);
-		case PLAYER4: setMeeple(STARTR, Content.RED, game);
+		case PLAYER1: setMeeple(STARTY, Content.YELLOW, game); break;
+		case PLAYER2: setMeeple(STARTG, Content.GREEN, game); break;
+		case PLAYER3: setMeeple(STARTB, Content.BLUE, game); break;
+		case PLAYER4: setMeeple(STARTR, Content.RED, game); break;
 		default: break;
 		}
 	}
-	
-	public boolean movePossible() {
-		//ist setMeeple für irgendeins der Figuren der Farbe möglich?
-		return false;
-	}
-	
+
+	//	public boolean movePossible(Content content, Position position, Game game) {
+	//		//ist setMeeple für irgendeins der Figuren der Farbe möglich?
+	//		int meeple = 1;
+	//		int currentMeeple = 1;
+	//		for (int i = 0; i<= 74; i++) {
+	//			if(checkPosition(new Position (i), content) == content && meeple == currentMeeple) {
+	//				try {
+	//					if(!setMeeple(position, content, game)) {
+	//						return true;
+	//					} else {
+	//						throw new NoMoveException();
+	//					}
+	//				
+	//			}finally {
+	//				
+	//			}
+	//				}else if (checkPosition(new Position (i), content) == content) {
+	//				currentMeeple++;
+	//			}
+	//		}
+	//		return true;
+	//	}
+
 	public void setStreet(Content content, Position currentPos) {
 		switch(content) {
 		case YELLOW: 
@@ -109,8 +128,8 @@ public class BoardSet extends Board implements Serializable {
 	public Position positionInStreet(Content content, Position position) {
 		switch(content) {
 		case YELLOW: return (new Position(position.getIndex() - 40));
-		case GREEN: return (new Position(position.getIndex() - 50));
-		case BLUE: return (new Position(position.getIndex() - 60));
+		case GREEN: return (new Position(position.getIndex() - 50)); 
+		case BLUE: return (new Position(position.getIndex() - 60)); 
 		case RED: return (new Position(position.getIndex() - 70));
 
 		default: return null;
@@ -260,7 +279,7 @@ public class BoardSet extends Board implements Serializable {
 		int throwCount = 1;
 		switch (status) {
 		case PLAYER1:
-			while (throwCount < 3 || (throwCount == 3 && diceValue == 6) || (throwCount ==2 && diceValue == 6)) {
+			while (throwCount < 3 || (throwCount == 3 && diceValue == 6)) {
 				if (diceValue == 6) {
 					diceValue = 0;
 					setMeeple(STARTY, Content.YELLOW, game);
@@ -280,7 +299,7 @@ public class BoardSet extends Board implements Serializable {
 			break;
 
 		case PLAYER2:
-			while (throwCount < 3 || (throwCount == 3 && diceValue == 6) || (throwCount ==2 && diceValue == 6) ) {
+			while (throwCount < 3 || (throwCount == 3 && diceValue == 6)) {
 				if (diceValue == 6) {
 					diceValue = 0;
 					setMeeple(STARTG, Content.GREEN, game);
@@ -300,7 +319,7 @@ public class BoardSet extends Board implements Serializable {
 			break;
 
 		case PLAYER3:
-			while (throwCount < 3 || (throwCount == 3 && diceValue == 6) || (throwCount ==2 && diceValue == 6)) {
+			while (throwCount < 3 || (throwCount == 3 && diceValue == 6)) {
 				if (diceValue == 6) {
 					diceValue = 0;
 					setMeeple(STARTB, Content.BLUE, game);
@@ -320,7 +339,7 @@ public class BoardSet extends Board implements Serializable {
 			break;
 
 		case PLAYER4:
-			while (throwCount < 3 || (throwCount == 3 && diceValue == 6) || (throwCount ==2 && diceValue == 6)) {
+			while (throwCount < 3 || (throwCount == 3 && diceValue == 6)) {
 				if (diceValue == 6) {
 					diceValue = 0;
 					setMeeple(STARTR, Content.RED, game);
@@ -336,8 +355,9 @@ public class BoardSet extends Board implements Serializable {
 					diceValue = dice.throwDice();
 					game.diceMessage();
 				}
-			}		
-		default: 
+			}	
+			break;
+		default: break;
 		}
 	}
 }

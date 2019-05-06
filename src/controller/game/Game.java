@@ -54,5 +54,6 @@ public interface Game {
 	public void enemyMessage();
 	
 	public Content checkPosition(Position chosenPosition, Content content);
+	
 
 }

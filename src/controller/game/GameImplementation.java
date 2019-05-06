@@ -14,6 +14,7 @@ public class GameImplementation implements Game {
 	private BoardSet board;
 	private Status status;
 	private boolean error;
+	private boolean first;
 
 	public GameImplementation(Player player1, Player player2, Player player3, Player player4) {
 		board = new BoardSet();
@@ -58,20 +59,25 @@ public class GameImplementation implements Game {
 	public void update() {
 
 		board.diceThrow();
-
+		first = true;
+		
 		do {
 			try {
 				error = true;
 				switch (status) {
 				case PLAYER1:
-					if (board.checkStartFree(Content.YELLOW)) {
+					if (board.checkStartFree(Content.YELLOW) && first) {
+						first = false;
 						board.setStart(status, this);
 						player1.freeStart();
-					} else if (board.checkThreeThrows(status)) {
+					} else 
+						if (board.checkThreeThrows(Content.YELLOW)) {
 						player1.diceResult();
+						first = false;
 						board.leaveHouse(status, this);
 					} else if (dice() == 6 && board.checkNumHouse(status)) {
 						player1.diceResult();
+						first = false;
 						board.leaveHouse(status, this);
 					} else if (dice () == 6 && board.checkDoubleDice(status)) {
 						board.setMeeple(player1.chooseMeeple(), Content.YELLOW, this);
@@ -82,7 +88,7 @@ public class GameImplementation implements Game {
 						board.setMeeple(player1.chooseMeeple(), Content.YELLOW, this);
 					}else {
 						if (board.setMeeple(player1.chooseMeeple(), Content.YELLOW, this)) {
-
+							
 						} else {
 							throw new MoveStreetException();						
 						}
@@ -92,14 +98,18 @@ public class GameImplementation implements Game {
 					break;
 
 				case PLAYER2:
-					if (board.checkStartFree(Content.GREEN)) {
+					if (board.checkStartFree(Content.GREEN) && first) {
+						first = false;
 						board.setStart(status, this);
 						player2.freeStart();
-					} else if (board.checkThreeThrows(status)) {
+					} else 
+						if (board.checkThreeThrows(Content.GREEN)) {
 						player2.diceResult();
+						first = false;
 						board.leaveHouse(status, this);
 					} else if (dice() == 6 && board.checkNumHouse(status)) {
 						player2.diceResult();
+						first = false;
 						board.leaveHouse(status, this);
 					} else if (dice () == 6 && board.checkDoubleDice(status)) {
 						board.setMeeple(player2.chooseMeeple(), Content.GREEN, this);
@@ -120,14 +130,18 @@ public class GameImplementation implements Game {
 					break;
 
 				case PLAYER3:
-					if (board.checkStartFree(Content.BLUE)) {
+					if (board.checkStartFree(Content.BLUE) && first) {
+						first = false;
 						board.setStart(status, this);
 						player3.freeStart();
-					} else if (board.checkThreeThrows(status)) {
+					} else 
+						if (board.checkThreeThrows(Content.BLUE)) {
 						player3.diceResult();
+						first = false;
 						board.leaveHouse(status, this);
 					} else if (dice() == 6 && board.checkNumHouse(status)) {
 						player3.diceResult();
+						first = false;
 						board.leaveHouse(status, this);
 					} else if (dice () == 6 && board.checkDoubleDice(status)) {
 						board.setMeeple(player3.chooseMeeple(), Content.BLUE, this);
@@ -139,7 +153,7 @@ public class GameImplementation implements Game {
 						
 					} else {
 						if (board.setMeeple(player3.chooseMeeple(), Content.BLUE, this)) {
-
+							
 						} else {
 							throw new MoveStreetException();
 						}
@@ -149,16 +163,19 @@ public class GameImplementation implements Game {
 					break;
 
 				case PLAYER4:
-					if (board.checkStartFree(Content.RED)) {
+					if (board.checkStartFree(Content.RED) && first) {
+						first = false;
 						board.setStart(status, this);
 						player4.freeStart();
-					} else if (board.checkThreeThrows(status)) {
+					} else 
+						if (board.checkThreeThrows(Content.RED)) {
 						player4.diceResult();
+						first = false;
 						board.leaveHouse(status, this);
 					} else if (dice() == 6 && board.checkNumHouse(status)) {
 						player4.diceResult();
+						first = false;
 						board.leaveHouse(status, this);
-						
 					} else if (dice () == 6 && board.checkDoubleDice(status)) {
 						board.setMeeple(player4.chooseMeeple(), Content.RED, this);
 						
@@ -168,8 +185,9 @@ public class GameImplementation implements Game {
 						board.setMeeple(player4.chooseMeeple(), Content.RED, this);
 					} else {
 						if (board.setMeeple(player4.chooseMeeple(), Content.RED, this)) {
-
+							
 						} else {
+							
 							throw new MoveStreetException();
 						}
 					}
@@ -278,6 +296,7 @@ public class GameImplementation implements Game {
 		return board.getDiceValue();
 	}
 
+	
 	public void diceMessage() {
 		switch (status) {
 		case PLAYER1:
@@ -350,6 +369,4 @@ public class GameImplementation implements Game {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
-
 }

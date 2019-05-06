@@ -80,12 +80,12 @@ public class Board implements Serializable {
 	}
 	
 
-	public boolean checkThreeThrows(Status status) {
-		switch (status) {
-		case PLAYER1: if(houseY + finishedY == 4) {return true;} break;
-		case PLAYER2: if(houseG + finishedG == 4) {return true;} break;
-		case PLAYER3: if(houseB + finishedB == 4) {return true;} break;
-		case PLAYER4: if(houseR + finishedR == 4) {return true;} break;
+	public boolean checkThreeThrows(Content content) {
+		switch (content) {
+		case YELLOW: if(houseY + finishedY == 4) {return true;} break;
+		case GREEN: if(houseG + finishedG == 4) {return true;} break;
+		case BLUE: if(houseB + finishedB == 4) {return true;} break;
+		case RED: if(houseR + finishedR == 4) {return true;} break;
 
 		default: break;
 		}
@@ -147,33 +147,29 @@ public class Board implements Serializable {
 	public boolean checkWin(Content content) {
 		switch (content) {
 		case YELLOW:
-			for (Content street : streetY) {
-				if (street == Content.FREE) {
+			if(finishedY == 4) {
+				return true;
+				} else {
 					return false;
 				}
-			}
-			return true;
 		case GREEN:
-			for (Content street : streetG) {
-				if (street == Content.FREE) {
+			if(finishedG == 4) {
+				return true;
+				} else {
 					return false;
 				}
-			}
-			return true;
 		case BLUE:
-			for (Content street : streetB) {
-				if (street == Content.FREE) {
+			if(finishedB == 4) {
+				return true;
+				} else {
 					return false;
 				}
-			}
-			return true;
 		case RED:
-			for (Content street : streetR) {
-				if (street == Content.FREE) {
+			if(finishedR == 4) {
+				return true;
+				} else {
 					return false;
 				}
-			}
-			return true;
 		default: return false;
 		}
 	}
