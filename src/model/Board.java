@@ -5,9 +5,11 @@ import java.io.Serializable;
 import controller.game.Status;
 
 public class Board implements Serializable {
-	/**
-	 * 
-	 */
+/**
+ * Konstruktor der Klasse Board. Beim Implementieren des Boardes wird ein Würfel implementiert, ein Array board, das 
+ * das Spielfeld darstellt, vier weitere Arrays, die die Zielstraße des jeweiligen Spielers sind, sowie int-Werte für die jeweiligen
+ * Häuser der Spieler (4) und finished (0), da noch kein Spielstein am Ziel angekommen ist.
+ */
 	private static final long serialVersionUID = -928528169455344979L;
 	protected Content[] board;
 	protected Content[] streetY;
@@ -71,6 +73,9 @@ public class Board implements Serializable {
 		finishedR = 0;	
 	}
 
+	/**
+	 * Die Wüfel-Methode wird aufgerufen und die Würfelzahl in der deklarierten Variable gespeichert.
+	 */
 	public void diceThrow() {
 		diceValue = dice.throwDice();	
 	}
@@ -79,6 +84,10 @@ public class Board implements Serializable {
 		return diceValue;
 	}
 	
+	/**
+	 * Mit checkThreeThrows wird überprüft, ob der Spieler dreimal würfeln darf. Dazu werden die Variablen house und finished 
+	 * geprüft. 
+	 */
 
 	public boolean checkThreeThrows(Content content) {
 		switch (content) {
@@ -93,6 +102,10 @@ public class Board implements Serializable {
 
 	}
 
+	/**
+	 * Methode, um zu überprüfen, ob bei einer 6 im Laufe des Spieles ein Spielstein aus dem Haus gezogen werden muss 
+	 * 
+	 */
 	public boolean checkNumHouse(Status status) {
 		switch (status) {
 		case PLAYER1: if (houseY != 0) {return true;} break;
@@ -105,6 +118,10 @@ public class Board implements Serializable {
 		return false;
 	}
 
+	/**
+	 * Methode, um zu überpüfen, ob bei einer gewürfelten 6, diese für einen regulären Zug genutzt werden darf.
+	 * 
+	 */
 	public boolean checkDoubleDice(Status status) {
 		switch (status) {
 		case PLAYER1: if (houseY == 0) {return true;} break;
@@ -117,6 +134,11 @@ public class Board implements Serializable {
 		return false;
 	}
 	
+	/**
+	 * Überprüfung, ob sich der Spielstein in der Nähe seiner Zielstraße befindet.
+	 * 
+	 *
+	 */
 	public boolean checkNearEnd(Content content, Position position) {
 		switch(content) {
 		case YELLOW: 
@@ -133,6 +155,11 @@ public class Board implements Serializable {
 		return false;
 	}
 	
+	
+	/**
+	 * Überprüfung, ob sich auf der Startposition der jeweilige eigene Content befindet. Wenn dies stimmt, wird true zurückgegeben.
+	 * 
+	 */
 	public boolean checkStartFree(Content content) {
 		switch(content) {
 		case YELLOW: if(board[0] == Content.YELLOW) {return true;} break;
@@ -144,6 +171,11 @@ public class Board implements Serializable {
 		return false;
 	}
 
+	/**
+	 * Überprüfung, ob die Zielstraße voll ist. Dazu wird die finished-Variable überprüft. Diese gibt an, wie viele Spielsteine
+	 * auf der richtigen Position stehen. Ein finished von 4 bedeutet eine volle Straße und der Spieler hat gewonnen.
+	 * 
+	 */
 	public boolean checkWin(Content content) {
 		switch (content) {
 		case YELLOW:
@@ -174,6 +206,15 @@ public class Board implements Serializable {
 		}
 	}
 
+	/**
+	 * Methode, um zu überprüfen, ob sich an der vom Spieler ausgewählten Position (Position chosenPosition) der Content 
+	 * vom Spieler befindet. 
+	 * Die Methode teilt sich in zwei Teile auf: Wenn eine Zahl größer als 40 geprüft wird, dann wird eine Position
+	 * in der Zielstraße überprüft. Wenn die Zahl zwischen 0 und gleich 39 liegt, dann wird die Position auf dem Spielbrett
+	 * überprüft. 
+	 * Zurückgegeben wird der jeweilige Content auf der ausgewählten Position (entweder FREE, YELLOW, GREEN, BLUE oder RED).
+	 * 
+	 */
 	public Content checkPosition(Position chosenPosition, Content content) {
 		try {
 			int streetPosition;
@@ -222,6 +263,9 @@ public class Board implements Serializable {
 		return null;
 	}
 
+	/**
+	 * Ausgabe des Spielfeldes.
+	 */
 	public String toString() {
 		String path = "";
 		path += "Anzahl Figuren zu Hause: \n";

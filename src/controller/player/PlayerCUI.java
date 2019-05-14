@@ -137,7 +137,7 @@ game.load(enterFileName());
 	
 	@Override
 	public void disable() {
-		System.out.println("Ein Spielstein wurde gesetzt. Der Spielzug ist beendet.");
+		System.out.println("Der Spielzug ist beendet.");
 	}
 
 	@Override

@@ -36,8 +36,8 @@ public class Server {
 		System.out.println(s);
 		switch(s){
 			case "update" : player.update(); break;
-			case "save" : player.save(); break;
-			case "load" : player.load(); break;
+			case "save" : player.save(s); break;
+			case "load" : player.load(s); break;
 		}
 		
 	}

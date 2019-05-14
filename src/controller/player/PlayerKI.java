@@ -37,7 +37,7 @@ public class PlayerKI implements Player {
 	}
 
 	public void disable() {
-		System.out.println("Ein Spielstein wurde gesetzt. Der Spielzug ist beendet.");
+		System.out.println("Der Spielzug ist beendet.");
 	}
 
 	//KI soll über das Array board gehen und die erste Figur, die seinem Content entspricht, 
@@ -72,6 +72,7 @@ public class PlayerKI implements Player {
 
 	public void win() {
 		System.out.println("Spieler " + id + " hat gewonnen!");
+		System.out.println(game.getBoard());
 	}
 
 	public void lose() {

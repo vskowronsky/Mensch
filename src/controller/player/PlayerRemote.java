@@ -63,12 +63,12 @@ public class PlayerRemote implements Player {
 	}
 
 	
-	public void save(){
-		game.safe();
+	public void save(String fileName){
+		game.save(fileName);
 	}
 	
-	public void load(){
-		game.load();
+	public void load(String fileName){
+		game.load(fileName);
 	}
 
 	public void update(){
@@ -78,32 +78,31 @@ public class PlayerRemote implements Player {
 
 	@Override
 	public void diceResult() {
-		// TODO Auto-generated method stub
-		
 	}
 
-	@Override
-	public void moveOverrun() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void throwOwnMeeple() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void doubleDiceResult() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void enemyResult() {
-		// TODO Auto-generated method stub
-		
+	}
+
+	@Override
+	public void moveNotPossible() {
+	}
+
+	@Override
+	public void noMoveAtAll() {
+	}
+
+	@Override
+	public void freeStart() {
 	}
 
 }
