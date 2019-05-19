@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 
+import controller.OwnMeepleException;
 import controller.game.Status;
 
 public class Board implements Serializable {
@@ -34,6 +35,8 @@ public class Board implements Serializable {
 	protected int finishedR;
 	protected Dice dice;
 	protected int diceValue;
+	Position newPosition;
+	boolean enforce = false;
 
 
 	public Board() {
@@ -169,6 +172,20 @@ public class Board implements Serializable {
 		default: break;
 		}
 		return false;
+	}
+	
+	public int checkEnemy(Content content, Position position) {
+		if (board[position.getIndex()] != Content.FREE) {
+			if (board[position.getIndex()] == content) {
+				return 1;
+
+			} else {
+				return 2;
+			}
+		} else {
+			return 0;
+		}
+
 	}
 
 	/**

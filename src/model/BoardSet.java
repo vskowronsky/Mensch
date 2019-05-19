@@ -1,5 +1,6 @@
 package model;
 
+import controller.MissedEnemyException;
 import controller.MoveStreetException;
 import controller.NoMoveException;
 import controller.OwnMeepleException;
@@ -16,7 +17,14 @@ public class BoardSet extends Board implements Serializable {
 		super();
 	}
 
-	public boolean setMeeple(Position position, Content content, Game game) throws OwnMeepleException, MoveStreetException, NoMoveException {
+	
+
+	public boolean setMeeple(Position position, Content content, Game game) throws OwnMeepleException, 
+	MoveStreetException, NoMoveException, MissedEnemyException {
+
+
+		enforcer(position, content);
+	
 		if(position.getIndex() >= 40){
 			Position currentPos = positionInStreet(content, position);
 			if (currentPos.getIndex() + diceValue < nextStreetMeeple(currentPos,content)) {
@@ -27,11 +35,12 @@ public class BoardSet extends Board implements Serializable {
 		} else {
 			if (position.getIndex() + diceValue >= 40) {
 				newPosition = new Position((position.getIndex() + diceValue) - 40);
+
 				if (checkNearEnd(content, position)) {
 					enterStreet(position, content);
 
 				} else {
-					checkEnemy(content, game);
+					flingEnemy(content, game);
 					board[(position.getIndex() + diceValue) - 40] = content;
 				}
 			} else {
@@ -40,7 +49,7 @@ public class BoardSet extends Board implements Serializable {
 					enterStreet(position, content);
 
 				} else {
-					checkEnemy(content, game);
+					flingEnemy(content, game);
 					board[position.getIndex() + diceValue] = content;
 				}
 
@@ -49,15 +58,62 @@ public class BoardSet extends Board implements Serializable {
 				board[position.getIndex()] = Content.FREE;
 			}
 		}
-//		System.out.println("Y: " +finishedY);
-//		System.out.println("G: " +finishedG);
-//		System.out.println("B: " +finishedB);
-//		System.out.println("R: " +finishedR);
 		return true;
 	}
 
+	// Schlagzwangüberprüfung
+		public void enforcer(Position position, Content content) throws MissedEnemyException {
+			// enforce = true sagt, dass wir einen Meeple haben, der einen Gegner schlagen kann 
+			enforce = false;
 
-	public void setStart(Status status, Game game) throws OwnMeepleException, MoveStreetException, NoMoveException  {
+			for (int i = 0; i <=39; i++) {
+				if (board[i] == content) {	
+					if (i + diceValue >= 40) {
+						if (checkEnemy(content, new Position((i + diceValue) - 40)) == 2) {
+							enforce = true;
+							break;
+						}
+					} else {
+						if (checkEnemy(content, new Position(i + diceValue)) == 2) {
+							enforce = true;
+							break;
+						}
+					}
+				}
+			}
+
+			if (position.getIndex() + diceValue >= 40) {
+				if (checkEnemy(content, new Position((position.getIndex() + diceValue) - 40)) != 2 
+						&& enforce && !checkNearEnd(content,position) && position.getIndex()<=40) {
+					switch(content) {
+					case YELLOW: houseY ++; break;
+					case GREEN: houseG ++; break;
+					case BLUE: houseB ++; break;
+					case RED: houseR ++; break;
+					default: break;
+					}
+					board[position.getIndex()]  = Content.FREE;
+					throw new MissedEnemyException();
+				}
+			} else {
+				if (checkEnemy(content, new Position(position.getIndex() + diceValue)) != 2 
+						&& enforce && !checkNearEnd(content,position) && position.getIndex()<=40) {
+					switch(content) {
+					case YELLOW: houseY ++; break;
+					case GREEN: houseG ++; break;
+					case BLUE: houseB ++; break;
+					case RED: houseR ++; break;
+					default: break;
+					}
+					board[position.getIndex()] = Content.FREE;
+					throw new MissedEnemyException();
+				}
+			}
+		}
+
+		
+	public void setStart(Status status, Game game) throws OwnMeepleException, MoveStreetException,
+	NoMoveException, MissedEnemyException  {
 		switch(status) {
 		case PLAYER1: setMeeple(STARTY, Content.YELLOW, game); break;
 		case PLAYER2: setMeeple(STARTG, Content.GREEN, game); break;
@@ -257,25 +313,25 @@ public class BoardSet extends Board implements Serializable {
 		}	
 	}
 
-	public void checkEnemy(Content content, Game game) throws OwnMeepleException {
-		if (board[newPosition.getIndex()] != Content.FREE) {
-			if (board[newPosition.getIndex()] == content) {
-				throw new OwnMeepleException();
+	public void flingEnemy(Content content, Game game) throws OwnMeepleException {
 
-			} else {
-				switch(board[newPosition.getIndex()]) {
-				case YELLOW: houseY++; game.enemyMessage(); break;
-				case GREEN: houseG++; game.enemyMessage(); break;
-				case BLUE: houseB++; game.enemyMessage(); break;
-				case RED: houseR++; game.enemyMessage(); break;
-				default:
-					break;}
-			}
+		if (checkEnemy(content, newPosition) == 1) {
+			throw new OwnMeepleException();
+		}else if (checkEnemy(content, newPosition) == 2) {
+			switch(board[newPosition.getIndex()]) {
+			case YELLOW: houseY++; game.enemyMessage(); break;
+			case GREEN: houseG++; game.enemyMessage(); break;
+			case BLUE: houseB++; game.enemyMessage(); break;
+			case RED: houseR++; game.enemyMessage(); break;
+			default:
+				break;}
 		}
+
 	}
 
 
-	public void leaveHouse(Status status, Game game) throws OwnMeepleException, MoveStreetException, NoMoveException {
+	public void leaveHouse(Status status, Game game) throws OwnMeepleException, MoveStreetException, 
+	NoMoveException, MissedEnemyException {
 		int throwCount = 1;
 		switch (status) {
 		case PLAYER1:

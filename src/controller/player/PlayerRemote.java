@@ -105,4 +105,10 @@ public class PlayerRemote implements Player {
 	public void freeStart() {
 	}
 
+	@Override
+	public void missedEnemyResult() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

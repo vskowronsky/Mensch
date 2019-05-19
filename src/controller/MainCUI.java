@@ -7,7 +7,7 @@ import controller.player.PlayerKI;
 
 public class MainCUI {
 	public static void main(String[] args) {
-		Game game = new GameImplementation(new PlayerCUI(), new PlayerKI(),new PlayerKI(),new PlayerKI());
+		Game game = new GameImplementation(new PlayerKI(), new PlayerKI(),new PlayerKI(),new PlayerKI());
 		
 		
 	}

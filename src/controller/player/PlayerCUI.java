@@ -55,17 +55,17 @@ public class PlayerCUI implements Player {
 	private String readString() {
 		try {
 			BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-			 String eingabe = input.readLine();
-		return eingabe;
+			String eingabe = input.readLine();
+			return eingabe;
 		}catch (Exception e) {
 			return null;
 		}
 	}
-	
+
 	private String enterFileName() {
 		return (readString());
 	}
-	
+
 	private int readInt() {
 		try {
 			BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
@@ -83,10 +83,7 @@ public class PlayerCUI implements Player {
 	public Position chooseMeeple() throws NoMoveException {
 		int chosen = -1;
 		diceResult();
-		
-		if(!game.movePossible()) {
-		//An dieser Stelle muss geprüft werden, ob ein Zug mit der Würfelzahl möglich ist.
-		//Erst wenn hier ein true von SetMeeple zurück kommt, dann wird eine Figur ausgewählt
+
 		System.out.println("Wählen Sie eine Spielfigur aus.");
 
 		while (chosen == -1) {
@@ -99,21 +96,17 @@ public class PlayerCUI implements Player {
 					System.out.println("Bitte wählen Sie ein Feld mit einer Ihrer noch bewegbaren Figuren aus.");
 					chosen = -1;
 				}
-				
+
 			} else {
-			System.out.println("Eingabe nicht korrekt. Bitte eine Spielfigur wählen.");
+				System.out.println("Eingabe nicht korrekt. Bitte eine Spielfigur wählen.");
 			}
 		}
 		return null;
-		} else {
-		//wahrscheinlich eine Ebene weiter unten werden in Logik
-		throw new NoMoveException();
-		}
-	}
+	} 
 
 	private void update() {
 		game.update();
-			
+
 	}
 
 	private void save() {
@@ -122,19 +115,19 @@ public class PlayerCUI implements Player {
 	}
 
 	private void load() {
-//		int name = -1;
-//		while (name != -1) {
-System.out.println("Bitte geben Sie den Namen der zu ladenden Datei ein.");
-//			if ((enterFileName()) {
-game.load(enterFileName());
-//		} else {
-//			System.out.println("Der Name der zu ladenen Datei existiert nicht. Bitte gegen Sie ihn erneut ein.");
-//			name = -1;
-//		}
-//		}
-//		
+		//		int name = -1;
+		//		while (name != -1) {
+		System.out.println("Bitte geben Sie den Namen der zu ladenden Datei ein.");
+		//			if ((enterFileName()) {
+		game.load(enterFileName());
+		//		} else {
+		//			System.out.println("Der Name der zu ladenen Datei existiert nicht. Bitte gegen Sie ihn erneut ein.");
+		//			name = -1;
+		//		}
+		//		}
+		//		
 	}
-	
+
 	@Override
 	public void disable() {
 		System.out.println("Der Spielzug ist beendet.");
@@ -154,27 +147,31 @@ game.load(enterFileName());
 	public void diceResult() {
 		System.out.println("Sie haben eine " + game.dice() + " gewürfelt.");
 	}
-	
+
 	public void moveNotPossible() {
 		System.out.println("Spielzug nicht möglich. Wählen Sie eine andere Figur.");
 	}
-	
+
 	public void throwOwnMeeple() {
 		System.out.println("Sie können sich nicht selber vom Spielbrett werfen.");
 	}
-	
+
 	public void doubleDiceResult() {
 		System.out.println("Sie dürfen nochmal würfeln. Sie haben eine " + game.dice() + " gewürfelt");
 	}
-	
+
 	public void enemyResult() {
 		System.out.println("Eine Figur wurde geworfen.");
 	}
 	
+	public void missedEnemyResult() {
+		System.out.println("Sie haben verpasst einen Gegner zu schlagen. Dafür wurde Ihre Figur zurück ins Haus gesetzt.");
+	}
+
 	public void noMoveAtAll() {
 		System.out.println("Kein Zug ist möglich. Der nächste Spiel ist dran.");
 	}
-	
+
 	public void freeStart() {
 		System.out.println("Das Startfeld war belegt und musste vorrangig gespielt werden.");
 	}

@@ -106,6 +106,10 @@ public class PlayerKI implements Player {
 		System.out.println("Eine Figur wurde geworfen.");
 	}
 	
+	public void missedEnemyResult() {
+		System.out.println("Sie haben verpasst einen Gegner zu schlagen. Dafür wurde Ihre Figur zurück ins Haus gesetzt.");
+	}
+	
 	public void noMoveAtAll(){
 		System.out.println("Die KI kann keinen Zug ausführen.");
 	}

@@ -202,13 +202,14 @@ public class GameRemote implements Game {
 	}
 
 	@Override
-	public boolean movePossible() {
-		return false;
+	public Content checkPosition(Position chosenPosition, Content content) {
+		return null;
 	}
 
 	@Override
-	public Content checkPosition(Position chosenPosition, Content content) {
-		return null;
+	public void missedEnemyMessage() {
+		// TODO Auto-generated method stub
+		
 	}
 
 

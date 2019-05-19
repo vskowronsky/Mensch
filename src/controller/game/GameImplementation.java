@@ -1,5 +1,6 @@
 package controller.game;
 
+import controller.MissedEnemyException;
 import controller.MoveStreetException;
 import controller.NoMoveException;
 import controller.OwnMeepleException;
@@ -15,6 +16,7 @@ public class GameImplementation implements Game {
 	private Status status;
 	private boolean error;
 	private boolean first;
+	int counter;
 
 	public GameImplementation(Player player1, Player player2, Player player3, Player player4) {
 		board = new BoardSet();
@@ -57,7 +59,7 @@ public class GameImplementation implements Game {
 
 	@Override
 	public void update() {
-
+counter++;
 		board.diceThrow();
 		first = true;
 		
@@ -205,6 +207,33 @@ public class GameImplementation implements Game {
 			catch (MoveStreetException e) {
 				moveNotPossibleMessage();
 			}
+			catch (MissedEnemyException e) {
+				error = false;
+				
+				switch(status) {
+				case PLAYER1:
+					player1.missedEnemyResult();
+					status = Status.PLAYER2;
+					player1.disable();
+					break;
+				case PLAYER2:
+					player2.missedEnemyResult();
+					status = Status.PLAYER3;
+					player2.disable();
+					break;
+				case PLAYER3:
+					player3.missedEnemyResult();
+					status = Status.PLAYER4;
+					player3.disable();
+					break;
+				case PLAYER4: 
+					player4.missedEnemyResult();
+					status = Status.PLAYER1;
+					player4.disable();
+					break;
+				default: break;
+				}
+			}
 			catch (NoMoveException e) {
 				error = false;
 				
@@ -240,24 +269,28 @@ public class GameImplementation implements Game {
 			player2.lose();
 			player3.lose();
 			player4.lose();
+			System.out.println(counter);
 		} else if (board.checkWin(Content.GREEN)) {
 			status = Status.WINPLAYER2;
 			player2.win();
 			player3.lose();
 			player4.lose();
 			player1.lose();
+			System.out.println(counter);
 		} else if (board.checkWin(Content.BLUE)) {
 			status = Status.WINPLAYER3;
 			player3.win();
 			player4.lose();
 			player1.lose();
 			player2.lose();
+			System.out.println(counter);
 		} else if (board.checkWin(Content.RED)) {
 			status = Status.WINPLAYER4;
 			player4.win();
 			player1.lose();
 			player2.lose();
 			player3.lose();
+			System.out.println(counter);
 		}
 
 		if (status == Status.PLAYER1) {
@@ -270,6 +303,7 @@ public class GameImplementation implements Game {
 			player4.enable();
 		}
 
+		
 	}
 
 	public void save(String fileName) {
@@ -299,58 +333,31 @@ public class GameImplementation implements Game {
 	
 	public void diceMessage() {
 		switch (status) {
-		case PLAYER1:
-			player1.diceResult();
-			break;
-		case PLAYER2:
-			player2.diceResult();
-			break;
-		case PLAYER3:
-			player3.diceResult();
-			break;
-		case PLAYER4:
-			player4.diceResult();
-			break;
-		default:
-			break;
+		case PLAYER1: player1.diceResult(); break;
+		case PLAYER2: player2.diceResult(); break;
+		case PLAYER3: player3.diceResult(); break;
+		case PLAYER4: player4.diceResult(); break;
+		default: break;
 		}
 	}
 
 	public void moveNotPossibleMessage() {
 		switch (status) {
-		case PLAYER1:
-			player1.moveNotPossible();
-			break;
-		case PLAYER2:
-			player2.moveNotPossible();
-			break;
-		case PLAYER3:
-			player3.moveNotPossible();
-			break;
-		case PLAYER4:
-			player4.moveNotPossible();
-			break;
-		default:
-			break;
+		case PLAYER1: player1.moveNotPossible(); break;
+		case PLAYER2: player2.moveNotPossible(); break;
+		case PLAYER3: player3.moveNotPossible(); break;
+		case PLAYER4: player4.moveNotPossible(); break;
+		default: break;
 		}
 	}
 
 	public void ownMeepleMessage() {
 		switch (status) {
-		case PLAYER1:
-			player1.throwOwnMeeple();
-			break;
-		case PLAYER2:
-			player2.throwOwnMeeple();
-			break;
-		case PLAYER3:
-			player3.throwOwnMeeple();
-			break;
-		case PLAYER4:
-			player4.throwOwnMeeple();
-			break;
-		default:
-			break;
+		case PLAYER1: player1.throwOwnMeeple(); break;
+		case PLAYER2: player2.throwOwnMeeple(); break;
+		case PLAYER3: player3.throwOwnMeeple(); break;
+		case PLAYER4: player4.throwOwnMeeple(); break;
+		default: break;
 		}
 	}
 
@@ -363,10 +370,15 @@ public class GameImplementation implements Game {
 		default: break;
 		}
 	}
+	
+//	public void missedEnemyMessage() {
+//		switch (status) {
+//		case PLAYER1: player1.missedEnemyResult(); break;
+//		case PLAYER2: player2.missedEnemyResult(); break;
+//		case PLAYER3: player3.missedEnemyResult(); break;
+//		case PLAYER4: player4.missedEnemyResult(); break;
+//		default: break;
+//		}
+//	}
 
-	@Override
-	public boolean movePossible() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }

@@ -39,8 +39,6 @@ public interface Game {
 	 */
 	public int dice();
 	
-	public boolean movePossible();
-	
 	/**
 	 * Gibt die Würfelzahl an den Player als Text aus
 	 */
@@ -52,6 +50,8 @@ public interface Game {
 	public void ownMeepleMessage();
 	
 	public void enemyMessage();
+	
+	//public void missedEnemyMessage();
 	
 	public Content checkPosition(Position chosenPosition, Content content);
 	
