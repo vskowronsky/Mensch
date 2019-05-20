@@ -9,8 +9,7 @@ public class TestGUI extends Application {
 		PlayerPane playerPane = new PlayerPane();
 		
 		ScenePane root = new ScenePane(playerPane);
-		PlayerStage stage = new PlayerStage(root);
-		primaryStage.getChildren().add(stage);
+		//primaryStage.getChildren().add(stage);
 		primaryStage.setTitle("Mensch ärger Dich nicht!");
 		primaryStage.show();
 	}

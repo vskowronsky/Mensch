@@ -1,6 +1,6 @@
 package controller.game;
 
-import controller.OwnMeepleException;
+import controller.exceptions.OwnMeepleException;
 import model.Board;
 import model.Content;
 import model.Position;

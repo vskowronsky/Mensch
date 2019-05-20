@@ -2,7 +2,7 @@ package model;
 
 import java.io.Serializable;
 
-import controller.OwnMeepleException;
+import controller.exceptions.OwnMeepleException;
 import controller.game.Status;
 
 public class Board implements Serializable {

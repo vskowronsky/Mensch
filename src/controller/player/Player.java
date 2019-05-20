@@ -1,6 +1,6 @@
 package controller.player;
 
-import controller.NoMoveException;
+import controller.exceptions.NoMoveException;
 import controller.game.Game;
 import model.Content;
 import model.Position;

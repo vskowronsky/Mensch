@@ -157,10 +157,10 @@ public class Client extends Service<String>
 	}
 
 	
-/*	public void start(){
+	public void start(){
 		listen();
 	}
-*/	
+	
 	
 	
 	/** 
