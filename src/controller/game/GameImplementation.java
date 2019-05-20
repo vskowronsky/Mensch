@@ -370,15 +370,5 @@ counter++;
 		default: break;
 		}
 	}
-	
-//	public void missedEnemyMessage() {
-//		switch (status) {
-//		case PLAYER1: player1.missedEnemyResult(); break;
-//		case PLAYER2: player2.missedEnemyResult(); break;
-//		case PLAYER3: player3.missedEnemyResult(); break;
-//		case PLAYER4: player4.missedEnemyResult(); break;
-//		default: break;
-//		}
-//	}
 
 }

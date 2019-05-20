@@ -205,12 +205,4 @@ public class GameRemote implements Game {
 	public Content checkPosition(Position chosenPosition, Content content) {
 		return null;
 	}
-
-	@Override
-	public void missedEnemyMessage() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
 }
