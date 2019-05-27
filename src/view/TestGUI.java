@@ -1,6 +1,8 @@
 package view;
 
 import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class TestGUI extends Application {
@@ -10,8 +12,10 @@ public class TestGUI extends Application {
 		
 		ScenePane root = new ScenePane(playerPane);
 		//primaryStage.getChildren().add(stage);
-		primaryStage.setTitle("Mensch ärger Dich nicht!");
-		primaryStage.show();
+
+		
+		PlayerStage stage = new PlayerStage(root);
+		stage.show();
 	}
 	
 	public static void main (String[]args){
