@@ -62,6 +62,7 @@ public class GameRemote implements Game {
 		case "choose" : chooseMeeple(); break;
 		case "win": win(); break;
 		case "lose": lose(); break;
+		case "dice": dice(); break;
 		}
 	}
 
@@ -70,7 +71,12 @@ public class GameRemote implements Game {
 }
 	 */
 	public void listen(){
-		client.start();
+		try {
+			process(client.listen());
+		} catch (NoMoveException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -86,8 +92,8 @@ public class GameRemote implements Game {
 	 * Wenn "set" empfangen wird, wird ein Spieler erstellt und der Client gestartet (wartet auf Anweisungen)
 	 */
 	public void initialize(){
-		Content c = client.receiveContent();
 		int id = client.receiveInt();
+		Content c = client.receiveContent();
 		player.initialize(c,this,id);
 		listen();
 	}

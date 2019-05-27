@@ -6,7 +6,8 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 
 public class PlayerPane extends Pane{
-	public final int width = 880;
+	public final int width = 770;
+	public int unit;
 
 	public PlayerPane() {
 		super();
@@ -26,4 +27,7 @@ public class PlayerPane extends Pane{
 		getChildren().addAll(rHY1,rHY2,rHY3,rHY4,rHY5);
 	}
 
+	public void setRectangles() {
+		
+	}
 }

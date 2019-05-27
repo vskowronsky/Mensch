@@ -16,10 +16,10 @@ private ScenePane pane;
 		init();
 	}
 	
-	
+	//(pane,BREITE, HÖHE, Farbe)
 	private void init(){
 		setTitle("Mensch ärger Dich nicht!");
-		Scene scene = new Scene(pane,1000,1000, Color.WHITESMOKE);
+		Scene scene = new Scene(pane,1000,900, Color.BLUE);
 //		scene.getStylesheets().add("style.css");
 		setScene(scene);
 	}
