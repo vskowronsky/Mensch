@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 
-import controller.NoMoveException;
+import controller.exceptions.NoMoveException;
 import controller.game.Game;
 import model.Content;
 import model.Position;

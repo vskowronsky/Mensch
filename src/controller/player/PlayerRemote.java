@@ -33,7 +33,9 @@ public class PlayerRemote implements Player {
 	@Override
 	public void enable() {
 		server.send("enable");
+
 		server.send(game.getBoard());
+		
 		server.listen();
 	}
 

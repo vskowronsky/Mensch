@@ -1,9 +1,9 @@
 package controller.game;
 
-import controller.MissedEnemyException;
-import controller.MoveStreetException;
-import controller.NoMoveException;
-import controller.OwnMeepleException;
+import controller.exceptions.MissedEnemyException;
+import controller.exceptions.MoveStreetException;
+import controller.exceptions.NoMoveException;
+import controller.exceptions.OwnMeepleException;
 import controller.player.Player;
 import model.*;
 

@@ -1,4 +1,4 @@
-package controller;
+package controller.exceptions;
 
 public class MoveStreetException extends Exception{
 

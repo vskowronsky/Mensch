@@ -2,7 +2,6 @@ package model;
 
 import java.io.Serializable;
 
-import controller.OwnMeepleException;
 import controller.game.Status;
 
 public class Board implements Serializable {
@@ -35,7 +34,7 @@ public class Board implements Serializable {
 	protected int finishedR;
 	protected Dice dice;
 	protected int diceValue;
-	Position newPosition;
+	protected Position newPosition;
 	boolean enforce = false;
 
 

@@ -1,10 +1,10 @@
 package controller.game;
 
-import controller.NoMoveException;
+import controller.exceptions.NoMoveException;
 import controller.net.Client;
 import controller.player.Player;
-import javafx.concurrent.WorkerStateEvent;
-import javafx.event.EventHandler;
+//import javafx.concurrent.WorkerStateEvent;
+//import javafx.event.EventHandler;
 import model.Board;
 import model.Content;
 import model.Position;
@@ -20,12 +20,13 @@ public class GameRemote implements Game {
 		this.client = client;
 		this.player = player;
 
-		client.setOnSucceeded( (WorkerStateEvent t) -> { String s = (String) t.getSource().getValue(); client.reset(); try {
+		/*client.setOnSucceeded( (WorkerStateEvent t) -> { String s = (String) t.getSource().getValue(); client.reset(); try {
 			process(s);
 		} catch (NoMoveException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}});
+		*/
 		/*
 		 * client.setOnSucceeded(
 				(WorkerStateEvent t) ->{

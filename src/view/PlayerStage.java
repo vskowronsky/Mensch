@@ -2,30 +2,26 @@ package view;
 
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class PlayerStage extends Stage {
 
-	public final int width = 880;
+private ScenePane pane;
 	
-	public PlayerStage(ScenePane root) {
+	public PlayerStage(ScenePane pane){
 		super();
+		this.pane = pane;
 		init();
 	}
 	
-	public void init() {
-		Pane p = paneInit();
-		Scene scene = new Scene(p, width, width);
-		this.setScene(scene);
-		this.show();
-	}
 	
-	public Pane paneInit() {
-		Pane p = new Pane();
-		int unit = width/11;
-		Rectangle rHY1 = new Rectangle(unit/2, unit/2);
-		p.getChildren().add(rHY1);
-		return p;
+	private void init(){
+		setTitle("Mensch ärger Dich nicht!");
+		Scene scene = new Scene(pane,1000,1000, Color.WHITESMOKE);
+//		scene.getStylesheets().add("style.css");
+		setScene(scene);
 	}
 }
+
