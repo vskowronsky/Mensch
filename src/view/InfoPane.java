@@ -19,5 +19,6 @@ public class InfoPane extends BorderPane {
 	
 	public InfoPane() {
 		super();
+		
 	}
 }

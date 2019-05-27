@@ -9,8 +9,9 @@ public class TestGUI extends Application {
 
 	public void start(Stage primaryStage) throws Exception {
 		PlayerPane playerPane = new PlayerPane();
+		InfoPane infoPane = new InfoPane();
 		
-		ScenePane root = new ScenePane(playerPane);
+		ScenePane root = new ScenePane(playerPane, infoPane);
 		//primaryStage.getChildren().add(stage);
 
 		

@@ -8,19 +8,23 @@ import javafx.scene.layout.BorderPane;
 public class ScenePane extends BorderPane{
 
 	private PlayerPane playerPane;
+	private InfoPane infoPane;
+	
 //in den Konstruktor die DicePane und InfoPane geben
-	public ScenePane(PlayerPane playerPane) {
+	public ScenePane(PlayerPane playerPane, InfoPane infoPane) {
 		super();
 		this.playerPane = playerPane;
+		this.infoPane = infoPane;
 		init();
 	}
 
 
 	private void init(){
 		AnchorPane center = new AnchorPane();
-		center.getChildren().add(playerPane);
-		AnchorPane.setTopAnchor(playerPane, 60.);
-		AnchorPane.setLeftAnchor(playerPane, 80.);
+		center.getChildren().addAll(playerPane, infoPane);
+		AnchorPane.setTopAnchor(playerPane, 20.);
+		AnchorPane.setLeftAnchor(playerPane, 20.);
+		AnchorPane.setBottomAnchor(infoPane, 990.);
 		this.setCenter(center);
 	}
 
