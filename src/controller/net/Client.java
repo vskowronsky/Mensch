@@ -50,7 +50,7 @@ public class Client extends Service<String>
 	public String listen(){
 		System.out.println("Warte auf Anweisung");
 		String s = receiveString();
-		System.out.println(s);
+//		System.out.println(s);
 		return s;
 	}
 	
@@ -100,7 +100,7 @@ public class Client extends Service<String>
 	 * Methode um ein int zu empfangen.
 	 * @return Gibt den empfangenen int zurÃ¼ck
 	 */
-	public int receiveInt(){
+	public int receiveID(){
 		int id = 0;
 		try {
 			id= in.readInt();
@@ -109,6 +109,17 @@ public class Client extends Service<String>
 			e.printStackTrace();
 		}
 		return id;
+	}
+	
+	public int receiveDice(){
+		int dice = 0;
+		try {
+			dice = in.readInt();
+			System.out.println("Empfange Würfel " + dice);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return dice;
 	}
 	
 	
@@ -147,7 +158,7 @@ public class Client extends Service<String>
 	 */
 	public void send(Position position){
 		try {
-			System.out.println("Sende Position " + position);
+			System.out.println("Sende Position " + position.getIndex());
 			out.reset();
 			out.writeObject(position);
 			out.flush();
@@ -160,7 +171,6 @@ public class Client extends Service<String>
 	public void start(){
 		listen();
 	}
-	
 	
 	
 	/** 
@@ -176,7 +186,5 @@ public class Client extends Service<String>
 			}
         };
 	}
-  
-
 }
 

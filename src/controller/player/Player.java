@@ -29,26 +29,9 @@ public interface Player {
 	 */
 	public void lose();	
 	
-	public Position chooseMeeple() throws NoMoveException;
+	public Position chooseMeeple(int diceValue) throws NoMoveException;
 
-	
-	/**
-	 * Wird aufgerufen, um dem Spieler zu sagen, dass er die Würfelzahl abfragen soll
-	 */
-	public void diceResult();
-	
-	public void moveNotPossible();
-	
-	public void throwOwnMeeple();
-	
-	public void doubleDiceResult();
-	
-	public void enemyResult();
-	
-	public void missedEnemyResult();
-	
-	public void noMoveAtAll();
-	
-	public void freeStart();
+	public void message(String message);
+
 	
 }

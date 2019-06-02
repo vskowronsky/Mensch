@@ -32,18 +32,23 @@ public class Server {
 	}
 						
 	/**
-	 * Methode um auf eine Nachricht von dem Client zu warten und zu empfangen
+	 * Methode um auf eine Nachricht vom Client zu warten und zu empfangen
 	 */
 	public void listen(){
+		
+		System.out.println("Server lauscht.");
 		String s = receiveString();
 		System.out.println(s);
 		switch(s){
 			case "update": player.update(); break;
-			case "save": player.save(s);	break;
-			case "load": player.load(s);	break;
+			case "save": 
+				s = receiveString();
+				player.save(s);	break;
+			case "load": 
+				s = receiveString();
+				player.load(s);	break;
 		}
 	}
-	
 	
 
 	/**
@@ -94,24 +99,35 @@ public class Server {
 	 * Methode um einen int zu senden.
 	 * @param Das zu versendende int.
 	 */
-	public void send(int id){
+	public void send(int number, String string){
 		try{
-			System.out.println("Sende id " + id);
-			out.writeInt(id);
+			System.out.println("Sende " + string + " " + number);
+			out.writeInt(number);
 			out.flush();
 		} catch (IOException e){
 			e.printStackTrace();
 		}
 	}
 	
+	
+	public void send(int number){
+		try{
+			System.out.println("Sende " + number);
+			out.writeInt(number);
+			out.flush();
+		} catch (IOException e){
+			e.printStackTrace();
+		}
+	}
+		
 	/**
 	 * Methode um ein Board zu versenden
 	 * @param Das zu versendende Board.
 	 */
 	public void send(Board board){
 		try {
-			System.out.println("Sende Board " + board);
-			//out.reset();
+//			System.out.println("Sende Board " + board);
+			out.reset();
 			out.writeObject(board);
 			out.flush();
 		} catch (IOException e) {
@@ -136,7 +152,3 @@ public class Server {
 	}
 	
 }
-
-
-
-

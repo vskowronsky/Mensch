@@ -20,14 +20,12 @@ public class PlayerCUI implements Player {
 		this.id = -1;
 	}
 
-	@Override
 	public void initialize(Content content, Game game, int id) {
 		this.content = content;
 		this.game = game;
 		this.id = id;
 	}
 
-	@Override
 	public void enable() {
 		System.out.println("NEUE RUNDE!");
 		int sl = -1;
@@ -79,24 +77,17 @@ public class PlayerCUI implements Player {
 		}
 	}
 
-	@Override
-	public Position chooseMeeple() throws NoMoveException {
+	public Position chooseMeeple(int diceValue) throws NoMoveException {
 		int chosen = -1;
-		diceResult();
-
+		
+		System.out.println("Sie haben eine " + diceValue + " gewürfelt.");
+				
 		System.out.println("Wählen Sie eine Spielfigur aus.");
 
 		while (chosen == -1) {
 			chosen = readInt();
 			if (chosen != -1) {
-				Position chosenPosition = new Position(chosen);
-				if (this.content == game.checkPosition(chosenPosition, content)) {
-					return chosenPosition;
-				}else {
-					System.out.println("Bitte wählen Sie ein Feld mit einer Ihrer noch bewegbaren Figuren aus.");
-					chosen = -1;
-				}
-
+				return new Position(chosen);
 			} else {
 				System.out.println("Eingabe nicht korrekt. Bitte eine Spielfigur wählen.");
 			}
@@ -106,7 +97,6 @@ public class PlayerCUI implements Player {
 
 	private void update() {
 		game.update();
-
 	}
 
 	private void save() {
@@ -128,51 +118,21 @@ public class PlayerCUI implements Player {
 		//		
 	}
 
-	@Override
 	public void disable() {
 		System.out.println("Der Spielzug ist beendet.");
+		System.out.println(game.getBoard());
 	}
 
-	@Override
 	public void win() {
 		System.out.println("Spieler " + id + " hat gewonnen!");
 		System.out.println(game.getBoard());
 	}
 
-	@Override
 	public void lose() {
 		System.out.println("Spieler " + id + " hat verloren!");
 	}
 
-	public void diceResult() {
-		System.out.println("Sie haben eine " + game.dice() + " gewürfelt.");
-	}
-
-	public void moveNotPossible() {
-		System.out.println("Spielzug nicht möglich. Wählen Sie eine andere Figur.");
-	}
-
-	public void throwOwnMeeple() {
-		System.out.println("Sie können sich nicht selber vom Spielbrett werfen.");
-	}
-
-	public void doubleDiceResult() {
-		System.out.println("Sie dürfen nochmal würfeln. Sie haben eine " + game.dice() + " gewürfelt");
-	}
-
-	public void enemyResult() {
-		System.out.println("Eine Figur wurde geworfen.");
-	}
-	
-	public void missedEnemyResult() {
-		System.out.println("Sie haben verpasst einen Gegner zu schlagen. Dafür wurde Ihre Figur zurück ins Haus gesetzt.");
-	}
-
-	public void noMoveAtAll() {
-		System.out.println("Kein Zug ist möglich. Der nächste Spiel ist dran.");
-	}
-
-	public void freeStart() {
-		System.out.println("Das Startfeld war belegt und musste vorrangig gespielt werden.");
+	public void message(String message) {
+		System.out.println(message);
 	}
 }

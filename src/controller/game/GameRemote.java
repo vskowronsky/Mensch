@@ -15,6 +15,7 @@ public class GameRemote implements Game {
 	private Board board;
 	private Player player;
 	private Client client;
+	private boolean status;
 
 	public GameRemote(Client client, Player player){
 		this.client = client;
@@ -26,7 +27,7 @@ public class GameRemote implements Game {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}});
-		*/
+		 */
 		/*
 		 * client.setOnSucceeded(
 				(WorkerStateEvent t) ->{
@@ -37,7 +38,7 @@ public class GameRemote implements Game {
     					case "set" : set(); break;
     					case "enable": enable(); break;
     					case "disable": disable(); break;
-    					case "chooseMeeple" : chooseMeeple(); break;
+    					case "choose" : chooseMeeple(); break;
     					case "win": win(); break;
     					case "lose": lose(); break;
 					}
@@ -48,10 +49,8 @@ public class GameRemote implements Game {
 		listen();
 	}
 
-	@Override
 	public void start() {
 		// TODO Auto-generated method stub
-
 	}
 
 	private void process(String s) throws NoMoveException{
@@ -62,14 +61,10 @@ public class GameRemote implements Game {
 		case "choose" : chooseMeeple(); break;
 		case "win": win(); break;
 		case "lose": lose(); break;
-		case "dice": dice(); break;
+		case "message": message(""); break;
 		}
 	}
 
-	/*public void listen(){
-	process(client.listen());
-}
-	 */
 	public void listen(){
 		try {
 			process(client.listen());
@@ -79,63 +74,54 @@ public class GameRemote implements Game {
 		}
 	}
 
-	/**
-	 * Wenn set empfangen wird, wird ein Spieler erstellt
-	 * @param Content c, entweder Kreuz oder Kreis
-	 * @param int id.
-	 */
-	//public void set(Content c, int id){
-	//	player = new PlayerGUI(c, this, id);
-	//}
+	
 
 	/**
-	 * Wenn "set" empfangen wird, wird ein Spieler erstellt und der Client gestartet (wartet auf Anweisungen)
+	 * Wenn "initialize" empfangen wird, wird ein Spieler erstellt und der Client gestartet (wartet auf Anweisungen)
 	 */
 	public void initialize(){
-		int id = client.receiveInt();
+		int id = client.receiveID();
 		Content c = client.receiveContent();
 		player.initialize(c,this,id);
 		listen();
 	}
 
-
 	/**
-	 * Setzt das Board von dem Spiel
+	 * Setzt das Board vom Spiel
 	 * @param board
 	 */
 	public void setBoard(Board board){
 		this.board = board;
 	}
 
-
 	/**
 	 * Durchreichen von dem Befehl "enable", empfängt ein Board und ruft die entsprechende Methode im Spieler auf
 	 */
 	public void enable() {
+		status = true;
 		this.board = client.receiveBoard();
 		player.enable();
+		listen();
 	}
-
 
 	/**
 	 * Durchreichen von dem Befehl "disable", empfängt ein Board und ruft die entsprechende Methode im Spieler auf
 	 */
 	public void disable() {
+		status = false; 
 		this.board = client.receiveBoard();
 		player.disable();
 		listen();
 	}
 
-
 	/**
-	 * Durchreichen von dem Befehl "place",  ruft die entsprechende Methode im Spieler auf
+	 * Durchreichen von dem Befehl "choose", ruft die entsprechende Methode im Spieler auf
 	 * @throws NoMoveException 
 	 */
 	public void chooseMeeple() throws NoMoveException{
-		client.send(player.chooseMeeple());
+		client.send(player.chooseMeeple(client.receiveDice()));
 		listen();
 	}
-
 
 	/**
 	 * Durchreichen von dem Befehl "win", empfängt ein Board und ruft die entsprechende Methode im Spieler auf
@@ -144,7 +130,6 @@ public class GameRemote implements Game {
 		this.board = client.receiveBoard();
 		player.win();
 	}
-
 
 	/**
 	 * Durchreichen von dem Befehl "lose", empfängt ein Board und ruft die entsprechende Methode im Spieler auf
@@ -163,12 +148,12 @@ public class GameRemote implements Game {
 		listen();
 	}
 
-
 	/** Methode sendet "save" an den Server
 	 * @see controller.game.Game#safe()
 	 */
 	public void save (String string){
 		client.send("save");
+		client.send(string);
 	}
 
 
@@ -177,6 +162,7 @@ public class GameRemote implements Game {
 	 */
 	public void load(String string)  {
 		client.send("load");
+		client.send(string);
 	}
 
 	/** Get-Methode vom Board
@@ -186,30 +172,13 @@ public class GameRemote implements Game {
 		return board;
 	}
 
-
-	@Override
-	public int dice() {
-		return 0;
+	public void message(String message) {
+		player.message(client.receiveString());
+		listen();
 	}
 
-	@Override
-	public void diceMessage() {
-	}
-
-	@Override
-	public void moveNotPossibleMessage() {
-	}
-
-	@Override
-	public void ownMeepleMessage() {
-	}
-
-	@Override
-	public void enemyMessage() {
-	}
-
-	@Override
-	public Content checkPosition(Position chosenPosition, Content content) {
+	public Position chooseMeeple(Content content) throws NoMoveException {
+		
 		return null;
 	}
 }

@@ -11,7 +11,9 @@ public class PlayerKI implements Player {
 	private int id;
 	private Content content;
 	private Game game;
-	private int meeple;
+//	private int meeple;
+	private int meeplepos;
+	private boolean end;
 
 	public PlayerKI(){
 		id = 0;
@@ -23,13 +25,13 @@ public class PlayerKI implements Player {
 		this.content = content;
 		this.game = game;
 		this.id = id;
-
 	}
 
-	//setzt die "0" zum Setzen auf dem Board
 	public void enable() {
 
-		this.meeple = 1;
+//		this.meeple = 1;
+		this.meeplepos = 40;
+		this.end = false;
 		System.out.println("NEUE RUNDE!");
 		System.out.println("KI " +id + " ist dran.");
 		System.out.println(game.getBoard());
@@ -42,81 +44,56 @@ public class PlayerKI implements Player {
 
 	//KI soll über das Array board gehen und die erste Figur, die seinem Content entspricht, 
 	//zurückgeben
-	@Override
-	public Position chooseMeeple() throws NoMoveException {
-		int currentMeeple = 1;
-		diceResult();
-			for (int i = 40; i < 75; i++) {
-				if ((game.checkPosition(new Position (i), this.content) == content) && meeple == currentMeeple) {
-					System.out.println("Figur an Position "+i+" wurde ausgewählt.");
-					return new Position(i);
-					
-				} else if (game.checkPosition(new Position (i), this.content) == content) {
-					currentMeeple++;
-				}
-			} 
-			
-			for (int i = 0; i <=39; i++) {
-				if ((game.checkPosition(new Position (i), this.content) == content) && meeple == currentMeeple) {
-					System.out.println("Figur an Position "+i+" wurde ausgewählt.");
-					return new Position(i);
-				} else if (game.checkPosition(new Position (i), this.content) == content) {
-					currentMeeple++;
-				}
-			}
+	public Position chooseMeeple(int diceValue) throws NoMoveException{
+//		int currentMeeple = 1;
+
+		if (meeplepos == 40 && end) {
 			throw new NoMoveException();
+		}
+
+		return new Position (meeplepos);
+
+
+//		if () && meeple == currentMeeple) {
+//			System.out.println("Figur an Position "+i+" wurde ausgewählt.");
+//			return new Position(i);
+//
+//		} else if (game.checkPosition(new Position (i), this.content) == content) {
+//			currentMeeple++;
+//		}
+//
+//		if ((game.checkPosition(new Position (i), this.content) == content) && meeple == currentMeeple) {
+//			System.out.println("Figur an Position "+i+" wurde ausgewählt.");
+//			return new Position(i);
+//		} else if (game.checkPosition(new Position (i), this.content) == content) {
+//			currentMeeple++;
+//		}
+
 	}
 
-	
-
-
 	public void win() {
-		System.out.println("Spieler " + id + " hat gewonnen!");
+		System.out.println("KI " + id + " hat gewonnen!");
 		System.out.println(game.getBoard());
 	}
 
 	public void lose() {
-		System.out.println("Spieler " + id + " hat verloren!");
+		System.out.println("KI " + id + " hat verloren!");
 	}
 
-	@Override
-	public void diceResult() {
-		System.out.println("KI "+id+ " hat eine " + game.dice() + " gewürfelt.");
-	}
+	public void message(String message){
+		System.out.println(message);
 
-	@Override
-	public void moveNotPossible() {
-		System.out.println("Die KI wählt eine andere Figur.");
-		meeple++;
+		if (message.equals("Sie können sich nicht selber vom Spielbrett werfen.") ||
+				message.equals("Spielzug nicht möglich. Wählen Sie eine andere Figur.") ||
+				message.equals("Bitte wählen Sie ein Feld mit einer Ihrer noch bewegbaren Figuren aus.")) {
+			if (meeplepos == 74) {
+				meeplepos = 0;
+			}else if( meeplepos == 39) {
+				end = true;
+				meeplepos++;
+			} else {
+				meeplepos++;
+			}
+		}
 	}
-
-	@Override
-	public void throwOwnMeeple() {
-		System.out.println("Die KI darf sich nicht selber vom Spielbrett werfen.");
-		meeple++;
-	}
-
-	@Override
-	public void doubleDiceResult() {
-		System.out.println("Die KI durfte noch einmal würfeln. Würfelzahl: " + game.dice());
-	}
-
-	@Override
-	public void enemyResult() {
-		System.out.println("Eine Figur wurde geworfen.");
-	}
-	
-	public void missedEnemyResult() {
-		System.out.println("Sie haben verpasst einen Gegner zu schlagen. Dafür wurde Ihre Figur zurück ins Haus gesetzt.");
-	}
-	
-	public void noMoveAtAll(){
-		System.out.println("Die KI kann keinen Zug ausführen.");
-	}
-
-	@Override
-	public void freeStart() {
-		System.out.println("Das Startfeld war belegt und musste vorrangig gespielt werden.");	
-	}
-
 }

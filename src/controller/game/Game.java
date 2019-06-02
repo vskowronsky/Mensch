@@ -1,5 +1,6 @@
 package controller.game;
 
+import controller.exceptions.NoMoveException;
 import controller.exceptions.OwnMeepleException;
 import model.Board;
 import model.Content;
@@ -34,24 +35,9 @@ public interface Game {
 	 */
 	public Board getBoard();
 	
-	/**
-	 * Gibt den aktuellen Würfelwurf zurück
-	 */
-	public int dice();
 	
-	/**
-	 * Gibt die Würfelzahl an den Player als Text aus
-	 */
-	public void diceMessage();
-	
-	
-	public void moveNotPossibleMessage();
-	
-	public void ownMeepleMessage();
-	
-	public void enemyMessage();
-	
-	public Content checkPosition(Position chosenPosition, Content content);
-	
+	public void message(String message);
+		
 
+	public Position chooseMeeple(Content content) throws NoMoveException;
 }
