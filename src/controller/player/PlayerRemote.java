@@ -26,8 +26,8 @@ public class PlayerRemote implements Player {
 		this.id = id;
 		
 		server.send("initialize");
-		server.send(id, "string");
-		server.send(content);
+		server.send(this.id, "string");
+		server.send(this.content);
 	}
 
 	public void enable(){

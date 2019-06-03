@@ -16,18 +16,15 @@ public class GameRemote implements Game {
 	private Board board;
 	private Player player;
 	private Client client;
-	private boolean status;
 
 	public GameRemote(Client client, Player player){
 		this.client = client;
 		this.player = player;
 
-		client.setOnSucceeded( (WorkerStateEvent t) -> { String s = (String) t.getSource().getValue(); client.reset(); try {
+		client.setOnSucceeded( (WorkerStateEvent t) -> { 
+			String s = (String) t.getSource().getValue(); client.reset(); 
 			process(s);
-		} catch (NoMoveException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}});
+		});
 		 
 		/*
 		 * client.setOnSucceeded(
@@ -52,10 +49,10 @@ public class GameRemote implements Game {
 	}
 
 	public void start() {
-		// TODO Auto-generated method stub
+		 
 	}
 
-	private void process(String s) throws NoMoveException{
+	private void process(String s){
 		switch(s){
 		case "initialize" : initialize(); break;
 		case "enable": enable(); break;
@@ -68,18 +65,9 @@ public class GameRemote implements Game {
 	}
 
 	public void listen(){
-	//	try {
 			client.start();
-			//process(client.listen());
-			//process(client.start());
-	//	} catch (NoMoveException e) {
-			// TODO Auto-generated catch block
-	//		e.printStackTrace();
-	//	}
 	}
-
 	
-
 	/**
 	 * Wenn "initialize" empfangen wird, wird ein Spieler erstellt und der Client gestartet (wartet auf Anweisungen)
 	 */
@@ -103,7 +91,6 @@ public class GameRemote implements Game {
 	 * @throws NoMoveException 
 	 */
 	public void enable() {
-		status = true;
 		this.board = client.receiveBoard();
 		player.enable();
 		//listen();
@@ -113,9 +100,8 @@ public class GameRemote implements Game {
 	 * Durchreichen von dem Befehl "disable", empfängt ein Board und ruft die entsprechende Methode im Spieler auf
 	 */
 	public void disable() {
-		status = false; 
 		this.board = client.receiveBoard();
-		player.disable();
+		this.player.disable();
 		listen();
 	}
 
@@ -142,7 +128,7 @@ public class GameRemote implements Game {
 	 */
 	public void win() {
 		this.board = client.receiveBoard();
-		player.win();
+		this.player.win();
 	}
 
 	/**
@@ -150,7 +136,7 @@ public class GameRemote implements Game {
 	 */
 	public void lose() {
 		this.board = client.receiveBoard();
-		player.lose();
+		this.player.lose();
 	}
 
 
@@ -169,7 +155,6 @@ public class GameRemote implements Game {
 		client.send("save");
 		client.send(string);
 	}
-
 
 	/** Methode sendet "load" an den Server
 	 * @see controller.game.Game#load()
@@ -192,7 +177,6 @@ public class GameRemote implements Game {
 	}
 
 	public Position chooseMeeple(Content content) {
-		
 		return null;
 	}
 
