@@ -49,6 +49,7 @@ public class PlayerKI implements Player {
 
 		if (meeplepos == 40 && end) {
 			throw new NoMoveException();
+			
 		}
 
 		return new Position (meeplepos);

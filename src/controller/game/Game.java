@@ -1,5 +1,6 @@
 package controller.game;
 
+
 import controller.exceptions.NoMoveException;
 import controller.exceptions.OwnMeepleException;
 import model.Board;
@@ -40,4 +41,5 @@ public interface Game {
 		
 
 	public Position chooseMeeple(Content content) throws NoMoveException;
+	
 }

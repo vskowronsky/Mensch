@@ -239,22 +239,22 @@ public class GameImplementation implements Game {
 
 				switch(status) {
 				case PLAYER1:
-					player1.message("Kein Zug ist möglich. Der nächste Spiel ist dran.");
+					player1.message("Kein Zug ist möglich. Der nächste Spieler ist dran.");
 					status = Status.PLAYER2;
 					player1.disable();
 					break;
 				case PLAYER2:
-					player2.message("Kein Zug ist möglich. Der nächste Spiel ist dran.");
+					player2.message("Kein Zug ist möglich. Der nächste Spieler ist dran.");
 					status = Status.PLAYER3;
 					player2.disable();
 					break;
 				case PLAYER3:
-					player3.message("Kein Zug ist möglich. Der nächste Spiel ist dran.");
+					player3.message("Kein Zug ist möglich. Der nächste Spieler ist dran.");
 					status = Status.PLAYER4;
 					player3.disable();
 					break;
 				case PLAYER4: 
-					player4.message("Kein Zug ist möglich. Der nächste Spiel ist dran.");
+					player4.message("Kein Zug ist möglich. Der nächste Spieler ist dran.");
 					status = Status.PLAYER1;
 					player4.disable();
 					break;
@@ -321,7 +321,7 @@ public class GameImplementation implements Game {
 	}
 
 
-	public Position chooseMeeple(Content content) throws NoMoveException {
+	public Position chooseMeeple(Content content) throws NoMoveException{
 		int chosen = -1;
 		Position chosenPosition;
 		while (chosen == -1) {

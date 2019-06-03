@@ -44,7 +44,6 @@ public class Client extends Service<String>
 	/**
 	 * Methode zum Lauschen auf eine Nachricht. Kann mit der Methode createTask als 
 	 * Hintergrundprozess gestartet werden
-	 * 
 	 * @return Einen String als Nachricht.
 	 */
 	public String listen(){
@@ -167,17 +166,16 @@ public class Client extends Service<String>
 		}
 	}
 
-	
+	/*
 	public void start(){
 		listen();
 	}
-	
+	*/
 	
 	/** 
 	 * Überschriebene Methode um einen Hintergrundprozess zu starten. 
 	 * @see javafx.concurrent.Service#createTask()
 	 */
-	@Override
 	protected Task<String> createTask() {
 		
 		return new Task<String>() {

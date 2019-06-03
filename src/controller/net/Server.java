@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import controller.exceptions.NoMoveException;
 import controller.player.PlayerRemote;
 import model.Board;
 import model.Content;
@@ -33,6 +34,7 @@ public class Server {
 						
 	/**
 	 * Methode um auf eine Nachricht vom Client zu warten und zu empfangen
+	 * @throws NoMoveException 
 	 */
 	public void listen(){
 		
@@ -55,8 +57,12 @@ public class Server {
 	 * Methode um eine Position zu empfangen
 	 * @return Die empfangene Position
 	 */
-	public Position receivePosition(){
+	public Position receivePosition() throws NoMoveException{
 		try {
+			String s = (String) in.readObject();
+			if (s.equals("NoMove")) {
+				throw new NoMoveException();
+			}
 			Position position = (Position) in.readObject();
 			System.out.println("Empfange Position " + position);
 			return position;

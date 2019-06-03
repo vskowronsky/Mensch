@@ -3,6 +3,7 @@ package controller.game;
 import controller.exceptions.NoMoveException;
 import controller.net.Client;
 import controller.player.Player;
+import javafx.concurrent.WorkerStateEvent;
 //import javafx.concurrent.WorkerStateEvent;
 //import javafx.event.EventHandler;
 import model.Board;
@@ -21,13 +22,13 @@ public class GameRemote implements Game {
 		this.client = client;
 		this.player = player;
 
-		/*client.setOnSucceeded( (WorkerStateEvent t) -> { String s = (String) t.getSource().getValue(); client.reset(); try {
+		client.setOnSucceeded( (WorkerStateEvent t) -> { String s = (String) t.getSource().getValue(); client.reset(); try {
 			process(s);
 		} catch (NoMoveException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}});
-		 */
+		 
 		/*
 		 * client.setOnSucceeded(
 				(WorkerStateEvent t) ->{
@@ -41,6 +42,7 @@ public class GameRemote implements Game {
     					case "choose" : chooseMeeple(); break;
     					case "win": win(); break;
     					case "lose": lose(); break;
+    					case "message": message(""); break;
 					}
 				});
 
@@ -66,12 +68,14 @@ public class GameRemote implements Game {
 	}
 
 	public void listen(){
-		try {
-			process(client.listen());
-		} catch (NoMoveException e) {
+	//	try {
+			client.start();
+			//process(client.listen());
+			//process(client.start());
+	//	} catch (NoMoveException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	//		e.printStackTrace();
+	//	}
 	}
 
 	
@@ -96,12 +100,13 @@ public class GameRemote implements Game {
 
 	/**
 	 * Durchreichen von dem Befehl "enable", empfängt ein Board und ruft die entsprechende Methode im Spieler auf
+	 * @throws NoMoveException 
 	 */
 	public void enable() {
 		status = true;
 		this.board = client.receiveBoard();
 		player.enable();
-		listen();
+		//listen();
 	}
 
 	/**
@@ -118,9 +123,18 @@ public class GameRemote implements Game {
 	 * Durchreichen von dem Befehl "choose", ruft die entsprechende Methode im Spieler auf
 	 * @throws NoMoveException 
 	 */
-	public void chooseMeeple() throws NoMoveException{
-		client.send(player.chooseMeeple(client.receiveDice()));
+	public void chooseMeeple(){
+		try {
+			Position p = player.chooseMeeple(client.receiveDice());
+			client.send("success");
+			client.send(p);
+		} catch (NoMoveException e) {
+			client.send("NoMove");
+		}
+		
+		finally {
 		listen();
+		}
 	}
 
 	/**
@@ -177,8 +191,9 @@ public class GameRemote implements Game {
 		listen();
 	}
 
-	public Position chooseMeeple(Content content) throws NoMoveException {
+	public Position chooseMeeple(Content content) {
 		
 		return null;
 	}
+
 }

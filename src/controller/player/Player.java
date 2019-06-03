@@ -10,7 +10,7 @@ public interface Player {
 	public void initialize(Content content, Game game, int id);
 	
 	/**
-	 * Enables the player for the next turn
+	 * Enables the player for the next turn 
 	 */
 	public void enable();
 	
