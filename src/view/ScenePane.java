@@ -3,6 +3,7 @@ package view;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
@@ -12,8 +13,8 @@ public class ScenePane extends BorderPane{
 
 	private PlayerPane playerPane;
 	private InfoPane infoPane;
-	/*private DicePane dicePane;
-	private int id;
+	private DicePane dicePane;
+	/*private int id;
 	private Color playerColor;
 	private ProgressBar progressBar;
 	private MenuBar menuBar;
@@ -26,33 +27,14 @@ public class ScenePane extends BorderPane{
 	*/
 	
 //in den Konstruktor die DicePane und InfoPane geben
-	public ScenePane(PlayerPane playerPane, InfoPane infoPane) {
+	public ScenePane(PlayerPane playerPane, InfoPane infoPane, DicePane dicePane) {
 		super();
 		this.playerPane = playerPane;
 		this.infoPane = infoPane;
-		/*this.dicePane = dicePane;
-		this.id = id;
+		this.dicePane = dicePane;
+		//this.id = id;
 		
-		if(id == 1) {
-			playerColor = Color.YELLOW;
-		} else if(id == 2) {
-			playerColor = Color.GREEN;
-		} else if(id == 3) {
-			playerColor = Color.BLUE;
-		} else if(id == 4) {
-			playerColor = Color.DARKRED;
-		}
 		
-		 this.menuBar = menuBar;
-		*progressBar = new ProgressBar();
-		*progressBar.setPrefWidth(120);
-		*label = new Label("");
-		*int id1 = id%2 +1;
-		*labelDisable = "Warten auf Spieler " + id1;
-		*labelEnable = "Machen Sie Ihren Zug";
-		*labelWin = "Sie haben gewonnen!";
-		*labelLose = "Sie haben verloren!";
-		*/
 		init();
 		//this.getChildren().add(menuBar);
 	}
@@ -61,10 +43,18 @@ public class ScenePane extends BorderPane{
 	private void init(){
 		AnchorPane center = new AnchorPane();
 		center.getChildren().addAll(playerPane, infoPane);
+		
 		AnchorPane.setTopAnchor(playerPane, 20.);
 		AnchorPane.setLeftAnchor(playerPane, 20.);
-		AnchorPane.setBottomAnchor(infoPane, 990.);
 		this.setCenter(center);
+		
+		VBox rightBox = new VBox();
+		
+		rightBox.getChildren().addAll(dicePane, infoPane);
+		
+		this.setRight(rightBox); 
+		
+		
 	}
 	
 	/*public void disable(){
@@ -85,5 +75,7 @@ public class ScenePane extends BorderPane{
 		label.setText(labelLose);
 	}
 */
+	
+	
 
 }
