@@ -29,7 +29,6 @@ public class GameImplementation implements Game {
 		this.player3.initialize(Content.BLUE, this, 3);
 		this.player4.initialize(Content.RED, this, 4);
 		this.status = Status.PLAYER1;
-		player1.enable();
 	}
 
 	public void start() {
@@ -59,10 +58,10 @@ public class GameImplementation implements Game {
 
 	@Override
 	public void update() {
-counter++;
+		counter++;
 		board.diceThrow();
 		first = true;
-		
+
 		do {
 			try {
 				error = true;
@@ -71,30 +70,30 @@ counter++;
 					if (board.checkStartFree(Content.YELLOW) && first) {
 						first = false;
 						board.setStart(status, this);
-						player1.freeStart();
+						player1.message("Das Startfeld war belegt und musste vorrangig gespielt werden.");
 					} else 
 						if (board.checkThreeThrows(Content.YELLOW)) {
-						player1.diceResult();
-						first = false;
-						board.leaveHouse(status, this);
-					} else if (dice() == 6 && board.checkNumHouse(status)) {
-						player1.diceResult();
-						first = false;
-						board.leaveHouse(status, this);
-					} else if (dice () == 6 && board.checkDoubleDice(status)) {
-						board.setMeeple(player1.chooseMeeple(), Content.YELLOW, this);
-						
-						board.diceThrow();
-						player1.doubleDiceResult();
-						
-						board.setMeeple(player1.chooseMeeple(), Content.YELLOW, this);
-					}else {
-						if (board.setMeeple(player1.chooseMeeple(), Content.YELLOW, this)) {
-							
-						} else {
-							throw new MoveStreetException();						
+							player1.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
+							first = false;
+							board.leaveHouse(status, this);
+						} else if (board.getDiceValue() == 6 && board.checkNumHouse(status) && first) {
+							player1.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
+							first = false;
+							board.leaveHouse(status, this);
+						} else if (board.getDiceValue() == 6 && board.checkDoubleDice(status)) {
+							board.setMeeple(chooseMeeple(Content.YELLOW), Content.YELLOW, this);
+
+							board.diceThrow();
+							player1.message("Sie dürfen nochmal würfeln. Sie haben eine " + board.getDiceValue() + " gewürfelt");
+
+							board.setMeeple(chooseMeeple(Content.YELLOW), Content.YELLOW, this);
+						}else {
+							if (board.setMeeple(chooseMeeple(Content.YELLOW), Content.YELLOW, this)) {
+
+							} else {
+								throw new MoveStreetException();						
+							}
 						}
-					}
 					status = Status.PLAYER2;
 					player1.disable();
 					break;
@@ -103,30 +102,30 @@ counter++;
 					if (board.checkStartFree(Content.GREEN) && first) {
 						first = false;
 						board.setStart(status, this);
-						player2.freeStart();
+						player2.message("Das Startfeld war belegt und musste vorrangig gespielt werden.");
 					} else 
 						if (board.checkThreeThrows(Content.GREEN)) {
-						player2.diceResult();
-						first = false;
-						board.leaveHouse(status, this);
-					} else if (dice() == 6 && board.checkNumHouse(status)) {
-						player2.diceResult();
-						first = false;
-						board.leaveHouse(status, this);
-					} else if (dice () == 6 && board.checkDoubleDice(status)) {
-						board.setMeeple(player2.chooseMeeple(), Content.GREEN, this);
-						
-						board.diceThrow();
-						player2.doubleDiceResult();
-						
-						board.setMeeple(player2.chooseMeeple(), Content.GREEN, this);
-					} else {
-						if (board.setMeeple(player2.chooseMeeple(), Content.GREEN, this)) {
-							
+							player2.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
+							first = false;
+							board.leaveHouse(status, this);
+						} else if (board.getDiceValue() == 6 && board.checkNumHouse(status) && first) {
+							player2.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
+							first = false;
+							board.leaveHouse(status, this);
+						} else if (board.getDiceValue() == 6 && board.checkDoubleDice(status)) {
+							board.setMeeple(chooseMeeple(Content.GREEN), Content.GREEN, this);
+
+							board.diceThrow();
+							player2.message("Sie dürfen nochmal würfeln. Sie haben eine " + board.getDiceValue() + " gewürfelt");
+
+							board.setMeeple(chooseMeeple(Content.GREEN), Content.GREEN, this);
 						} else {
-							throw new MoveStreetException();
+							if (board.setMeeple(chooseMeeple(Content.GREEN), Content.GREEN, this)) {
+
+							} else {
+								throw new MoveStreetException();
+							}
 						}
-					}
 					status = Status.PLAYER3;
 					player2.disable();
 					break;
@@ -135,31 +134,31 @@ counter++;
 					if (board.checkStartFree(Content.BLUE) && first) {
 						first = false;
 						board.setStart(status, this);
-						player3.freeStart();
+						player3.message("Das Startfeld war belegt und musste vorrangig gespielt werden.");
 					} else 
 						if (board.checkThreeThrows(Content.BLUE)) {
-						player3.diceResult();
-						first = false;
-						board.leaveHouse(status, this);
-					} else if (dice() == 6 && board.checkNumHouse(status)) {
-						player3.diceResult();
-						first = false;
-						board.leaveHouse(status, this);
-					} else if (dice () == 6 && board.checkDoubleDice(status)) {
-						board.setMeeple(player3.chooseMeeple(), Content.BLUE, this);
-						
-						board.diceThrow();
-						player3.doubleDiceResult();
-						
-						board.setMeeple(player3.chooseMeeple(), Content.BLUE, this);	
-						
-					} else {
-						if (board.setMeeple(player3.chooseMeeple(), Content.BLUE, this)) {
-							
+							player3.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
+							first = false;
+							board.leaveHouse(status, this);
+						} else if (board.getDiceValue() == 6 && board.checkNumHouse(status) && first) {
+							player3.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
+							first = false;
+							board.leaveHouse(status, this);
+						} else if (board.getDiceValue() == 6 && board.checkDoubleDice(status)) {
+							board.setMeeple(chooseMeeple(Content.BLUE), Content.BLUE, this);
+
+							board.diceThrow();
+							player3.message("Sie dürfen nochmal würfeln. Sie haben eine " + board.getDiceValue() + " gewürfelt");
+
+							board.setMeeple(chooseMeeple(Content.BLUE), Content.BLUE, this);	
+
 						} else {
-							throw new MoveStreetException();
+							if (board.setMeeple(chooseMeeple(Content.BLUE), Content.BLUE, this)) {
+
+							} else {
+								throw new MoveStreetException();
+							}
 						}
-					}
 					status = Status.PLAYER4;
 					player3.disable();
 					break;
@@ -168,66 +167,67 @@ counter++;
 					if (board.checkStartFree(Content.RED) && first) {
 						first = false;
 						board.setStart(status, this);
-						player4.freeStart();
+						player4.message("Das Startfeld war belegt und musste vorrangig gespielt werden.");
 					} else 
 						if (board.checkThreeThrows(Content.RED)) {
-						player4.diceResult();
-						first = false;
-						board.leaveHouse(status, this);
-					} else if (dice() == 6 && board.checkNumHouse(status)) {
-						player4.diceResult();
-						first = false;
-						board.leaveHouse(status, this);
-					} else if (dice () == 6 && board.checkDoubleDice(status)) {
-						board.setMeeple(player4.chooseMeeple(), Content.RED, this);
-						
-						board.diceThrow();
-						player4.doubleDiceResult();
-						
-						board.setMeeple(player4.chooseMeeple(), Content.RED, this);
-					} else {
-						if (board.setMeeple(player4.chooseMeeple(), Content.RED, this)) {
-							
+							player4.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
+							first = false;
+							board.leaveHouse(status, this);
+						} else if (board.getDiceValue() == 6 && board.checkNumHouse(status) && first) {
+							player4.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
+							first = false;
+							board.leaveHouse(status, this);
+						} else if (board.getDiceValue() == 6 && board.checkDoubleDice(status)) {
+							board.setMeeple(chooseMeeple(Content.RED), Content.RED, this);
+
+							board.diceThrow();
+							player4.message("Sie dürfen nochmal würfeln. Sie haben eine " + board.getDiceValue() + " gewürfelt");
+
+
+							board.setMeeple(chooseMeeple(Content.RED), Content.RED, this);
 						} else {
-							
-							throw new MoveStreetException();
+							if (board.setMeeple(chooseMeeple(Content.RED), Content.RED, this)) {
+
+							} else {
+
+								throw new MoveStreetException();
+							}
 						}
-					}
 					status = Status.PLAYER1;
 					player4.disable();
 					break;
-					
-					default: break;
+
+				default: break;
 				}
 				error = false;
 
 			} catch (OwnMeepleException e) {
-				ownMeepleMessage();
+				message("Sie können sich nicht selber vom Spielbrett werfen.");
 			}
 			catch (MoveStreetException e) {
-				moveNotPossibleMessage();
+				message("Spielzug nicht möglich. Wählen Sie eine andere Figur.");
 			}
 			catch (MissedEnemyException e) {
 				error = false;
-				
+
 				switch(status) {
 				case PLAYER1:
-					player1.missedEnemyResult();
+					player1.message("Sie haben verpasst einen Gegner zu schlagen. Dafür wurde Ihre Figur zurück ins Haus gesetzt.");
 					status = Status.PLAYER2;
 					player1.disable();
 					break;
 				case PLAYER2:
-					player2.missedEnemyResult();
+					player2.message("Sie haben verpasst einen Gegner zu schlagen. Dafür wurde Ihre Figur zurück ins Haus gesetzt.");
 					status = Status.PLAYER3;
 					player2.disable();
 					break;
 				case PLAYER3:
-					player3.missedEnemyResult();
+					player3.message("Sie haben verpasst einen Gegner zu schlagen. Dafür wurde Ihre Figur zurück ins Haus gesetzt.");
 					status = Status.PLAYER4;
 					player3.disable();
 					break;
 				case PLAYER4: 
-					player4.missedEnemyResult();
+					player4.message("Sie haben verpasst einen Gegner zu schlagen. Dafür wurde Ihre Figur zurück ins Haus gesetzt.");
 					status = Status.PLAYER1;
 					player4.disable();
 					break;
@@ -236,25 +236,25 @@ counter++;
 			}
 			catch (NoMoveException e) {
 				error = false;
-				
+
 				switch(status) {
 				case PLAYER1:
-					player1.noMoveAtAll();
+					player1.message("Kein Zug ist möglich. Der nächste Spieler ist dran.");
 					status = Status.PLAYER2;
 					player1.disable();
 					break;
 				case PLAYER2:
-					player2.noMoveAtAll();
+					player2.message("Kein Zug ist möglich. Der nächste Spieler ist dran.");
 					status = Status.PLAYER3;
 					player2.disable();
 					break;
 				case PLAYER3:
-					player3.noMoveAtAll();
+					player3.message("Kein Zug ist möglich. Der nächste Spieler ist dran.");
 					status = Status.PLAYER4;
 					player3.disable();
 					break;
 				case PLAYER4: 
-					player4.noMoveAtAll();
+					player4.message("Kein Zug ist möglich. Der nächste Spieler ist dran.");
 					status = Status.PLAYER1;
 					player4.disable();
 					break;
@@ -302,8 +302,6 @@ counter++;
 		} else if (status == Status.PLAYER4) {
 			player4.enable();
 		}
-
-		
 	}
 
 	public void save(String fileName) {
@@ -322,53 +320,67 @@ counter++;
 		return board;
 	}
 
-	public Content checkPosition(Position chosenPosition, Content content) {
-		return board.checkPosition(chosenPosition, content);
+
+	public Position chooseMeeple(Content content) throws NoMoveException{
+		int chosen = -1;
+		Position chosenPosition;
+		while (chosen == -1) {
+			switch (content) {
+
+			case YELLOW: 			
+				chosenPosition = player1.chooseMeeple(board.getDiceValue());
+				if (content == board.checkPosition(chosenPosition, content)) {
+					return chosenPosition;
+				}else {
+					player1.message("Bitte wählen Sie ein Feld mit einer Ihrer noch bewegbaren Figuren aus.");
+					chosen = -1;
+				}
+				break;
+
+			case GREEN: 			
+				chosenPosition = player2.chooseMeeple(board.getDiceValue());
+				if (content == board.checkPosition(chosenPosition, content)) {
+					return chosenPosition;
+				}else {
+					player2.message("Bitte wählen Sie ein Feld mit einer Ihrer noch bewegbaren Figuren aus.");
+					chosen = -1;
+				}
+				break;
+
+			case BLUE: 			
+				chosenPosition = player3.chooseMeeple(board.getDiceValue());
+				if (content == board.checkPosition(chosenPosition, content)) {
+					return chosenPosition;
+				}else {
+					player3.message("Bitte wählen Sie ein Feld mit einer Ihrer noch bewegbaren Figuren aus.");
+					chosen = -1;
+				}
+				break;
+
+			case RED: 			
+				chosenPosition = player4.chooseMeeple(board.getDiceValue());
+				if (content == board.checkPosition(chosenPosition, content)) {
+					return chosenPosition;
+				}else {
+					player4.message("Bitte wählen Sie ein Feld mit einer Ihrer noch bewegbaren Figuren aus.");
+					chosen = -1;
+					}
+				break;
+			default: break;
+			}
+		}
+		return null;
+
 	}
 
-	public int dice() {
-		return board.getDiceValue();
-	}
-
-	
-	public void diceMessage() {
+	public void message(String message) {
 		switch (status) {
-		case PLAYER1: player1.diceResult(); break;
-		case PLAYER2: player2.diceResult(); break;
-		case PLAYER3: player3.diceResult(); break;
-		case PLAYER4: player4.diceResult(); break;
+
+		case PLAYER1: player1.message(message); break;
+		case PLAYER2: player2.message(message); break;
+		case PLAYER3: player3.message(message); break;
+		case PLAYER4: player4.message(message); break;
 		default: break;
 		}
 	}
-
-	public void moveNotPossibleMessage() {
-		switch (status) {
-		case PLAYER1: player1.moveNotPossible(); break;
-		case PLAYER2: player2.moveNotPossible(); break;
-		case PLAYER3: player3.moveNotPossible(); break;
-		case PLAYER4: player4.moveNotPossible(); break;
-		default: break;
-		}
-	}
-
-	public void ownMeepleMessage() {
-		switch (status) {
-		case PLAYER1: player1.throwOwnMeeple(); break;
-		case PLAYER2: player2.throwOwnMeeple(); break;
-		case PLAYER3: player3.throwOwnMeeple(); break;
-		case PLAYER4: player4.throwOwnMeeple(); break;
-		default: break;
-		}
-	}
-
-	public void enemyMessage() {
-		switch (status) {
-		case PLAYER1: player1.enemyResult(); break;
-		case PLAYER2: player2.enemyResult(); break;
-		case PLAYER3: player3.enemyResult(); break;
-		case PLAYER4: player4.enemyResult(); break;
-		default: break;
-		}
-	}
-
 }

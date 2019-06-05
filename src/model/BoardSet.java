@@ -318,11 +318,13 @@ public class BoardSet extends Board implements Serializable {
 		if (checkEnemy(content, newPosition) == 1) {
 			throw new OwnMeepleException();
 		}else if (checkEnemy(content, newPosition) == 2) {
+			
+			String message = "Eine Figur wurde geworfen.";
 			switch(board[newPosition.getIndex()]) {
-			case YELLOW: houseY++; game.enemyMessage(); break;
-			case GREEN: houseG++; game.enemyMessage(); break;
-			case BLUE: houseB++; game.enemyMessage(); break;
-			case RED: houseR++; game.enemyMessage(); break;
+			case YELLOW: houseY++; game.message(message); break;
+			case GREEN: houseG++; game.message(message); break;
+			case BLUE: houseB++; game.message(message); break;
+			case RED: houseR++; game.message(message); break;
 			default:
 				break;}
 		}
@@ -343,13 +345,13 @@ public class BoardSet extends Board implements Serializable {
 					diceValue = dice.throwDice();
 					//Benachrichtigt die Spiellogik, dem Spieler mitzuteilen,
 					// dass der Würfel neu gesetzt wurde;
-					game.diceMessage();
+					game.message("Sie haben eine " + diceValue + " gewürfelt.");
 					setMeeple(STARTY, Content.YELLOW, game);
 					break;
 				} else {
 					throwCount++;
 					diceValue = dice.throwDice();
-					game.diceMessage();
+					game.message("Sie haben eine " + diceValue + " gewürfelt.");
 				}
 			}
 			break;
@@ -363,13 +365,13 @@ public class BoardSet extends Board implements Serializable {
 					diceValue = dice.throwDice();
 					//Benachrichtigt die Spiellogik, dem Spieler mitzuteilen,
 					// dass der Würfel neu gesetzt wurde;
-					game.diceMessage();
+					game.message("Sie haben eine " + diceValue + " gewürfelt.");
 					setMeeple(STARTG, Content.GREEN, game);
 					break;
 				} else {
 					throwCount++;
 					diceValue = dice.throwDice();
-					game.diceMessage();
+					game.message("Sie haben eine " + diceValue + " gewürfelt.");
 				}
 			}
 			break;
@@ -383,13 +385,14 @@ public class BoardSet extends Board implements Serializable {
 					diceValue = dice.throwDice();
 					//Benachrichtigt die Spiellogik, dem Spieler mitzuteilen,
 					// dass der Würfel neu gesetzt wurde;
-					game.diceMessage();
+					game.message("Sie haben eine " + diceValue + " gewürfelt.");
 					setMeeple(STARTB, Content.BLUE, game);
 					break;
 				} else {
 					throwCount++;
 					diceValue = dice.throwDice();
-					game.diceMessage();
+					game.message("Sie haben eine " + diceValue + " gewürfelt.");
+					
 				}
 			}
 			break;
@@ -403,13 +406,13 @@ public class BoardSet extends Board implements Serializable {
 					diceValue = dice.throwDice();
 					//Benachrichtigt die Spiellogik, dem Spieler mitzuteilen,
 					// dass der Würfel neu gesetzt wurde;
-					game.diceMessage();
+					game.message("Sie haben eine " + diceValue + " gewürfelt.");
 					setMeeple(STARTR, Content.RED, game);
 					break;
 				} else {
 					throwCount++;
 					diceValue = dice.throwDice();
-					game.diceMessage();
+					game.message("Sie haben eine " + diceValue + " gewürfelt.");
 				}
 			}	
 			break;

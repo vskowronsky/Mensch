@@ -44,13 +44,12 @@ public class Client extends Service<String>
 	/**
 	 * Methode zum Lauschen auf eine Nachricht. Kann mit der Methode createTask als 
 	 * Hintergrundprozess gestartet werden
-	 * 
 	 * @return Einen String als Nachricht.
 	 */
 	public String listen(){
 		System.out.println("Warte auf Anweisung");
 		String s = receiveString();
-		System.out.println(s);
+//		System.out.println(s);
 		return s;
 	}
 	
@@ -100,7 +99,7 @@ public class Client extends Service<String>
 	 * Methode um ein int zu empfangen.
 	 * @return Gibt den empfangenen int zurück
 	 */
-	public int receiveInt(){
+	public int receiveID(){
 		int id = 0;
 		try {
 			id= in.readInt();
@@ -109,6 +108,17 @@ public class Client extends Service<String>
 			e.printStackTrace();
 		}
 		return id;
+	}
+	
+	public int receiveDice(){
+		int dice = 0;
+		try {
+			dice = in.readInt();
+			System.out.println("Empfange W�rfel " + dice);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return dice;
 	}
 	
 	
@@ -147,7 +157,7 @@ public class Client extends Service<String>
 	 */
 	public void send(Position position){
 		try {
-			System.out.println("Sende Position " + position);
+			System.out.println("Sende Position " + position.getIndex());
 			out.reset();
 			out.writeObject(position);
 			out.flush();
@@ -156,18 +166,16 @@ public class Client extends Service<String>
 		}
 	}
 
-	
+	/*
 	public void start(){
 		listen();
 	}
-	
-	
+	*/
 	
 	/** 
 	 * Überschriebene Methode um einen Hintergrundprozess zu starten. 
 	 * @see javafx.concurrent.Service#createTask()
 	 */
-	@Override
 	protected Task<String> createTask() {
 		
 		return new Task<String>() {
@@ -176,7 +184,5 @@ public class Client extends Service<String>
 			}
         };
 	}
-  
-
 }
 
