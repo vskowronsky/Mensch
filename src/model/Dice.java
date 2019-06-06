@@ -26,5 +26,4 @@ public int throwDice() {
 	return diceValue;
 }
 
-//huhu
 }
