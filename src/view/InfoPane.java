@@ -31,9 +31,9 @@ public class InfoPane extends BorderPane {
 		if(id == 1) {
 			playerColor = Color.YELLOW;
 		} else if(id == 2) {
-			playerColor = Color.GREEN;
+			playerColor = Color.MEDIUMSEAGREEN;
 		} else if(id == 3) {
-			playerColor = Color.BLUE;
+			playerColor = Color.ROYALBLUE;
 		} else if(id == 4) {
 			playerColor = Color.DARKRED;
 		}
@@ -68,4 +68,24 @@ public class InfoPane extends BorderPane {
 		
 		this.setBottom(bottomBox);
 	}
+	
+	
+	public void disable() {
+		label.setText(labelDisable);
+		progressBar.setProgress(-1);
+	}
+
+	public void enable() {
+		label.setText(labelEnable);
+		progressBar.setProgress(1);
+	}
+
+	public void win() {
+		label.setText(labelWin);
+	}
+
+	public void lose() {
+		label.setText(labelLose);
+	}
+	 
 }

@@ -20,28 +20,6 @@ public class PlayerPane extends Pane{
 	public PlayerPane() {
 		super();
 		this.board = new Board();
-		int unit = width/11;
-		/*
-		Rectangle rHY2 = new Rectangle(100, 30,unit/2, unit/2);
-		Rectangle rHY3= new Rectangle(50, 400,unit/2, unit/2);
-		Rectangle rHY4= new Rectangle(700, 30,unit/2, unit/2);
-		Rectangle rHY5 = new Rectangle(50, 250, unit/2, unit/2);
-		*/
-		
-//		Circle circle1 = new Circle(x, y, unit/3, Color.WHITE);
-//		circle1.setStroke(Color.BLACK);
-//		
-		//Polygon triangle = new Polygon();
-		//triangle.getPoints().addAll(50.0, 0.0, 0.0, 50.0, 100.0, 50.0);
-		//triangle.setFill(Color.BLACK);
-		//triangle.setStroke(Color.RED); 
-
-		
-		
-		
-		
-//		getChildren().addAll(circle1);
-		
 		init();
 	}
 
@@ -155,14 +133,15 @@ public class PlayerPane extends Pane{
 		Line line1 = new Line(4.5*unit, 6.5*unit, 4.5*unit, 6.5*unit);
 		Line line2 = new Line(4.5*unit, 6.5*unit, 0.5*unit, 6.5*unit);
 		Line line3 = new Line(0.5*unit, 6.5*unit, 0.5*unit, 4.5*unit);
-		Line line4 = new Line(4.5*unit, 4.5*unit, 4.5*unit, 0.5*unit);
-		Line line5 = new Line(4.5*unit, 0.5*unit, 6.5*unit, 0.5*unit);
-		Line line6 = new Line(6.5*unit, 0.5*unit, 6.5*unit, 4.5*unit);
-		Line line7 = new Line(6.5*unit, 4.5*unit, 10.5*unit, 4.5*unit);
-		Line line8 = new Line(10.5*unit, 4.5*unit, 10.5*unit, 6.5*unit);
-		Line line9 = new Line(10.5*unit, 6.5*unit, 6.5*unit, 6.5*unit);
-		Line line10 = new Line(6.5*unit, 6.5*unit, 6.5*unit, 10.5*unit);
-		Line line11 = new Line(6.5*unit, 10.5*unit, 4.5*unit, 10.5*unit);
+		Line line4 = new Line(0.5*unit, 4.5*unit, 4.5*unit, 4.5*unit);
+		Line line5 = new Line(4.5*unit, 4.5*unit, 4.5*unit, 0.5*unit);
+		Line line6 = new Line(4.5*unit, 0.5*unit, 6.5*unit, 0.5*unit);
+		Line line7 = new Line(6.5*unit, 0.5*unit, 6.5*unit, 4.5*unit);
+		Line line8 = new Line(6.5*unit, 4.5*unit, 10.5*unit, 4.5*unit);
+		Line line9 = new Line(10.5*unit, 4.5*unit, 10.5*unit, 6.5*unit);
+		Line line10 = new Line(10.5*unit, 6.5*unit, 6.5*unit, 6.5*unit);
+		Line line11 = new Line(6.5*unit, 6.5*unit, 6.5*unit, 10.5*unit);
+		Line line12 = new Line(6.5*unit, 10.5*unit, 4.5*unit, 10.5*unit);
 		
 		//Vertikale Kreise 0-4
 		Circle circle0 = new Circle(4.5*unit, 10.5*unit, size/2);
@@ -336,7 +315,7 @@ public class PlayerPane extends Pane{
 		circle39.setFill(Color.WHITE);
 		circle39.setStroke(Color.BLACK);
 		
-		getChildren().addAll(line0,line1, line2, line3, line4, line5, line6, line7, line8, line9, line10, line11,
+		getChildren().addAll(line0,line1, line2, line3, line4, line5, line6, line7, line8, line9, line10, line11, line12,
 							circle0, circle1, circle2, circle3, circle4, circle5,  circle6, circle7, circle8,circle9, 
 							circle10, circle11, circle12, circle13, circle14, circle15, circle16, circle17, circle18, circle19, 
 							circle20, circle21, circle22, circle23, circle24, circle25, circle26, circle27, circle28, circle29, 
