@@ -19,28 +19,6 @@ public class PlayerPane extends Pane{
 	public PlayerPane() {
 		super();
 		this.board = new Board();
-		int unit = width/11;
-		/*
-		Rectangle rHY2 = new Rectangle(100, 30,unit/2, unit/2);
-		Rectangle rHY3= new Rectangle(50, 400,unit/2, unit/2);
-		Rectangle rHY4= new Rectangle(700, 30,unit/2, unit/2);
-		Rectangle rHY5 = new Rectangle(50, 250, unit/2, unit/2);
-		*/
-		
-//		Circle circle1 = new Circle(x, y, unit/3, Color.WHITE);
-//		circle1.setStroke(Color.BLACK);
-//		
-		//Polygon triangle = new Polygon();
-		//triangle.getPoints().addAll(50.0, 0.0, 0.0, 50.0, 100.0, 50.0);
-		//triangle.setFill(Color.BLACK);
-		//triangle.setStroke(Color.RED); 
-
-		
-		
-		
-		
-//		getChildren().addAll(circle1);
-		
 		init();
 	}
 
