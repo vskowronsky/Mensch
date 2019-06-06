@@ -144,38 +144,202 @@ public class PlayerPane extends Pane{
 	
 	private void initBoard() {
 		int unit = width/11;
-		int x = unit/2;
-		int y = width/2;
-		//int size = unit*0.9;
+		//int x = unit/2;
+		//int y = width/2;
+		double size = unit*0.9;
+	
+		//Verbindungslinien
+		Line line0 = new Line(4.5*unit, 10.5*unit, 4.5*unit, 6.5*unit);
+		Line line1 = new Line(4.5*unit, 6.5*unit, 4.5*unit, 6.5*unit);
+		Line line2 = new Line(4.5*unit, 6.5*unit, 0.5*unit, 6.5*unit);
+		Line line3 = new Line(0.5*unit, 6.5*unit, 0.5*unit, 4.5*unit);
+		Line line4 = new Line(4.5*unit, 4.5*unit, 4.5*unit, 0.5*unit);
+		Line line5 = new Line(4.5*unit, 0.5*unit, 6.5*unit, 0.5*unit);
+		Line line6 = new Line(6.5*unit, 0.5*unit, 6.5*unit, 4.5*unit);
+		Line line7 = new Line(6.5*unit, 4.5*unit, 10.5*unit, 4.5*unit);
+		Line line8 = new Line(10.5*unit, 4.5*unit, 10.5*unit, 6.5*unit);
+		Line line9 = new Line(10.5*unit, 6.5*unit, 6.5*unit, 6.5*unit);
+		Line line10 = new Line(6.5*unit, 6.5*unit, 6.5*unit, 10.5*unit);
+		Line line11 = new Line(6.5*unit, 10.5*unit, 4.5*unit, 10.5*unit);
 		
-//		Line line = new Line(x, y, 21*x, y);
-//		Line line2 = new Line(y, x, y, x*21);
-//		getChildren().addAll(line, line2);
+		//Vertikale Kreise 0-4
+		Circle circle0 = new Circle(4.5*unit, 10.5*unit, size/2);
+		circle0.setFill(Color.WHITE);
+		circle0.setStroke(Color.BLACK);
 		
-		Circle circle1 = new Circle(unit, 6*unit, unit/2);
+		Circle circle1 = new Circle(4.5*unit, 9.5*unit, size/2);
 		circle1.setFill(Color.WHITE);
 		circle1.setStroke(Color.BLACK);
 		
+		Circle circle2 = new Circle(4.5*unit, 8.5*unit, size/2);
+		circle2.setFill(Color.WHITE);
+		circle2.setStroke(Color.BLACK);
 		
+		Circle circle3 = new Circle(4.5*unit, 7.5*unit, size/2);
+		circle3.setFill(Color.WHITE);
+		circle3.setStroke(Color.BLACK);
 		
+		Circle circle4 = new Circle(4.5*unit, 6.5*unit, size/2);
+		circle4.setFill(Color.WHITE);
+		circle4.setStroke(Color.BLACK); 
 		
-//		for(int i = 1; i <= 11; i++) {
-//			Circle circle1 = new Circle(x, y, unit/3, Color.WHITE);
-//			Circle circle2 = new Circle(y, x, unit/3, Color.WHITE);
-//			circle1.setStroke(Color.BLACK);
-//			circle1.setStrokeWidth(3);
-//			circle2.setStroke(Color.BLACK);
-//			circle2.setStrokeWidth(3);
-//			x = x + unit;
-//			getChildren().addAll(circle1, circle2);
-//		}
+		//Horizontale Kreise 5-8
+		Circle circle5 = new Circle(3.5*unit, 6.5*unit, size/2);
+		circle5.setFill(Color.WHITE);
+		circle5.setStroke(Color.BLACK); 
 		
+		Circle circle6 = new Circle(2.5*unit, 6.5*unit, size/2);
+		circle6.setFill(Color.WHITE);
+		circle6.setStroke(Color.BLACK); 
 		
-		getChildren().addAll(circle1);
+		Circle circle7 = new Circle(1.5*unit, 6.5*unit, size/2);
+		circle7.setFill(Color.WHITE);
+		circle7.setStroke(Color.BLACK); 
 		
+		Circle circle8 = new Circle(0.5*unit, 6.5*unit, size/2);
+		circle8.setFill(Color.WHITE);
+		circle8.setStroke(Color.BLACK); 
 		
+		//einzelner Kreis 9
+		Circle circle9 = new Circle(0.5*unit, 5.5*unit, size/2);
+		circle9.setFill(Color.WHITE);
+		circle9.setStroke(Color.BLACK);
 		
+		//Horizontale Kreise 10-13
+		Circle circle10 = new Circle(0.5*unit, 4.5*unit, size/2);
+		circle10.setFill(Color.WHITE);
+		circle10.setStroke(Color.BLACK);
 		
+		Circle circle11 = new Circle(1.5*unit, 4.5*unit, size/2);
+		circle11.setFill(Color.WHITE);
+		circle11.setStroke(Color.BLACK);
+		
+		Circle circle12 = new Circle(2.5*unit, 4.5*unit, size/2);
+		circle12.setFill(Color.WHITE);
+		circle12.setStroke(Color.BLACK);
+		
+		Circle circle13 = new Circle(3.5*unit, 4.5*unit, size/2);
+		circle13.setFill(Color.WHITE);
+		circle13.setStroke(Color.BLACK);
+		
+		//Vertikale Kreise 14-18
+		Circle circle14 = new Circle(4.5*unit, 4.5*unit, size/2);
+		circle14.setFill(Color.WHITE);
+		circle14.setStroke(Color.BLACK);
+		
+		Circle circle15 = new Circle(4.5*unit, 3.5*unit, size/2);
+		circle15.setFill(Color.WHITE);
+		circle15.setStroke(Color.BLACK);
+		
+		Circle circle16 = new Circle(4.5*unit, 2.5*unit, size/2);
+		circle16.setFill(Color.WHITE);
+		circle16.setStroke(Color.BLACK);
+		
+		Circle circle17 = new Circle(4.5*unit, 1.5*unit, size/2);
+		circle17.setFill(Color.WHITE);
+		circle17.setStroke(Color.BLACK);
+		
+		Circle circle18 = new Circle(4.5*unit, 0.5*unit, size/2);
+		circle18.setFill(Color.WHITE);
+		circle18.setStroke(Color.BLACK);
+		
+		//einzelner Kreis19
+		Circle circle19 = new Circle(5.5*unit, 0.5*unit, size/2);
+		circle19.setFill(Color.WHITE);
+		circle19.setStroke(Color.BLACK);
+		
+		//Vertikale Kreise 20-24
+		Circle circle20 = new Circle(6.5*unit, 0.5*unit, size/2);
+		circle20.setFill(Color.WHITE);
+		circle20.setStroke(Color.BLACK);
+		
+		Circle circle21 = new Circle(6.5*unit, 1.5*unit, size/2);
+		circle21.setFill(Color.WHITE);
+		circle21.setStroke(Color.BLACK);
+		
+		Circle circle22 = new Circle(6.5*unit, 2.5*unit, size/2);
+		circle22.setFill(Color.WHITE);
+		circle22.setStroke(Color.BLACK);
+		
+		Circle circle23 = new Circle(6.5*unit, 3.5*unit, size/2);
+		circle23.setFill(Color.WHITE);
+		circle23.setStroke(Color.BLACK);
+		
+		Circle circle24 = new Circle(6.5*unit, 4.5*unit, size/2);
+		circle24.setFill(Color.WHITE);
+		circle24.setStroke(Color.BLACK);
+		
+		//Horizontale Kreise 25-28
+		Circle circle25 = new Circle(7.5*unit, 4.5*unit, size/2);
+		circle25.setFill(Color.WHITE);
+		circle25.setStroke(Color.BLACK);
+		
+		Circle circle26 = new Circle(8.5*unit, 4.5*unit, size/2);
+		circle26.setFill(Color.WHITE);
+		circle26.setStroke(Color.BLACK);
+		
+		Circle circle27 = new Circle(9.5*unit, 4.5*unit, size/2);
+		circle27.setFill(Color.WHITE);
+		circle27.setStroke(Color.BLACK);
+		
+		Circle circle28 = new Circle(10.5*unit, 4.5*unit, size/2);
+		circle28.setFill(Color.WHITE);
+		circle28.setStroke(Color.BLACK);
+		
+		//einzelner Kreis 29
+		Circle circle29 = new Circle(10.5*unit, 5.5*unit, size/2);
+		circle29.setFill(Color.WHITE);
+		circle29.setStroke(Color.BLACK);
+		
+		//Horizontale Kreise 30-33
+		Circle circle30 = new Circle(10.5*unit, 6.5*unit, size/2);
+		circle30.setFill(Color.WHITE);
+		circle30.setStroke(Color.BLACK);
+		
+		Circle circle31 = new Circle(9.5*unit, 6.5*unit, size/2);
+		circle31.setFill(Color.WHITE);
+		circle31.setStroke(Color.BLACK);
+		
+		Circle circle32 = new Circle(8.5*unit, 6.5*unit, size/2);
+		circle32.setFill(Color.WHITE);
+		circle32.setStroke(Color.BLACK);
+		
+		Circle circle33 = new Circle(7.5*unit, 6.5*unit, size/2);
+		circle33.setFill(Color.WHITE);
+		circle33.setStroke(Color.BLACK);
+		
+		//Vertikale Kreise 34-38
+		Circle circle34 = new Circle(6.5*unit, 6.5*unit, size/2);
+		circle34.setFill(Color.WHITE);
+		circle34.setStroke(Color.BLACK);
+		
+		Circle circle35 = new Circle(6.5*unit, 7.5*unit, size/2);
+		circle35.setFill(Color.WHITE);
+		circle35.setStroke(Color.BLACK);
+		
+		Circle circle36 = new Circle(6.5*unit, 8.5*unit, size/2);
+		circle36.setFill(Color.WHITE);
+		circle36.setStroke(Color.BLACK);
+		
+		Circle circle37 = new Circle(6.5*unit, 9.5*unit, size/2);
+		circle37.setFill(Color.WHITE);
+		circle37.setStroke(Color.BLACK);
+		
+		Circle circle38 = new Circle(6.5*unit, 10.5*unit, size/2);
+		circle38.setFill(Color.WHITE);
+		circle38.setStroke(Color.BLACK);
+		
+		//einzelner Kreis 39
+		Circle circle39 = new Circle(5.5*unit, 10.5*unit, size/2);
+		circle39.setFill(Color.WHITE);
+		circle39.setStroke(Color.BLACK);
+		
+		getChildren().addAll(line0,line1, line2, line3, line4, line5, line6, line7, line8, line9, line10, line11,
+							circle0, circle1, circle2, circle3, circle4, circle5,  circle6, circle7, circle8,circle9, 
+							circle10, circle11, circle12, circle13, circle14, circle15, circle16, circle17, circle18, circle19, 
+							circle20, circle21, circle22, circle23, circle24, circle25, circle26, circle27, circle28, circle29, 
+							circle30, circle31, circle32, circle33, circle34, circle35, circle36, circle37, circle38, circle39);
+	
 	}
 	
 	private void initStreet() {
