@@ -128,10 +128,10 @@ public class PlayerPane extends Pane{
 		recHouseYellow3.setFill(Color.FLORALWHITE);
 		recHouseYellow4.setFill(Color.FLORALWHITE);
 		
-		recHouseYellow1.setStroke(Color.YELLOW);
-		recHouseYellow2.setStroke(Color.YELLOW);
-		recHouseYellow3.setStroke(Color.YELLOW);
-		recHouseYellow4.setStroke(Color.YELLOW);
+		recHouseYellow1.setStroke(Color.GOLD);
+		recHouseYellow2.setStroke(Color.GOLD);
+		recHouseYellow3.setStroke(Color.GOLD);
+		recHouseYellow4.setStroke(Color.GOLD);
 		
 		recHouseYellow1.setStrokeWidth(3);
 		recHouseYellow2.setStrokeWidth(3);
@@ -420,10 +420,10 @@ public class PlayerPane extends Pane{
 		recStreetYellow3.setFill(Color.FLORALWHITE);
 		recStreetYellow4.setFill(Color.FLORALWHITE);
 		
-		recStreetYellow1.setStroke(Color.YELLOW);
-		recStreetYellow2.setStroke(Color.YELLOW);
-		recStreetYellow3.setStroke(Color.YELLOW);
-		recStreetYellow4.setStroke(Color.YELLOW);
+		recStreetYellow1.setStroke(Color.GOLD);
+		recStreetYellow2.setStroke(Color.GOLD);
+		recStreetYellow3.setStroke(Color.GOLD);
+		recStreetYellow4.setStroke(Color.GOLD);
 		
 		recStreetYellow1.setStrokeWidth(3);
 		recStreetYellow2.setStrokeWidth(3);
