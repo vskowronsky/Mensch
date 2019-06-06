@@ -213,7 +213,49 @@ public class PlayerPane extends Pane{
 		recStreetBlue3.setStrokeWidth(3);
 		recStreetBlue4.setStrokeWidth(3);
 		
+		Rectangle recStreetRed1 = new Rectangle(width-2*unit, 5*unit, size, size);
+		Rectangle recStreetRed2 = new Rectangle(width-3*unit, 5*unit, size, size);
+		Rectangle recStreetRed3 = new Rectangle(width-4*unit, 5*unit, size, size);
+		Rectangle recStreetRed4 = new Rectangle(width-5*unit, 5*unit, size, size);
+		
+		recStreetRed1.setFill(Color.FLORALWHITE);
+		recStreetRed2.setFill(Color.FLORALWHITE);
+		recStreetRed3.setFill(Color.FLORALWHITE);
+		recStreetRed4.setFill(Color.FLORALWHITE);
+		
+		recStreetRed1.setStroke(Color.DARKRED);
+		recStreetRed2.setStroke(Color.DARKRED);
+		recStreetRed3.setStroke(Color.DARKRED);
+		recStreetRed4.setStroke(Color.DARKRED);
+		
+		recStreetRed1.setStrokeWidth(3);
+		recStreetRed2.setStrokeWidth(3);
+		recStreetRed3.setStrokeWidth(3);
+		recStreetRed4.setStrokeWidth(3);
+		
+		Rectangle recStreetYellow1 = new Rectangle(5*unit,width-2*unit, size, size);
+		Rectangle recStreetYellow2 = new Rectangle(5*unit,width-3*unit, size, size);
+		Rectangle recStreetYellow3 = new Rectangle(5*unit,width-4*unit, size, size);
+		Rectangle recStreetYellow4 = new Rectangle(5*unit,width-5*unit, size, size);
+		
+		recStreetYellow1.setFill(Color.FLORALWHITE);
+		recStreetYellow2.setFill(Color.FLORALWHITE);
+		recStreetYellow3.setFill(Color.FLORALWHITE);
+		recStreetYellow4.setFill(Color.FLORALWHITE);
+		
+		recStreetYellow1.setStroke(Color.YELLOW);
+		recStreetYellow2.setStroke(Color.YELLOW);
+		recStreetYellow3.setStroke(Color.YELLOW);
+		recStreetYellow4.setStroke(Color.YELLOW);
+		
+		recStreetYellow1.setStrokeWidth(3);
+		recStreetYellow2.setStrokeWidth(3);
+		recStreetYellow3.setStrokeWidth(3);
+		recStreetYellow4.setStrokeWidth(3);
+		
 		getChildren().addAll(recStreetGreen1, recStreetGreen2, recStreetGreen3, recStreetGreen4,
-				recStreetBlue1, recStreetBlue2, recStreetBlue3, recStreetBlue4);
+				recStreetBlue1, recStreetBlue2, recStreetBlue3, recStreetBlue4,
+				recStreetRed1, recStreetRed2, recStreetRed3, recStreetRed4,
+				recStreetYellow1, recStreetYellow2, recStreetYellow3, recStreetYellow4);
 	}
 }
