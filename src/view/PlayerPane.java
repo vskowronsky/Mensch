@@ -46,7 +46,7 @@ public class PlayerPane extends Pane{
 
 	private void init() {
 		initHouse();
-		//initBoard();
+		initBoard();
 		initStreet();
 		initMeeple();
 	}
@@ -146,22 +146,32 @@ public class PlayerPane extends Pane{
 		int unit = width/11;
 		int x = unit/2;
 		int y = width/2;
-		Line line = new Line(x, y, 21*x, y);
-		Line line2 = new Line(y, x, y, x*21);
-		getChildren().addAll(line, line2);
-		for(int i = 1; i <= 11; i++) {
-			Circle circle1 = new Circle(x, y, unit/3, Color.WHITE);
-			Circle circle2 = new Circle(y, x, unit/3, Color.WHITE);
-			circle1.setStroke(Color.BLACK);
-			circle1.setStrokeWidth(3);
-			circle2.setStroke(Color.BLACK);
-			circle2.setStrokeWidth(3);
-			x = x + unit;
-			getChildren().addAll(circle1, circle2);
-		}
+		//int size = unit*0.9;
+		
+//		Line line = new Line(x, y, 21*x, y);
+//		Line line2 = new Line(y, x, y, x*21);
+//		getChildren().addAll(line, line2);
+		
+		Circle circle1 = new Circle(unit, 6*unit, unit/2);
+		circle1.setFill(Color.WHITE);
+		circle1.setStroke(Color.BLACK);
 		
 		
 		
+		
+//		for(int i = 1; i <= 11; i++) {
+//			Circle circle1 = new Circle(x, y, unit/3, Color.WHITE);
+//			Circle circle2 = new Circle(y, x, unit/3, Color.WHITE);
+//			circle1.setStroke(Color.BLACK);
+//			circle1.setStrokeWidth(3);
+//			circle2.setStroke(Color.BLACK);
+//			circle2.setStrokeWidth(3);
+//			x = x + unit;
+//			getChildren().addAll(circle1, circle2);
+//		}
+		
+		
+		getChildren().addAll(circle1);
 		
 		
 		
