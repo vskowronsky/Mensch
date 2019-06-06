@@ -4,6 +4,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -49,6 +50,7 @@ public class PlayerPane extends Pane{
 		//initBoard();
 		initStreet();
 		initMeeple();
+		
 	}
 	
 	private void initHouse() {
@@ -261,6 +263,22 @@ public class PlayerPane extends Pane{
 	}
 	
 	private void initMeeple() {
+		double unit = width/11;
+		double size = unit*0.9;
+		//Polygon triangle = new Polygon();
+				//triangle.getPoints().addAll(50.0, 0.0, 0.0, 50.0, 100.0, 50.0);
+				//triangle.setFill(Color.BLACK);
+				//triangle.setStroke(Color.RED); 
 		
+		
+		Polygon meepleGreen1 = new Polygon();
+		meepleGreen1.getPoints().addAll(new Double[] {size/2, 0.0, size, size, 0.0, size});
+		Polygon meepleGreen2 = new Polygon();
+		meepleGreen2.getPoints().addAll(new Double [] {(size/2)+unit, 0.0, unit, size, size+unit, size });
+		
+		meepleGreen1.setFill(Color.MEDIUMSEAGREEN);
+		meepleGreen2.setFill(Color.MEDIUMSEAGREEN);
+		
+		getChildren().addAll(meepleGreen1, meepleGreen2);
 	}
 }
