@@ -48,6 +48,7 @@ public class PlayerPane extends Pane{
 		initHouse();
 		//initBoard();
 		initStreet();
+		initMeeple();
 	}
 	
 	private void initHouse() {
@@ -149,22 +150,22 @@ public class PlayerPane extends Pane{
 		Line line2 = new Line(y, x, y, x*21);
 		getChildren().addAll(line, line2);
 		for(int i = 1; i <= 11; i++) {
-			Circle circle1 = new Circle(x, y, unit/3, Color.GREEN);
-			Circle circle2 = new Circle(y, x, unit/3, Color.GREEN);
-			circle1.setStroke(Color.YELLOW);
+			Circle circle1 = new Circle(x, y, unit/3, Color.WHITE);
+			Circle circle2 = new Circle(y, x, unit/3, Color.WHITE);
+			circle1.setStroke(Color.BLACK);
 			circle1.setStrokeWidth(3);
-			circle2.setStroke(Color.YELLOW);
+			circle2.setStroke(Color.BLACK);
 			circle2.setStrokeWidth(3);
 			x = x + unit;
 			getChildren().addAll(circle1, circle2);
 		}
-		Text t1 = new Text("A");
-		t1.setX(unit/2);
-		t1.setY(width/2);
-		t1.setFill(Color.BLUE);
-		t1.setRotate(90);
-		t1.setFont(Font.font("Times New Roman", 40 ));
-		getChildren().add(t1);
+		
+		
+		
+		
+		
+		
+		
 	}
 	
 	private void initStreet() {
@@ -257,5 +258,9 @@ public class PlayerPane extends Pane{
 				recStreetBlue1, recStreetBlue2, recStreetBlue3, recStreetBlue4,
 				recStreetRed1, recStreetRed2, recStreetRed3, recStreetRed4,
 				recStreetYellow1, recStreetYellow2, recStreetYellow3, recStreetYellow4);
+	}
+	
+	private void initMeeple() {
+		
 	}
 }
