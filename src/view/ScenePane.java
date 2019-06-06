@@ -57,24 +57,7 @@ public class ScenePane extends BorderPane{
 		
 	}
 	
-	/*public void disable(){
-		label.setText(labelDisable);
-		progressBar.setProgress(-1);
-	}
 	
-	public void enable(){
-		label.setText(labelEnable);
-		progressBar.setProgress(1);
-	}
-	
-	public void win(){
-		label.setText(labelWin);
-	}
-	
-	public void lose(){
-		label.setText(labelLose);
-	}
-*/
 	
 	
 
