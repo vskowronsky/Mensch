@@ -57,6 +57,14 @@ public class ScenePane extends BorderPane{
 		
 	}
 	
+	public void enable(){
+		
+	}
+	
+	public void disable(){
+		
+	}
+	
 	
 	
 	

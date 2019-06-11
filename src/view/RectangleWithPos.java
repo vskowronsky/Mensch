@@ -1,12 +1,12 @@
-package model;
+package view;
 
 import javafx.scene.shape.Rectangle;
 
 public class RectangleWithPos extends Rectangle{
 	private int position;
 
-	public RectangleWithPos(double eins, double zwei, double drei, double vier, int i) {
-		super(eins, zwei, drei, vier);
+	public RectangleWithPos(double xCoord, double yCoord, double xWidth, double yWidth, int i) {
+		super(xCoord, yCoord, xWidth, yWidth);
 		this.position = i;
 
 	}

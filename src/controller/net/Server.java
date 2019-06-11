@@ -64,7 +64,7 @@ public class Server {
 				throw new NoMoveException();
 			}
 			Position position = (Position) in.readObject();
-			System.out.println("Empfange Position " + position);
+//			System.out.println("Empfange Position " + position);
 			return position;
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();

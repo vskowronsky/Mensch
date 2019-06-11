@@ -2,12 +2,12 @@ package view;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.scene.Cursor;
 import javafx.scene.control.MenuBar;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import model.RectangleWithPos;
 
 public class TestGUI extends Application {
 
@@ -31,34 +31,49 @@ public class TestGUI extends Application {
 	}
 
 	
-	EventHandler<MouseEvent> recEnteredEventHandler = 
-	        new EventHandler<MouseEvent>() {
-	 
-	        @Override
-	        public void handle(MouseEvent t) {
+	EventHandler<MouseEvent> circleEnteredEventHandler = new EventHandler<MouseEvent>() {
+	        
+		public void handle(MouseEvent t) {
 	    
+	        	CircleWithPos circle = (CircleWithPos) t.getSource();
 	        	
-	        	RectangleWithPos rec = (RectangleWithPos) t.getSource();
-	            rec.setFill(Color.GREEN);
-	            System.out.println(rec.getPosition());
+	        	circle.setCursor(Cursor.HAND);
+	        	circle.setStroke(Color.DARKMAGENTA);
+	        	circle.setStrokeWidth(5);
+	            System.out.println(circle.getPosition());
 	            
 	            
-	            
+	            // else cir.setCursor(Cursor.WAIT);
 	        }
 	    };
 	    
-	    EventHandler<MouseEvent> recLeftEventHandler = 
-		        new EventHandler<MouseEvent>() {
+	    EventHandler<MouseEvent> circleLeftEventHandler = new EventHandler<MouseEvent>() {
 		 
-		        @Override
 		        public void handle(MouseEvent t) {
-		            Rectangle rec = (Rectangle) t.getSource();
-		            rec.setFill(Color.FLORALWHITE);
-		            
+		        	CircleWithPos circle = (CircleWithPos) t.getSource();
+		        	circle.setStroke(Color.BLACK);
+		        	circle.setStrokeWidth(2);
 		        }
 		    };
 
-
+		    EventHandler<MouseEvent> houseEnteredEventHandler = new EventHandler<MouseEvent>() {
+		        
+				public void handle(MouseEvent t) {
+			        	CircleWithPos circle = (CircleWithPos) t.getSource();
+			        	circle.setCursor(Cursor.HAND);
+			        	circle.setFill(Color.FLORALWHITE);
+			        	
+			        }
+			    };
 	    
-	
+			    
+			    EventHandler<MouseEvent> houseLeftEventHandler = new EventHandler<MouseEvent>() {
+					 
+			        public void handle(MouseEvent t) {
+			        	CircleWithPos circle = (CircleWithPos) t.getSource();
+			        	
+			        	circle.setStroke(Color.BLACK);
+			        	
+			        }
+			    };
 }
