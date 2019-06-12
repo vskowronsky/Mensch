@@ -3,6 +3,7 @@ package controller.player;
 
 import controller.exceptions.NoMoveException;
 import controller.game.Game;
+import model.Board;
 import model.Content;
 import model.Position;
 
@@ -11,9 +12,8 @@ public class PlayerKI implements Player {
 	private int id;
 	private Content content;
 	private Game game;
-//	private int meeple;
-	private int meeplepos;
-	private boolean end;
+	private int meeplecounter;
+	private Board board;
 
 	public PlayerKI(){
 		id = 0;
@@ -29,12 +29,11 @@ public class PlayerKI implements Player {
 
 	public void enable() {
 
-//		this.meeple = 1;
-		this.meeplepos = 40;
-		this.end = false;
+		this.meeplecounter = 1;
 		System.out.println("NEUE RUNDE!");
 		System.out.println("KI " +id + " ist dran.");
-		System.out.println(game.getBoard());
+		this.board = game.getBoard();
+		System.out.println(this.board);
 		game.update();
 	}
 
@@ -44,37 +43,67 @@ public class PlayerKI implements Player {
 
 	//KI soll über das Array board gehen und die erste Figur, die seinem Content entspricht, 
 	//zurückgeben
-	public Position chooseMeeple(int diceValue) throws NoMoveException{
-//		int currentMeeple = 1;
+	public Position chooseMeeple() throws NoMoveException{
 
-		if (meeplepos == 40 && end) {
-			throw new NoMoveException();
-			
+		int counter = 1;
+		System.out.println(this.content);
+		System.out.println(counter);
+		System.out.println(meeplecounter);
+		//		if (meeplecounter == 4) throw new NoMoveException();
+		
+		Content[] street = null;
+		int dif = 0;
+		switch (this.content) {
+		
+		case YELLOW : street = board.streetY; dif = 40; break;
+		case GREEN : street = board.streetG; dif = 50; break;
+		case BLUE : street = board.streetB; dif = 60; break;
+		case RED : street = board.streetR; dif = 70; break;
+		default : break;
+		}
+		
+		
+		for (int i = 0; i<4; i++) {
+
+			if (street[i] == this.content)
+
+				if (counter == this.meeplecounter) {
+					meeplecounter++;
+					game.returnPosition(new Position (i+dif));
+					return null;
+				} else {
+					counter++;
+				}
+
+		}
+		
+		
+		for (int i = 0; i<this.board.playboard.length; i++) {
+
+			if (this.board.playboard[i] == this.content)
+
+				if (counter == this.meeplecounter) {
+					meeplecounter++;
+					game.returnPosition(new Position (i));
+					return null;
+				} else {
+					counter++;
+				}
+
 		}
 
-		return new Position (meeplepos);
+		System.out.println(this.content);
+		System.out.println(counter);
+		System.out.println(meeplecounter);
+		throw new NoMoveException();
 
-
-//		if () && meeple == currentMeeple) {
-//			System.out.println("Figur an Position "+i+" wurde ausgewählt.");
-//			return new Position(i);
-//
-//		} else if (game.checkPosition(new Position (i), this.content) == content) {
-//			currentMeeple++;
-//		}
-//
-//		if ((game.checkPosition(new Position (i), this.content) == content) && meeple == currentMeeple) {
-//			System.out.println("Figur an Position "+i+" wurde ausgewählt.");
-//			return new Position(i);
-//		} else if (game.checkPosition(new Position (i), this.content) == content) {
-//			currentMeeple++;
-//		}
 
 	}
 
 	public void win() {
 		System.out.println("KI " + id + " hat gewonnen!");
-		System.out.println(game.getBoard());
+		this.board = game.getBoard();
+		System.out.println(this.board);
 	}
 
 	public void lose() {
@@ -83,18 +112,9 @@ public class PlayerKI implements Player {
 
 	public void message(String message){
 		System.out.println(message);
-
-		if (message.equals("Sie können sich nicht selber vom Spielbrett werfen.") ||
-				message.equals("Spielzug nicht möglich. Wählen Sie eine andere Figur.") ||
-				message.equals("Bitte wählen Sie ein Feld mit einer Ihrer noch bewegbaren Figuren aus.")) {
-			if (meeplepos == 74) {
-				meeplepos = 0;
-			}else if( meeplepos == 39) {
-				end = true;
-				meeplepos++;
-			} else {
-				meeplepos++;
-			}
+		if (message.equals("Sie dürfen nochmal würfeln. Sie haben eine 3 gewürfelt")){
+			this.meeplecounter = 1;
 		}
+		
 	}
 }

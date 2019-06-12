@@ -269,21 +269,21 @@ public class GameImplementation implements Game {
 			player2.lose();
 			player3.lose();
 			player4.lose();
-			System.out.println(counter);
+			System.out.println(counter);		
 		} else if (board.checkWin(Content.GREEN)) {
 			status = Status.WINPLAYER2;
 			player2.win();
 			player3.lose();
 			player4.lose();
 			player1.lose();
-			System.out.println(counter);
+			System.out.println(counter);	
 		} else if (board.checkWin(Content.BLUE)) {
 			status = Status.WINPLAYER3;
 			player3.win();
 			player4.lose();
 			player1.lose();
 			player2.lose();
-			System.out.println(counter);
+			System.out.println(counter);	
 		} else if (board.checkWin(Content.RED)) {
 			status = Status.WINPLAYER4;
 			player4.win();
@@ -302,6 +302,7 @@ public class GameImplementation implements Game {
 		} else if (status == Status.PLAYER4) {
 			player4.enable();
 		}
+		
 	}
 
 	public void save(String fileName) {
@@ -327,42 +328,51 @@ public class GameImplementation implements Game {
 		while (chosen == -1) {
 			switch (content) {
 
-			case YELLOW: 			
-				chosenPosition = player1.chooseMeeple(board.getDiceValue());
+			case YELLOW:
+				player1.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
+				chosenPosition = player1.chooseMeeple();
 				if (content == board.checkPosition(chosenPosition, content)) {
 					return chosenPosition;
 				}else {
+					
 					player1.message("Bitte wählen Sie ein Feld mit einer Ihrer noch bewegbaren Figuren aus.");
+					player1.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
 					chosen = -1;
 				}
 				break;
 
-			case GREEN: 			
-				chosenPosition = player2.chooseMeeple(board.getDiceValue());
+			case GREEN:
+				player2.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
+				chosenPosition = player2.chooseMeeple();
 				if (content == board.checkPosition(chosenPosition, content)) {
 					return chosenPosition;
 				}else {
 					player2.message("Bitte wählen Sie ein Feld mit einer Ihrer noch bewegbaren Figuren aus.");
+					player2.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
 					chosen = -1;
 				}
 				break;
 
-			case BLUE: 			
-				chosenPosition = player3.chooseMeeple(board.getDiceValue());
+			case BLUE:
+				player3.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
+				chosenPosition = player3.chooseMeeple();
 				if (content == board.checkPosition(chosenPosition, content)) {
 					return chosenPosition;
 				}else {
 					player3.message("Bitte wählen Sie ein Feld mit einer Ihrer noch bewegbaren Figuren aus.");
+					player3.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
 					chosen = -1;
 				}
 				break;
 
-			case RED: 			
-				chosenPosition = player4.chooseMeeple(board.getDiceValue());
+			case RED:
+				player4.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
+				chosenPosition = player4.chooseMeeple();
 				if (content == board.checkPosition(chosenPosition, content)) {
 					return chosenPosition;
 				}else {
 					player4.message("Bitte wählen Sie ein Feld mit einer Ihrer noch bewegbaren Figuren aus.");
+					player4.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
 					chosen = -1;
 					}
 				break;
@@ -382,5 +392,11 @@ public class GameImplementation implements Game {
 		case PLAYER4: player4.message(message); break;
 		default: break;
 		}
+	}
+
+	@Override
+	public void returnPosition(Position position) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -6,10 +6,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import controller.player.PlayerGUI;
 import javafx.event.EventHandler;
 import model.Board;
@@ -25,10 +22,10 @@ public class PlayerPane extends Pane{
 	public Board board;
 	PlayerGUI gui;
 	public CircleWithPos[] boardOfCircles;
-	public RectangleWithPos[] recStreetGreen;
-	public RectangleWithPos[] recStreetBlue;
-	public RectangleWithPos[] recStreetRed;
-	public RectangleWithPos[] recStreetYellow;
+	public Rectangle[] recStreetGreen;
+	public Rectangle[] recStreetBlue;
+	public Rectangle[] recStreetRed;
+	public Rectangle[] recStreetYellow;
 	public CircleWithPos[] circleStreetGreen;
 	public CircleWithPos[] circleStreetBlue;
 	public CircleWithPos[] circleStreetRed;
@@ -219,33 +216,33 @@ public class PlayerPane extends Pane{
 	}
 
 	private void initStreet() {
-		recStreetGreen = new RectangleWithPos[4];
+		recStreetGreen = new Rectangle[4];
 		for(int i = 0; i < 4; i++) {
-			recStreetGreen[i] = new RectangleWithPos ((i+1)*unit+dif, 5*unit+dif, size, size, i);
+			recStreetGreen[i] = new Rectangle ((i+1)*unit+dif, 5*unit+dif, size, size);
 			recStreetGreen[i].setFill(Color.FLORALWHITE);
 			recStreetGreen[i].setStroke(Color.MEDIUMSEAGREEN);
 			recStreetGreen[i].setStrokeWidth(3);
 		}
 
-		recStreetBlue = new RectangleWithPos[4];
+		recStreetBlue = new Rectangle[4];
 		for(int i = 0; i < 4; i++) {
-			recStreetBlue[i] = new RectangleWithPos (5*unit+dif, (i+1)*unit+dif, size, size, i);
+			recStreetBlue[i] = new Rectangle (5*unit+dif, (i+1)*unit+dif, size, size);
 			recStreetBlue[i].setFill(Color.FLORALWHITE);
 			recStreetBlue[i].setStroke(Color.ROYALBLUE);
 			recStreetBlue[i].setStrokeWidth(3);
 		}
 
-		recStreetRed = new RectangleWithPos[4];
+		recStreetRed = new Rectangle[4];
 		for(int i = 0; i < 4; i++) {
-			recStreetRed[i] = new RectangleWithPos (width-(i+2)*unit+dif, 5*unit+dif, size, size, i);
+			recStreetRed[i] = new Rectangle (width-(i+2)*unit+dif, 5*unit+dif, size, size);
 			recStreetRed[i].setFill(Color.FLORALWHITE);
 			recStreetRed[i].setStroke(Color.FIREBRICK);
 			recStreetRed[i].setStrokeWidth(3);
 		}
 
-		recStreetYellow = new RectangleWithPos[4];
+		recStreetYellow = new Rectangle[4];
 		for(int i = 0; i < 4; i++) {
-			recStreetYellow[i] = new RectangleWithPos (5*unit+dif,width-(i+2)*unit+dif, size, size, i);
+			recStreetYellow[i] = new Rectangle (5*unit+dif,width-(i+2)*unit+dif, size, size);
 			recStreetYellow[i].setFill(Color.FLORALWHITE);
 			recStreetYellow[i].setStroke(Color.GOLD);
 			recStreetYellow[i].setStrokeWidth(3);

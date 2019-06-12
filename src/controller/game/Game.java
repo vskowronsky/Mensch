@@ -42,4 +42,6 @@ public interface Game {
 
 	public Position chooseMeeple(Content content) throws NoMoveException;
 	
+	public void returnPosition(Position position);
+	
 }

@@ -21,30 +21,14 @@ public class GameRemote implements Game {
 		this.client = client;
 		this.player = player;
 
-		client.setOnSucceeded( (WorkerStateEvent t) -> { 
-			String s = (String) t.getSource().getValue(); client.reset(); 
+		client.setOnSucceeded( (WorkerStateEvent t) -> {
+			System.out.println("Client succeeded");
+			String s = (String) t.getSource().getValue(); 
+			client.reset();
+			System.out.println(s);
 			process(s);
 		});
 		 
-		/*
-		 * client.setOnSucceeded(
-				(WorkerStateEvent t) ->{
-					String s = (String) t.getSource().getValue();
-					System.out.println("done:" + t.getSource().getValue());
-					client.reset();
-					switch(s){
-    					case "set" : set(); break;
-    					case "enable": enable(); break;
-    					case "disable": disable(); break;
-    					case "choose" : chooseMeeple(); break;
-    					case "win": win(); break;
-    					case "lose": lose(); break;
-    					case "message": message(""); break;
-					}
-				});
-
-		client.start();
-		 */
 		listen();
 	}
 
@@ -61,6 +45,7 @@ public class GameRemote implements Game {
 		case "win": win(); break;
 		case "lose": lose(); break;
 		case "message": message(""); break;
+		default: break;
 		}
 	}
 
@@ -93,7 +78,6 @@ public class GameRemote implements Game {
 	public void enable() {
 		this.board = client.receiveBoard();
 		player.enable();
-		//listen();
 	}
 
 	/**
@@ -110,17 +94,13 @@ public class GameRemote implements Game {
 	 * @throws NoMoveException 
 	 */
 	public void chooseMeeple(){
-		try {
-			Position p = player.chooseMeeple(client.receiveDice());
-			client.send("success");
-			client.send(p);
-		} catch (NoMoveException e) {
-			client.send("NoMove");
-		}
-		
-		finally {
-		listen();
-		}
+			try {
+				Position p = player.chooseMeeple();
+			} catch (NoMoveException e) {
+				client.send("NoMove");
+				listen();
+			} 
+	
 	}
 
 	/**
@@ -168,7 +148,7 @@ public class GameRemote implements Game {
 	 * @see controller.game.Game#getBoard()
 	 */
 	public Board getBoard() {
-		return board;
+		return this.board;
 	}
 
 	public void message(String message) {
@@ -179,5 +159,15 @@ public class GameRemote implements Game {
 	public Position chooseMeeple(Content content) {
 		return null;
 	}
+	
+	
+	// EVENT 
+	public void returnPosition(Position p) {
+		client.send("success");
+		client.send(p);
+		listen();
+	
+	}
+
 
 }

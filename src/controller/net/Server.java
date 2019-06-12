@@ -61,6 +61,7 @@ public class Server {
 		try {
 			String s = (String) in.readObject();
 			if (s.equals("NoMove")) {
+				System.out.println("Position?");
 				throw new NoMoveException();
 			}
 			Position position = (Position) in.readObject();

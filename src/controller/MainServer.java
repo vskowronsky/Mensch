@@ -16,8 +16,6 @@ public class MainServer {
 	private Socket[] sockets;
 	
 	
-	
-	
 	/**
 	 * Konstruktor der Klasse MainServer
 	 */
