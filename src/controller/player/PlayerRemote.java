@@ -41,9 +41,8 @@ public class PlayerRemote implements Player {
 		server.send(game.getBoard());
 	}
 
-	public Position chooseMeeple(int diceValue) throws NoMoveException{
+	public Position chooseMeeple() throws NoMoveException{
 		server.send("choose");
-		server.send(diceValue);
 		return server.receivePosition();
 	}
 

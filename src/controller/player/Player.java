@@ -29,7 +29,7 @@ public interface Player {
 	 */
 	public void lose();	
 	
-	public Position chooseMeeple(int diceValue) throws NoMoveException;
+	public Position chooseMeeple() throws NoMoveException;
 
 	public void message(String message);
 

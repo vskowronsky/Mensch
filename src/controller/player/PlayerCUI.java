@@ -77,11 +77,10 @@ public class PlayerCUI implements Player {
 		}
 	}
 
-	public Position chooseMeeple(int diceValue) throws NoMoveException {
+	public Position chooseMeeple() throws NoMoveException {
 		int chosen = -1;
 		
-		System.out.println("Sie haben eine " + diceValue + " gewürfelt.");
-				
+			
 		System.out.println("Wählen Sie eine Spielfigur aus.");
 
 		while (chosen == -1) {

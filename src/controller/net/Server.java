@@ -61,10 +61,11 @@ public class Server {
 		try {
 			String s = (String) in.readObject();
 			if (s.equals("NoMove")) {
+				System.out.println("Position?");
 				throw new NoMoveException();
 			}
 			Position position = (Position) in.readObject();
-			System.out.println("Empfange Position " + position);
+//			System.out.println("Empfange Position " + position);
 			return position;
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();

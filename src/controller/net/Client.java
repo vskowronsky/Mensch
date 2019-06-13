@@ -49,7 +49,6 @@ public class Client extends Service<String>
 	public String listen(){
 		System.out.println("Warte auf Anweisung");
 		String s = receiveString();
-//		System.out.println(s);
 		return s;
 	}
 	
@@ -166,11 +165,11 @@ public class Client extends Service<String>
 		}
 	}
 
-	/*
-	public void start(){
-		listen();
-	}
-	*/
+	
+//	public void start(){
+//		createTask();
+//	}
+	
 	
 	/** 
 	 * Überschriebene Methode um einen Hintergrundprozess zu starten. 

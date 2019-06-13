@@ -41,7 +41,7 @@ public class BoardSet extends Board implements Serializable {
 
 				} else {
 					flingEnemy(content, game);
-					board[(position.getIndex() + diceValue) - 40] = content;
+					playboard[(position.getIndex() + diceValue) - 40] = content;
 				}
 			} else {
 				newPosition = new Position(position.getIndex() + diceValue);
@@ -50,12 +50,12 @@ public class BoardSet extends Board implements Serializable {
 
 				} else {
 					flingEnemy(content, game);
-					board[position.getIndex() + diceValue] = content;
+					playboard[position.getIndex() + diceValue] = content;
 				}
 
 			} 
 			if (diceValue != 0) {
-				board[position.getIndex()] = Content.FREE;
+				playboard[position.getIndex()] = Content.FREE;
 			}
 		}
 		return true;
@@ -67,7 +67,7 @@ public class BoardSet extends Board implements Serializable {
 			enforce = false;
 
 			for (int i = 0; i <=39; i++) {
-				if (board[i] == content) {	
+				if (playboard[i] == content) {	
 					if (i + diceValue >= 40) {
 						if (checkEnemy(content, new Position((i + diceValue) - 40)) == 2) {
 							enforce = true;
@@ -92,7 +92,7 @@ public class BoardSet extends Board implements Serializable {
 					case RED: houseR ++; break;
 					default: break;
 					}
-					board[position.getIndex()]  = Content.FREE;
+					playboard[position.getIndex()]  = Content.FREE;
 					throw new MissedEnemyException();
 				}
 			} else {
@@ -105,7 +105,7 @@ public class BoardSet extends Board implements Serializable {
 					case RED: houseR ++; break;
 					default: break;
 					}
-					board[position.getIndex()] = Content.FREE;
+					playboard[position.getIndex()] = Content.FREE;
 					throw new MissedEnemyException();
 				}
 			}
@@ -320,7 +320,7 @@ public class BoardSet extends Board implements Serializable {
 		}else if (checkEnemy(content, newPosition) == 2) {
 			
 			String message = "Eine Figur wurde geworfen.";
-			switch(board[newPosition.getIndex()]) {
+			switch(playboard[newPosition.getIndex()]) {
 			case YELLOW: houseY++; game.message(message); break;
 			case GREEN: houseG++; game.message(message); break;
 			case BLUE: houseB++; game.message(message); break;

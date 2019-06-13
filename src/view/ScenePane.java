@@ -14,10 +14,11 @@ public class ScenePane extends BorderPane{
 	private PlayerPane playerPane;
 	private InfoPane infoPane;
 	private DicePane dicePane;
+	private MenuBar menuBar;
 	/*private int id;
 	private Color playerColor;
 	private ProgressBar progressBar;
-	private MenuBar menuBar;
+	
 	
 	private Label label;
 	private String labelDisable;
@@ -27,16 +28,17 @@ public class ScenePane extends BorderPane{
 	*/
 	
 //in den Konstruktor die DicePane und InfoPane geben
-	public ScenePane(PlayerPane playerPane, InfoPane infoPane, DicePane dicePane) {
+	public ScenePane(PlayerPane playerPane, InfoPane infoPane, DicePane dicePane, MenuBar menuBar) {
 		super();
 		this.playerPane = playerPane;
 		this.infoPane = infoPane;
 		this.dicePane = dicePane;
+		this.menuBar = menuBar;
 		//this.id = id;
 		
 		
 		init();
-		//this.getChildren().add(menuBar);
+		this.getChildren().add(menuBar);
 	}
 
 
@@ -54,6 +56,14 @@ public class ScenePane extends BorderPane{
 		
 		this.setRight(rightBox); 
 		
+		
+	}
+	
+	public void enable(){
+		
+	}
+	
+	public void disable(){
 		
 	}
 	

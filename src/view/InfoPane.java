@@ -16,7 +16,7 @@ public class InfoPane extends BorderPane {
 	private int id;
 	private Color playerColor;
 	private ProgressBar progressBar;
-	private MenuBar menuBar;
+
 	
 	private Label label;
 	private String labelDisable;
@@ -24,49 +24,50 @@ public class InfoPane extends BorderPane {
 	private String labelWin;
 	private String labelLose;
 	
-	public InfoPane(int id, MenuBar menuBar) {
+	public InfoPane(int id) {
 		super();
 		this.id = id;
 		
 		if(id == 1) {
-			playerColor = Color.YELLOW;
+			playerColor = Color.GOLD;
 		} else if(id == 2) {
 			playerColor = Color.MEDIUMSEAGREEN;
 		} else if(id == 3) {
 			playerColor = Color.ROYALBLUE;
 		} else if(id == 4) {
-			playerColor = Color.DARKRED;
+			playerColor = Color.FIREBRICK;
 		}
 		
-		this.menuBar = menuBar;
 		progressBar = new ProgressBar();
 		progressBar.setPrefWidth(120);
 		label = new Label("");
-		int id1 = id%2 +1;
+		int id1 = id%4 +1;
 		labelDisable = "Warten auf Spieler " + id1;
 		labelEnable = "Machen Sie Ihren Zug";
 		labelWin = "Sie haben gewonnen!";
 		labelLose = "Sie haben verloren!";
 		
-		
 		init();
 	}
 	
-	
-	
 	private void init() {
-		HBox bottomBox = new HBox(30);
+		VBox bigBox = new VBox(30);
 		
 		Text text = new Text("Spieler " + id);
 		text.setFill(playerColor);
 		text.setEffect(new Lighting());
 		text.setFont(Font.font(Font.getDefault().getFamily(),50));
 		
-		VBox bottomRightBox = new VBox(10);
-		bottomRightBox.getChildren().addAll(progressBar, label);
-		bottomBox.getChildren().addAll(text, bottomRightBox);
+		HBox progress = new HBox();
+		progress.getChildren().add(progressBar);
 		
-		this.setBottom(bottomBox);
+		HBox messageBox = new HBox();
+		messageBox.getChildren().addAll(label);
+		
+		
+		bigBox.getChildren().addAll(text, progress, messageBox);
+		
+		this.setCenter(bigBox);
 	}
 	
 	
@@ -88,4 +89,7 @@ public class InfoPane extends BorderPane {
 		label.setText(labelLose);
 	}
 	 
+	public void message(String message) {
+		label.setText(message);
+	}
 }

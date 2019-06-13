@@ -11,11 +11,11 @@ public class Board implements Serializable {
  * Häuser der Spieler (4) und finished (0), da noch kein Spielstein am Ziel angekommen ist.
  */
 	private static final long serialVersionUID = -928528169455344979L;
-	protected Content[] board;
-	protected Content[] streetY;
-	protected Content[] streetG;
-	protected Content[] streetB;
-	protected Content[] streetR;
+	public Content[] playboard;
+	public Content[] streetY;
+	public Content[] streetG;
+	public Content[] streetB;
+	public Content[] streetR;
 	public final Position STARTY = new Position(0);
 	public final Position STARTG = new Position(10);;
 	public final Position STARTB = new Position(20);;
@@ -24,10 +24,10 @@ public class Board implements Serializable {
 	public final Position ENDG = new Position(9);;
 	public final Position ENDB = new Position(19);;
 	public final Position ENDR = new Position(29);;
-	protected int houseY;
-	protected int houseG;
-	protected int houseB;
-	protected int houseR;
+	public int houseY;
+	public int houseG;
+	public int houseB;
+	public int houseR;
 	protected int finishedY;
 	protected int finishedG;
 	protected int finishedB;
@@ -42,9 +42,9 @@ public class Board implements Serializable {
 
 		dice = new Dice(); 
 
-		board = new Content[40];
-		for (int i = 0; i < board.length; i++) {
-			board[i] = Content.FREE;
+		playboard = new Content[40];
+		for (int i = 0; i < playboard.length; i++) {
+			playboard[i] = Content.FREE;
 		}
 
 		streetY = new Content[4];
@@ -164,18 +164,18 @@ public class Board implements Serializable {
 	 */
 	public boolean checkStartFree(Content content) {
 		switch(content) {
-		case YELLOW: if(board[0] == Content.YELLOW) {return true;} break;
-		case GREEN: if(board[10] == Content.GREEN) {return true;} break;
-		case BLUE: if(board[20] == Content.BLUE) {return true;} break;
-		case RED: if(board[30] == Content.RED) {return true;} break;
+		case YELLOW: if(playboard[0] == Content.YELLOW) {return true;} break;
+		case GREEN: if(playboard[10] == Content.GREEN) {return true;} break;
+		case BLUE: if(playboard[20] == Content.BLUE) {return true;} break;
+		case RED: if(playboard[30] == Content.RED) {return true;} break;
 		default: break;
 		}
 		return false;
 	}
 	
 	public int checkEnemy(Content content, Position position) {
-		if (board[position.getIndex()] != Content.FREE) {
-			if (board[position.getIndex()] == content) {
+		if (playboard[position.getIndex()] != Content.FREE) {
+			if (playboard[position.getIndex()] == content) {
 				return 1;
 
 			} else {
@@ -271,7 +271,7 @@ public class Board implements Serializable {
 			}else {
 
 				// Gibt den Inhalt im Board an der ausgewählen Position zurück
-				return board[chosenPosition.getIndex()];
+				return playboard[chosenPosition.getIndex()];
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
 			return null;
@@ -292,11 +292,11 @@ public class Board implements Serializable {
 		path += "\n";
 		path += "Spielbrett:";
 
-		for (int i = 0; i < board.length; i++) {
+		for (int i = 0; i < playboard.length; i++) {
 			if (i % 10 == 0) {
-				path += "\n" + board[i];
+				path += "\n" + playboard[i];
 			} else {
-				path += "\t" + board[i];
+				path += "\t" + playboard[i];
 			}
 		}
 
