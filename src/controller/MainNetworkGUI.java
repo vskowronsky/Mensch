@@ -8,10 +8,7 @@ import javafx.stage.Stage;
 
 public class MainNetworkGUI extends Application{
 
-
-
-
-	@Override
+	
 	public void start(Stage primaryStage) throws Exception {
 		String host = "localhost";
 		int port = 6789;
