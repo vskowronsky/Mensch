@@ -342,7 +342,7 @@ public class BoardSet extends Board implements Serializable {
 					diceValue = 0;
 					setMeeple(STARTY, Content.YELLOW, game);
 					houseY--;
-					diceValue = dice.throwDice();
+					diceThrow();
 					//Benachrichtigt die Spiellogik, dem Spieler mitzuteilen,
 					// dass der Würfel neu gesetzt wurde;
 					game.message("Sie haben eine " + diceValue + " gewürfelt.");
@@ -350,7 +350,7 @@ public class BoardSet extends Board implements Serializable {
 					break;
 				} else {
 					throwCount++;
-					diceValue = dice.throwDice();
+					diceThrow();
 					game.message("Sie haben eine " + diceValue + " gewürfelt.");
 				}
 			}
@@ -362,7 +362,7 @@ public class BoardSet extends Board implements Serializable {
 					diceValue = 0;
 					setMeeple(STARTG, Content.GREEN, game);
 					houseG--;
-					diceValue = dice.throwDice();
+					diceThrow();
 					//Benachrichtigt die Spiellogik, dem Spieler mitzuteilen,
 					// dass der Würfel neu gesetzt wurde;
 					game.message("Sie haben eine " + diceValue + " gewürfelt.");
@@ -370,7 +370,7 @@ public class BoardSet extends Board implements Serializable {
 					break;
 				} else {
 					throwCount++;
-					diceValue = dice.throwDice();
+					diceThrow();
 					game.message("Sie haben eine " + diceValue + " gewürfelt.");
 				}
 			}
@@ -382,7 +382,7 @@ public class BoardSet extends Board implements Serializable {
 					diceValue = 0;
 					setMeeple(STARTB, Content.BLUE, game);
 					houseB--;
-					diceValue = dice.throwDice();
+					diceThrow();
 					//Benachrichtigt die Spiellogik, dem Spieler mitzuteilen,
 					// dass der Würfel neu gesetzt wurde;
 					game.message("Sie haben eine " + diceValue + " gewürfelt.");
@@ -390,7 +390,7 @@ public class BoardSet extends Board implements Serializable {
 					break;
 				} else {
 					throwCount++;
-					diceValue = dice.throwDice();
+					diceThrow();
 					game.message("Sie haben eine " + diceValue + " gewürfelt.");
 					
 				}
@@ -403,7 +403,7 @@ public class BoardSet extends Board implements Serializable {
 					diceValue = 0;
 					setMeeple(STARTR, Content.RED, game);
 					houseR--;
-					diceValue = dice.throwDice();
+					diceThrow();
 					//Benachrichtigt die Spiellogik, dem Spieler mitzuteilen,
 					// dass der Würfel neu gesetzt wurde;
 					game.message("Sie haben eine " + diceValue + " gewürfelt.");
@@ -411,7 +411,7 @@ public class BoardSet extends Board implements Serializable {
 					break;
 				} else {
 					throwCount++;
-					diceValue = dice.throwDice();
+					diceThrow();
 					game.message("Sie haben eine " + diceValue + " gewürfelt.");
 				}
 			}	

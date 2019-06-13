@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Random;
 
 import controller.game.Status;
 
@@ -32,7 +33,6 @@ public class Board implements Serializable {
 	protected int finishedG;
 	protected int finishedB;
 	protected int finishedR;
-	protected Dice dice;
 	protected int diceValue;
 	protected Position newPosition;
 	boolean enforce = false;
@@ -40,7 +40,6 @@ public class Board implements Serializable {
 
 	public Board() {
 
-		dice = new Dice(); 
 
 		playboard = new Content[40];
 		for (int i = 0; i < playboard.length; i++) {
@@ -79,7 +78,7 @@ public class Board implements Serializable {
 	 * Die Wüfel-Methode wird aufgerufen und die Würfelzahl in der deklarierten Variable gespeichert.
 	 */
 	public void diceThrow() {
-		diceValue = dice.throwDice();	
+		diceValue = new Random().nextInt(6) +1;	
 	}
 
 	public int getDiceValue() {
@@ -319,5 +318,7 @@ public class Board implements Serializable {
 		}
 		return path;
 	}
+	
+
 
 }
