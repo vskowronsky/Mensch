@@ -159,7 +159,7 @@ public class PlayerPane extends Pane{
 
 		boardOfCircles[0] = new CircleWithPos(4.5*unit, 10.5*unit, size/2, 0);
 		boardOfCircles[1] = new CircleWithPos(4.5*unit, 9.5*unit, size/2, 1);
-		boardOfCircles[2] = new CircleWithPos(4.5*unit, 8.5*unit, size/2,2);
+		boardOfCircles[2] = new CircleWithPos(4.5*unit, 8.5*unit, size/2, 2);
 		boardOfCircles[3] = new CircleWithPos(4.5*unit, 7.5*unit, size/2, 3);
 		boardOfCircles[4] = new CircleWithPos(4.5*unit, 6.5*unit, size/2, 4);
 		boardOfCircles[5] = new CircleWithPos(3.5*unit, 6.5*unit, size/2, 5);
@@ -208,7 +208,6 @@ public class PlayerPane extends Pane{
 			cir.setOnMouseClicked(gui.circleClickedEventHandler);
 			cir.setOnMouseEntered(gui.circleEnteredEventHandler);
 			cir.setOnMouseExited(gui.circleExitedEventHandler);
-
 		}
 
 		getChildren().addAll(line0,line1, line2, line3, line4, line5, line6, line7, line8, line9, line10, line11, line12);
@@ -308,7 +307,6 @@ public class PlayerPane extends Pane{
 
 		for (CircleWithPos cir : circleHouseGreen) {
 			cir.setFill(Color.MEDIUMSEAGREEN);
-//			cir.setOnMouseEntered(gui.houseEnteredEventHandler);
 		}
 
 		circleHouseBlue = new CircleWithPos[4];

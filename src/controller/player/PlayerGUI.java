@@ -53,16 +53,18 @@ public class PlayerGUI implements Player{
 	private MenuBar setMenu() {
 		MenuBar menuBar = new MenuBar();
 		menuBar.setUseSystemMenuBar(true);
-		MenuItem menusave = new MenuItem("Speichern");
-		menusave.setOnAction((ActionEvent t) -> {game.save(enterFileName());});
-		MenuItem menuload = new MenuItem("Laden");
-		menuload.setOnAction((ActionEvent t) -> {game.load(enterFileName()); playerPane.update(game.getBoard());});
 		Menu saveload = new Menu("Speichern/Laden");
+		Menu rules = new Menu("Rules");
+		
+		MenuItem menusave = new MenuItem("Speichern");
+//		menusave.setOnAction((ActionEvent t) -> {game.save(enterFileName());});
+		MenuItem menuload = new MenuItem("Laden");
+//		menuload.setOnAction((ActionEvent t) -> {game.load(enterFileName()); playerPane.update(game.getBoard());});		
 		saveload.getItems().addAll(menusave, menuload);
 
 		//		Text text = new Text("Rules of ludo");
-		//		Menu rules = new Menu("Rules", text);
-		menuBar.getMenus().addAll(saveload);
+		
+		menuBar.getMenus().addAll(saveload, rules);
 
 
 		return menuBar;

@@ -1,11 +1,8 @@
 package view;
 
-import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 
 
@@ -15,48 +12,33 @@ public class ScenePane extends BorderPane{
 	private InfoPane infoPane;
 	private DicePane dicePane;
 	private MenuBar menuBar;
-	/*private int id;
-	private Color playerColor;
-	private ProgressBar progressBar;
 	
 	
-	private Label label;
-	private String labelDisable;
-	private String labelEnable;
-	private String labelWin;
-	private String labelLose;
-	*/
-	
-//in den Konstruktor die DicePane und InfoPane geben
 	public ScenePane(PlayerPane playerPane, InfoPane infoPane, DicePane dicePane, MenuBar menuBar) {
 		super();
 		this.playerPane = playerPane;
 		this.infoPane = infoPane;
 		this.dicePane = dicePane;
 		this.menuBar = menuBar;
-		//this.id = id;
-		
 		
 		init();
-		this.getChildren().add(menuBar);
 	}
 
 
 	private void init(){
 		AnchorPane center = new AnchorPane();
-		center.getChildren().addAll(playerPane, infoPane);
+		center.getChildren().add(playerPane);
 		
 		AnchorPane.setTopAnchor(playerPane, 20.);
 		AnchorPane.setLeftAnchor(playerPane, 20.);
 		this.setCenter(center);
 		
+		center.getChildren().add(menuBar);
+		this.setTop(menuBar);
+		
 		VBox rightBox = new VBox();
-		
 		rightBox.getChildren().addAll(dicePane, infoPane);
-		
 		this.setRight(rightBox); 
-		
-		
 	}
 	
 	public void enable(){
@@ -66,9 +48,4 @@ public class ScenePane extends BorderPane{
 	public void disable(){
 		
 	}
-	
-	
-	
-	
-
 }
