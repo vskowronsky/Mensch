@@ -12,16 +12,12 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.Content;
 import model.Position;
@@ -57,7 +53,6 @@ public class PlayerGUI implements Player{
 	private MenuBar setMenu() {
 		MenuBar menuBar = new MenuBar();
 		menuBar.setUseSystemMenuBar(true);
-<<<<<<< Updated upstream
 		Menu saveload = new Menu("Speichern/Laden");
 		Menu rules = new Menu("Rules");
 		
@@ -65,13 +60,6 @@ public class PlayerGUI implements Player{
 //		menusave.setOnAction((ActionEvent t) -> {game.save(enterFileName());});
 		MenuItem menuload = new MenuItem("Laden");
 //		menuload.setOnAction((ActionEvent t) -> {game.load(enterFileName()); playerPane.update(game.getBoard());});		
-=======
-		MenuItem menusave = new MenuItem("Save");
-		menusave.setOnAction((ActionEvent t) -> {game.save(enterFileName());});
-		MenuItem menuload = new MenuItem("Load");
-		menuload.setOnAction((ActionEvent t) -> {game.load(enterFileName()); playerPane.update(game.getBoard());});
-		Menu saveload = new Menu("Save/Load");
->>>>>>> Stashed changes
 		saveload.getItems().addAll(menusave, menuload);
 
 		//		Text text = new Text("Rules of ludo");
@@ -217,21 +205,6 @@ public class PlayerGUI implements Player{
 		
 	}
 
-	public void showRules() {
-		Label firstRule = new Label("Startposition sind die 4 Felder, auf denen die Figuren am Anfang des Spiels stehen.");
-		StackPane secondLayout = new StackPane();
-		secondLayout.getChildren().add(firstRule);
-		
-		Scene secondScene = new Scene(secondLayout, 400,300);
-		
-		Stage newWindow = new Stage();
-		newWindow.setTitle("Rules of ludo");
-		newWindow.setScene(secondScene);
-		
-		newWindow.show();
-		
-	}
-	
 	public EventHandler<MouseEvent> circleClickedEventHandler = new EventHandler<MouseEvent>() {
 
 		public void handle(MouseEvent t) {
