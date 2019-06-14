@@ -1,5 +1,6 @@
 package view;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.ProgressBar;
@@ -15,7 +16,6 @@ public class InfoPane extends BorderPane {
 	private PlayerPane playerPane;
 	private int id;
 	private Color playerColor;
-	private ProgressBar progressBar;
 
 	
 	private Label label;
@@ -38,8 +38,6 @@ public class InfoPane extends BorderPane {
 			playerColor = Color.FIREBRICK;
 		}
 		
-		progressBar = new ProgressBar();
-		progressBar.setPrefWidth(120);
 		label = new Label("");
 		int id1 = id%4 +1;
 		labelDisable = "Warten auf Spieler " + id1;
@@ -58,14 +56,15 @@ public class InfoPane extends BorderPane {
 		text.setEffect(new Lighting());
 		text.setFont(Font.font(Font.getDefault().getFamily(),50));
 		
-		HBox progress = new HBox();
-		progress.getChildren().add(progressBar);
 		
 		HBox messageBox = new HBox();
+		label.setFont(Font.font(Font.getDefault().getFamily(),30));
 		messageBox.getChildren().addAll(label);
 		
-		
-		bigBox.getChildren().addAll(text, progress, messageBox);
+		bigBox.setPadding(new Insets(10, 50, 50, 50));
+	    bigBox.setSpacing(10);
+	    
+		bigBox.getChildren().addAll(text, messageBox);
 		
 		this.setCenter(bigBox);
 	}
@@ -73,12 +72,10 @@ public class InfoPane extends BorderPane {
 	
 	public void disable() {
 		label.setText(labelDisable);
-		progressBar.setProgress(-1);
 	}
 
 	public void enable() {
 		label.setText(labelEnable);
-		progressBar.setProgress(1);
 	}
 
 	public void win() {
