@@ -50,7 +50,7 @@ public class PlayerGUI implements Player{
 		this.position = -1;
 	}
 
-	
+
 
 	public void initialize(Content content, Game game, int id) {
 
@@ -66,55 +66,11 @@ public class PlayerGUI implements Player{
 		stage = new PlayerStage(root);
 		stage.show();
 	}
-	
-	private MenuBar setMenu() {
-		MenuBar menuBar = new MenuBar();
-		menuBar.setUseSystemMenuBar(true);
-		Menu saveload = new Menu("Save/Load");
-		MenuItem rules = new MenuItem("Rules");
-		Menu about = new Menu("About");
-		rules.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent event) {
-				Label firstRule = new Label("Startposition sind die 4 Felder, auf denen die Figuren am Anfang des Spiels stehen.");
-				Label secondRule = new Label("Zielposition sind die 4 Felder, die erreicht werden, wenn die Spielfigur einmal um das Spielbrett gezogen ist.");
-				StackPane secondLayout = new StackPane();
-				VBox labelBox = new VBox(20);
-				
-				labelBox.getChildren().addAll(firstRule, secondRule);
-				secondLayout.getChildren().add(labelBox);
-				
-				Scene secondScene = new Scene(secondLayout, 500,300);
-				
-				Stage newWindow = new Stage();
-				newWindow.setTitle("Rules of ludo");
-				newWindow.setScene(secondScene);
-				
-                newWindow.setX(stage.getX() + 200);
-                newWindow.setY(stage.getY() + 100);
-				newWindow.show();	
-			}
-		});
-		
-		MenuItem menusave = new MenuItem("Save");
-//		menusave.setOnAction((ActionEvent t) -> {game.save(enterFileName());});
-		MenuItem menuload = new MenuItem("Load");
-//		menuload.setOnAction((ActionEvent t) -> {game.load(enterFileName()); playerPane.update(game.getBoard());});		
-
-		
-		saveload.getItems().addAll(menusave, menuload);
-		
-		about.getItems().add(rules);
-
-		
-		menuBar.getMenus().addAll(saveload,about);
 
 
-
-		return menuBar;
-	}
 
 	public void enable() {
-	
+
 		int sl = -1;
 		playerPane.update(game.getBoard());
 		infoPane.enable();
@@ -122,6 +78,8 @@ public class PlayerGUI implements Player{
 			System.out.println("Sie sind dran, Spieler " + id);
 			System.out.println(
 					"Wollen Sie eine Spielfigur setzen, einen Spielstand speichern oder einen Spielstand laden? \n 0 für Setzen, 1 für Speichern, 2 für Laden");
+			
+			// IMMER GLEICH UPDATE
 			sl = 0;
 
 		} while (sl < 0 || sl > 2);
@@ -151,6 +109,8 @@ public class PlayerGUI implements Player{
 		System.out.println("Bitte geben Sie der zu speichernden Datei einen Namen.");
 		game.save(enterFileName());
 	}
+	
+	
 	// Werden später wieder gelöscht
 	private void load() {
 		//		int name = -1;
@@ -164,6 +124,53 @@ public class PlayerGUI implements Player{
 		//		}
 		//		}
 		//		
+	}
+
+
+	private MenuBar setMenu() {
+		MenuBar menuBar = new MenuBar();
+		menuBar.setUseSystemMenuBar(true);
+		Menu saveload = new Menu("Save/Load");
+		MenuItem rules = new MenuItem("Rules");
+		Menu about = new Menu("About");
+		rules.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+				Label firstRule = new Label("Startposition sind die 4 Felder, auf denen die Figuren am Anfang des Spiels stehen.");
+				Label secondRule = new Label("Zielposition sind die 4 Felder, die erreicht werden, wenn die Spielfigur einmal um das Spielbrett gezogen ist.");
+				StackPane secondLayout = new StackPane();
+				VBox labelBox = new VBox(20);
+
+				labelBox.getChildren().addAll(firstRule, secondRule);
+				secondLayout.getChildren().add(labelBox);
+
+				Scene secondScene = new Scene(secondLayout, 500,300);
+
+				Stage newWindow = new Stage();
+				newWindow.setTitle("Rules of ludo");
+				newWindow.setScene(secondScene);
+
+				newWindow.setX(stage.getX() + 200);
+				newWindow.setY(stage.getY() + 100);
+				newWindow.show();	
+			}
+		});
+
+		MenuItem menusave = new MenuItem("Save");
+		//		menusave.setOnAction((ActionEvent t) -> {game.save(enterFileName());});
+		MenuItem menuload = new MenuItem("Load");
+		//		menuload.setOnAction((ActionEvent t) -> {game.load(enterFileName()); playerPane.update(game.getBoard());});		
+
+
+		saveload.getItems().addAll(menusave, menuload);
+
+		about.getItems().add(rules);
+
+
+		menuBar.getMenus().addAll(saveload,about);
+
+
+
+		return menuBar;
 	}
 
 	private String readString() {
@@ -226,24 +233,24 @@ public class PlayerGUI implements Player{
 		case "Sie haben eine 6 gewürfelt.": dicePane.diceroll(message); break;
 		default: infoPane.message(message); break;
 		}
-		
+
 	}
 
 	public void showRules() {
 		Label firstRule = new Label("Startposition sind die 4 Felder, auf denen die Figuren am Anfang des Spiels stehen.");
 		StackPane secondLayout = new StackPane();
 		secondLayout.getChildren().add(firstRule);
-		
+
 		Scene secondScene = new Scene(secondLayout, 400,300);
-		
+
 		Stage newWindow = new Stage();
 		newWindow.setTitle("Rules of ludo");
 		newWindow.setScene(secondScene);
-		
+
 		newWindow.show();
-		
+
 	}
-	
+
 	public EventHandler<MouseEvent> circleClickedEventHandler = new EventHandler<MouseEvent>() {
 
 		public void handle(MouseEvent t) {
