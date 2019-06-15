@@ -1,7 +1,6 @@
 package controller.player;
 
 
-import controller.exceptions.NoMoveException;
 import controller.game.Game;
 import model.Board;
 import model.Content;
@@ -48,9 +47,6 @@ public class PlayerKI implements Player {
 	public Position chooseMeeple(){
 		int localCounter = 1;
 		int localEnemyCounter = 1;
-//		System.out.println(this.content);
-//		System.out.println("Meeplecounter: " + meeplecounter);
-//		System.out.println("Enemycounter: " + enemycounter);
 
 		Content[] street = null;
 		int dif = 0;

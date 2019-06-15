@@ -1,11 +1,20 @@
 package controller.player;
 
-import controller.exceptions.NoMoveException;
 import controller.game.Game;
 import model.Content;
 import model.Position;
 
 public interface Player {
+	
+	/**
+	 * 
+	 * Initializes the Player-Client
+	 * 
+	 * @param content
+	 * @param game
+	 * @param id
+	 *
+	 */
 	
 	public void initialize(Content content, Game game, int id);
 	
@@ -30,7 +39,12 @@ public interface Player {
 	public void lose();	
 	
 	public Position chooseMeeple();
-
+	
+	
+	/**
+	 * Receives and displays a message
+	 * @param message
+	 */
 	public void message(String message);
 
 	

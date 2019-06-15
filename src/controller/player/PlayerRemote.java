@@ -2,7 +2,6 @@ package controller.player;
 
 import java.net.Socket;
 
-import controller.exceptions.NoMoveException;
 import controller.game.Game;
 import controller.net.Server;
 import model.Content;
