@@ -77,7 +77,7 @@ public class PlayerCUI implements Player {
 		}
 	}
 
-	public Position chooseMeeple() throws NoMoveException {
+	public Position chooseMeeple(){
 		int chosen = -1;
 		
 			

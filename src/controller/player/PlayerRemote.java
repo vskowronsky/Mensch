@@ -41,7 +41,7 @@ public class PlayerRemote implements Player {
 		server.send(game.getBoard());
 	}
 
-	public Position chooseMeeple() throws NoMoveException{
+	public Position chooseMeeple(){
 		server.send("choose");
 		return server.receivePosition();
 	}
@@ -74,6 +74,7 @@ public class PlayerRemote implements Player {
 	public void message(String message) {
 		server.send("message");
 		server.send(message);
+		server.send(game.getBoard());
 	}
 
 }

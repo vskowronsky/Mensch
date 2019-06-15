@@ -12,11 +12,11 @@ public class Board implements Serializable {
  * Häuser der Spieler (4) und finished (0), da noch kein Spielstein am Ziel angekommen ist.
  */
 	private static final long serialVersionUID = -928528169455344979L;
-	public Content[] playboard;
-	public Content[] streetY;
-	public Content[] streetG;
-	public Content[] streetB;
-	public Content[] streetR;
+	protected Content[] playboard;
+	protected Content[] streetY;
+	protected Content[] streetG;
+	protected Content[] streetB;
+	protected Content[] streetR;
 	public final Position STARTY = new Position(0);
 	public final Position STARTG = new Position(10);;
 	public final Position STARTB = new Position(20);;
@@ -25,10 +25,10 @@ public class Board implements Serializable {
 	public final Position ENDG = new Position(9);;
 	public final Position ENDB = new Position(19);;
 	public final Position ENDR = new Position(29);;
-	public int houseY;
-	public int houseG;
-	public int houseB;
-	public int houseR;
+	protected int houseY;
+	protected int houseG;
+	protected int houseB;
+	protected int houseR;
 	protected int finishedY;
 	protected int finishedG;
 	protected int finishedB;
@@ -221,62 +221,8 @@ public class Board implements Serializable {
 		}
 	}
 
-	/**
-	 * Methode, um zu überprüfen, ob sich an der vom Spieler ausgewählten Position (Position chosenPosition) der Content 
-	 * vom Spieler befindet. 
-	 * Die Methode teilt sich in zwei Teile auf: Wenn eine Zahl größer als 40 geprüft wird, dann wird eine Position
-	 * in der Zielstraße überprüft. Wenn die Zahl zwischen 0 und gleich 39 liegt, dann wird die Position auf dem Spielbrett
-	 * überprüft. 
-	 * Zurückgegeben wird der jeweilige Content auf der ausgewählten Position (entweder FREE, YELLOW, GREEN, BLUE oder RED).
-	 * 
-	 */
-	public Content checkPosition(Position chosenPosition, Content content) {
-		try {
-			int streetPosition;
-			if(chosenPosition.getIndex() >= 40) {
+	
 
-				switch(content) {
-				case YELLOW:
-					streetPosition = chosenPosition.getIndex()-40;
-					if (finishedY + streetPosition >= 4) {
-						return null;
-					}else {
-						return streetY[streetPosition];
-					}
-				case GREEN: 
-					streetPosition = chosenPosition.getIndex()-50;
-					if (finishedG + streetPosition >= 4) {
-						return null;
-					}else {
-						return streetG[streetPosition];
-					}
-				case BLUE: 
-					streetPosition = chosenPosition.getIndex()-60;
-					if (finishedB + streetPosition >= 4) {
-						return null;
-					}else {
-						return streetB[streetPosition];
-					}
-				case RED: 
-
-					streetPosition = chosenPosition.getIndex()-70;
-					if (finishedR + streetPosition >= 4) {
-						return null;
-					}else {
-						return streetR[streetPosition];
-					}
-				default: break;
-				}
-			}else {
-
-				// Gibt den Inhalt im Board an der ausgewählen Position zurück
-				return playboard[chosenPosition.getIndex()];
-			}
-		} catch (ArrayIndexOutOfBoundsException e) {
-			return null;
-		}
-		return null;
-	}
 
 	/**
 	 * Ausgabe des Spielfeldes.
@@ -317,6 +263,112 @@ public class Board implements Serializable {
 			path += street.toString() + "\t";
 		}
 		return path;
+	}
+
+	
+	
+	public Content[] getPlayboard() {
+		return playboard;
+	}
+
+	public void setPlayboard(Content[] playboard) {
+		this.playboard = playboard;
+	}
+
+	public Content[] getStreetY() {
+		return streetY;
+	}
+
+	public void setStreetY(Content[] streetY) {
+		this.streetY = streetY;
+	}
+
+	public Content[] getStreetG() {
+		return streetG;
+	}
+
+	public void setStreetG(Content[] streetG) {
+		this.streetG = streetG;
+	}
+
+	public Content[] getStreetB() {
+		return streetB;
+	}
+
+	public void setStreetB(Content[] streetB) {
+		this.streetB = streetB;
+	}
+
+	public Content[] getStreetR() {
+		return streetR;
+	}
+
+	public void setStreetR(Content[] streetR) {
+		this.streetR = streetR;
+	}
+
+	public int getHouseY() {
+		return houseY;
+	}
+
+	public void setHouseY(int houseY) {
+		this.houseY = houseY;
+	}
+
+	public int getHouseG() {
+		return houseG;
+	}
+
+	public void setHouseG(int houseG) {
+		this.houseG = houseG;
+	}
+
+	public int getHouseB() {
+		return houseB;
+	}
+
+	public void setHouseB(int houseB) {
+		this.houseB = houseB;
+	}
+
+	public int getHouseR() {
+		return houseR;
+	}
+
+	public void setHouseR(int houseR) {
+		this.houseR = houseR;
+	}
+
+	public int getFinishedY() {
+		return finishedY;
+	}
+
+	public void setFinishedY(int finishedY) {
+		this.finishedY = finishedY;
+	}
+
+	public int getFinishedG() {
+		return finishedG;
+	}
+
+	public void setFinishedG(int finishedG) {
+		this.finishedG = finishedG;
+	}
+
+	public int getFinishedB() {
+		return finishedB;
+	}
+
+	public void setFinishedB(int finishedB) {
+		this.finishedB = finishedB;
+	}
+
+	public int getFinishedR() {
+		return finishedR;
+	}
+
+	public void setFinishedR(int finishedR) {
+		this.finishedR = finishedR;
 	}
 	
 

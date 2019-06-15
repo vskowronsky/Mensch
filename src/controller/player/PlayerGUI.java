@@ -5,10 +5,6 @@ import java.io.InputStreamReader;
 
 import controller.exceptions.NoMoveException;
 import controller.game.Game;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.concurrent.Task;
-import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
@@ -19,10 +15,11 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Duration;
+import model.Board;
 import model.Content;
 import model.Position;
 import view.CircleWithPos;
@@ -44,7 +41,6 @@ public class PlayerGUI implements Player{
 	private int id;
 	private boolean choosing;
 	private int position;
-	//	MenuBar menuBar;
 
 	public PlayerGUI () {
 		this.content = Content.FREE;
@@ -54,33 +50,7 @@ public class PlayerGUI implements Player{
 		this.position = -1;
 	}
 
-	private MenuBar setMenu() {
-		MenuBar menuBar = new MenuBar();
-		menuBar.setUseSystemMenuBar(true);
-<<<<<<< Updated upstream
-		Menu saveload = new Menu("Speichern/Laden");
-		Menu rules = new Menu("Rules");
-		
-		MenuItem menusave = new MenuItem("Speichern");
-//		menusave.setOnAction((ActionEvent t) -> {game.save(enterFileName());});
-		MenuItem menuload = new MenuItem("Laden");
-//		menuload.setOnAction((ActionEvent t) -> {game.load(enterFileName()); playerPane.update(game.getBoard());});		
-=======
-		MenuItem menusave = new MenuItem("Save");
-		menusave.setOnAction((ActionEvent t) -> {game.save(enterFileName());});
-		MenuItem menuload = new MenuItem("Load");
-		menuload.setOnAction((ActionEvent t) -> {game.load(enterFileName()); playerPane.update(game.getBoard());});
-		Menu saveload = new Menu("Save/Load");
->>>>>>> Stashed changes
-		saveload.getItems().addAll(menusave, menuload);
-
-		//		Text text = new Text("Rules of ludo");
-		
-		menuBar.getMenus().addAll(saveload, rules);
-
-
-		return menuBar;
-	}
+	
 
 	public void initialize(Content content, Game game, int id) {
 
@@ -95,6 +65,52 @@ public class PlayerGUI implements Player{
 		root = new ScenePane(playerPane, infoPane, dicePane, menuBar);
 		stage = new PlayerStage(root);
 		stage.show();
+	}
+	
+	private MenuBar setMenu() {
+		MenuBar menuBar = new MenuBar();
+		menuBar.setUseSystemMenuBar(true);
+		Menu saveload = new Menu("Save/Load");
+		MenuItem rules = new MenuItem("Rules");
+		Menu about = new Menu("About");
+		rules.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+				Label firstRule = new Label("Startposition sind die 4 Felder, auf denen die Figuren am Anfang des Spiels stehen.");
+				Label secondRule = new Label("Zielposition sind die 4 Felder, die erreicht werden, wenn die Spielfigur einmal um das Spielbrett gezogen ist.");
+				StackPane secondLayout = new StackPane();
+				VBox labelBox = new VBox(20);
+				
+				labelBox.getChildren().addAll(firstRule, secondRule);
+				secondLayout.getChildren().add(labelBox);
+				
+				Scene secondScene = new Scene(secondLayout, 500,300);
+				
+				Stage newWindow = new Stage();
+				newWindow.setTitle("Rules of ludo");
+				newWindow.setScene(secondScene);
+				
+                newWindow.setX(stage.getX() + 200);
+                newWindow.setY(stage.getY() + 100);
+				newWindow.show();	
+			}
+		});
+		
+		MenuItem menusave = new MenuItem("Save");
+//		menusave.setOnAction((ActionEvent t) -> {game.save(enterFileName());});
+		MenuItem menuload = new MenuItem("Load");
+//		menuload.setOnAction((ActionEvent t) -> {game.load(enterFileName()); playerPane.update(game.getBoard());});		
+
+		
+		saveload.getItems().addAll(menusave, menuload);
+		
+		about.getItems().add(rules);
+
+		
+		menuBar.getMenus().addAll(saveload,about);
+
+
+
+		return menuBar;
 	}
 
 	public void enable() {
@@ -178,33 +194,29 @@ public class PlayerGUI implements Player{
 	}
 
 	public void disable() {
-		System.out.println("Der Spielzug ist beendet.");
 		playerPane.update(game.getBoard());
 		infoPane.disable();
 		root.disable();
 	}
 
 	public void win() {
-		//		System.out.println("Spieler " + id + " hat gewonnen!");
 		playerPane.update(game.getBoard());
 		infoPane.win();
 	}
 
 	public void lose() {
-		//		System.out.println("Spieler " + id + " hat verloren!");
 		playerPane.update(game.getBoard());
 		infoPane.lose();
 	}
 
-	public Position chooseMeeple() throws NoMoveException {
+	public Position chooseMeeple(){
 		choosing = true;
 
 		return null;
 	}
 
 	public void message(String message) {
-		System.out.println(message);
-		
+		playerPane.update(game.getBoard());
 		switch (message) {
 		case "Sie haben eine 1 gewürfelt.": dicePane.diceroll(message); break;
 		case "Sie haben eine 2 gewürfelt.": dicePane.diceroll(message); break;

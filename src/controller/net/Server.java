@@ -57,15 +57,11 @@ public class Server {
 	 * Methode um eine Position zu empfangen
 	 * @return Die empfangene Position
 	 */
-	public Position receivePosition() throws NoMoveException{
+	public Position receivePosition(){
 		try {
-			String s = (String) in.readObject();
-			if (s.equals("NoMove")) {
-				System.out.println("Position?");
-				throw new NoMoveException();
-			}
+			
+			
 			Position position = (Position) in.readObject();
-//			System.out.println("Empfange Position " + position);
 			return position;
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();

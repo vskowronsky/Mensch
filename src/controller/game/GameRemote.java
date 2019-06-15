@@ -25,7 +25,6 @@ public class GameRemote implements Game {
 			System.out.println("Client succeeded");
 			String s = (String) t.getSource().getValue(); 
 			client.reset();
-			System.out.println(s);
 			process(s);
 		});
 		 
@@ -93,14 +92,8 @@ public class GameRemote implements Game {
 	 * Durchreichen von dem Befehl "choose", ruft die entsprechende Methode im Spieler auf
 	 * @throws NoMoveException 
 	 */
-	public void chooseMeeple(){
-			try {
-				Position p = player.chooseMeeple();
-			} catch (NoMoveException e) {
-				client.send("NoMove");
-				listen();
-			} 
-	
+	public void chooseMeeple(){	
+			 player.chooseMeeple();
 	}
 
 	/**
@@ -152,7 +145,9 @@ public class GameRemote implements Game {
 	}
 
 	public void message(String message) {
-		player.message(client.receiveString());
+		String receivedmessage = client.receiveString();
+		this.board = client.receiveBoard();
+		player.message(receivedmessage);
 		listen();
 	}
 
@@ -163,7 +158,6 @@ public class GameRemote implements Game {
 	
 	// EVENT 
 	public void returnPosition(Position p) {
-		client.send("success");
 		client.send(p);
 		listen();
 	

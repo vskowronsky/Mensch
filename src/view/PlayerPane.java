@@ -348,7 +348,7 @@ public class PlayerPane extends Pane{
 	public void update(Board board) {
 		
 		for (int i = 0; i < boardOfCircles.length; i++) {
-			switch(board.playboard[i]) {
+			switch(board.getPlayboard()[i]) {
 			case FREE: boardOfCircles[i].setFill(Color.FLORALWHITE); break;
 			case YELLOW: boardOfCircles[i].setFill(Color.GOLD); break;
 			case GREEN: boardOfCircles[i].setFill(Color.MEDIUMSEAGREEN); break;
@@ -359,7 +359,7 @@ public class PlayerPane extends Pane{
 		}
 
 		for (int i = 0; i < circleStreetGreen.length; i++) {
-			if (board.streetG[i] == Content.FREE){
+			if (board.getStreetG()[i] == Content.FREE){
 				circleStreetGreen[i].setFill(Color.FLORALWHITE);
 			} else {
 				circleStreetGreen[i].setFill(Color.MEDIUMSEAGREEN);
@@ -367,7 +367,7 @@ public class PlayerPane extends Pane{
 		}
 
 		for (int i = 0; i < circleStreetBlue.length; i++) {
-			if (board.streetB[i] == Content.FREE) {
+			if (board.getStreetB()[i] == Content.FREE) {
 				circleStreetBlue[i].setFill(Color.FLORALWHITE);
 			} else {
 				circleStreetBlue[i].setFill(Color.ROYALBLUE);
@@ -375,7 +375,7 @@ public class PlayerPane extends Pane{
 		}
 
 		for (int i = 0; i < circleStreetRed.length; i++) {
-			if (board.streetR[i] == Content.FREE) {
+			if (board.getStreetR()[i] == Content.FREE) {
 				circleStreetRed[i].setFill(Color.FLORALWHITE);
 			} else {
 				circleStreetRed[i].setFill(Color.FIREBRICK);
@@ -383,7 +383,7 @@ public class PlayerPane extends Pane{
 		}
 
 		for (int i = 0; i < circleStreetYellow.length; i++) {
-			if (board.streetY[i] == Content.FREE) {
+			if (board.getStreetY()[i] == Content.FREE) {
 				circleStreetYellow[i].setFill(Color.FLORALWHITE);
 			} else {
 				circleStreetYellow[i].setFill(Color.GOLD);
@@ -406,19 +406,19 @@ public class PlayerPane extends Pane{
 			circleHouseYellow[i].setFill(Color.FLORALWHITE);
 		}
 
-		for (int i = 0; i < board.houseG; i++) {
+		for (int i = 0; i < board.getHouseG(); i++) {
 			circleHouseGreen[i].setFill(Color.MEDIUMSEAGREEN);
 		}
 
-		for (int i = 0; i < board.houseB; i++) {
+		for (int i = 0; i < board.getHouseB(); i++) {
 			circleHouseBlue[i].setFill(Color.ROYALBLUE);
 		}
 
-		for (int i = 0; i < board.houseR; i++) {
+		for (int i = 0; i < board.getHouseR(); i++) {
 			circleHouseRed[i].setFill(Color.FIREBRICK);
 		}
 
-		for (int i = 0; i < board.houseY; i++) {
+		for (int i = 0; i < board.getHouseY(); i++) {
 			circleHouseYellow[i].setFill(Color.GOLD);
 		}
 	}
