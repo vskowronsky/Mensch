@@ -6,6 +6,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 
 
@@ -23,7 +24,9 @@ public class DicePane extends BorderPane {
 //		VBox vbox = new VBox(20);
 		test = new HBox(30);
 		this.setPrefHeight(300);
-		this.setStyle("Fx-fx-background:#123456");
+		
+		label.setFont(Font.font(Font.getDefault().getFamily(),30));
+		
 		test.getChildren().add(label);
 		
 //		vbox.getChildren().add(test);
