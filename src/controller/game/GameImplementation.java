@@ -1,5 +1,8 @@
 package controller.game;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import controller.exceptions.MissedEnemyException;
 import controller.exceptions.MoveStreetException;
 import controller.exceptions.NoMoveException;
@@ -16,7 +19,10 @@ public class GameImplementation implements Game {
 	private Status status;
 	private boolean error;
 	private boolean first;
+	private boolean firstChoose;
+	List<Integer> possibleMeeple;
 	int counter;
+
 
 	public GameImplementation(Player player1, Player player2, Player player3, Player player4) {
 		board = new BoardSet();
@@ -54,6 +60,7 @@ public class GameImplementation implements Game {
 			player3.disable();
 			player4.enable();
 		}
+		
 	}
 
 	@Override
@@ -61,7 +68,7 @@ public class GameImplementation implements Game {
 		counter++;
 		board.diceThrow();
 		first = true;
-
+		firstChoose = true;
 		do {
 			try {
 				error = true;
@@ -85,7 +92,7 @@ public class GameImplementation implements Game {
 
 							board.diceThrow();
 							player1.message("Sie dürfen nochmal würfeln. Sie haben eine " + board.getDiceValue() + " gewürfelt");
-
+							checkMovePossible(Content.YELLOW);
 							board.setMeeple(chooseMeeple(Content.YELLOW), Content.YELLOW, this);
 						}else {
 							if (board.setMeeple(chooseMeeple(Content.YELLOW), Content.YELLOW, this)) {
@@ -117,7 +124,7 @@ public class GameImplementation implements Game {
 
 							board.diceThrow();
 							player2.message("Sie dürfen nochmal würfeln. Sie haben eine " + board.getDiceValue() + " gewürfelt");
-
+							checkMovePossible(Content.GREEN);
 							board.setMeeple(chooseMeeple(Content.GREEN), Content.GREEN, this);
 						} else {
 							if (board.setMeeple(chooseMeeple(Content.GREEN), Content.GREEN, this)) {
@@ -149,7 +156,7 @@ public class GameImplementation implements Game {
 
 							board.diceThrow();
 							player3.message("Sie dürfen nochmal würfeln. Sie haben eine " + board.getDiceValue() + " gewürfelt");
-
+							checkMovePossible(Content.BLUE);
 							board.setMeeple(chooseMeeple(Content.BLUE), Content.BLUE, this);	
 
 						} else {
@@ -182,8 +189,7 @@ public class GameImplementation implements Game {
 
 							board.diceThrow();
 							player4.message("Sie dürfen nochmal würfeln. Sie haben eine " + board.getDiceValue() + " gewürfelt");
-
-
+							checkMovePossible(Content.RED);
 							board.setMeeple(chooseMeeple(Content.RED), Content.RED, this);
 						} else {
 							if (board.setMeeple(chooseMeeple(Content.RED), Content.RED, this)) {
@@ -294,15 +300,24 @@ public class GameImplementation implements Game {
 		}
 
 		if (status == Status.PLAYER1) {
+			System.out.println("Spieler 1 ist dran");
 			player1.enable();
-		} else if (status == Status.PLAYER2) {
-			player2.enable();
-		} else if (status == Status.PLAYER3) {
-			player3.enable();
-		} else if (status == Status.PLAYER4) {
-			player4.enable();
-		}
 		
+		} else if (status == Status.PLAYER2) {
+			System.out.println("Spieler 2 ist dran");
+			player2.enable();
+
+		} else if (status == Status.PLAYER3) {
+			System.out.println("Spieler 3 ist dran");
+			player3.enable();
+			
+		} else if (status == Status.PLAYER4) {
+			System.out.println("Spieler 4 ist dran");
+			System.out.println(counter);
+			player4.enable();
+		
+		}
+
 	}
 
 	public void save(String fileName) {
@@ -324,19 +339,43 @@ public class GameImplementation implements Game {
 
 	public Position chooseMeeple(Content content) throws NoMoveException{
 		int chosen = -1;
+		boolean meeplePossible = false;
 		Position chosenPosition;
+		Integer chosenMeeple = null;
+		
+		if (firstChoose) {
+		checkMovePossible(content);
+		firstChoose =false;
+		}
+		
 		while (chosen == -1) {
+			
+			if (possibleMeeple.isEmpty()) {
+				throw new NoMoveException();
+			}
+			
 			switch (content) {
 
 			case YELLOW:
 				player1.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
 				chosenPosition = player1.chooseMeeple();
-				if (content == board.checkPosition(chosenPosition, content)) {
+				
+			
+				
+				for (Integer meeple : possibleMeeple) {
+					if (meeple == chosenPosition.getIndex()) {
+						meeplePossible = true;
+						chosenMeeple = meeple;
+					}
+				}
+				
+				if (meeplePossible) {
+					possibleMeeple.remove(chosenMeeple);
+					
 					return chosenPosition;
 				}else {
-					
+
 					player1.message("Bitte wählen Sie ein Feld mit einer Ihrer noch bewegbaren Figuren aus.");
-					player1.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
 					chosen = -1;
 				}
 				break;
@@ -344,11 +383,21 @@ public class GameImplementation implements Game {
 			case GREEN:
 				player2.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
 				chosenPosition = player2.chooseMeeple();
-				if (content == board.checkPosition(chosenPosition, content)) {
+				
+				
+				for (Integer meeple : possibleMeeple) {
+					if (meeple == chosenPosition.getIndex()) {
+						meeplePossible = true;
+						chosenMeeple = meeple;
+					}
+				}
+				
+				if (meeplePossible) {
+					possibleMeeple.remove(chosenMeeple);
+					
 					return chosenPosition;
 				}else {
 					player2.message("Bitte wählen Sie ein Feld mit einer Ihrer noch bewegbaren Figuren aus.");
-					player2.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
 					chosen = -1;
 				}
 				break;
@@ -356,11 +405,18 @@ public class GameImplementation implements Game {
 			case BLUE:
 				player3.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
 				chosenPosition = player3.chooseMeeple();
-				if (content == board.checkPosition(chosenPosition, content)) {
+				for (Integer meeple : possibleMeeple) {
+					if (meeple == chosenPosition.getIndex()) {
+						meeplePossible = true;
+						chosenMeeple = meeple;
+					}
+				}
+				
+				if (meeplePossible) {
+					possibleMeeple.remove(chosenMeeple);
 					return chosenPosition;
 				}else {
 					player3.message("Bitte wählen Sie ein Feld mit einer Ihrer noch bewegbaren Figuren aus.");
-					player3.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
 					chosen = -1;
 				}
 				break;
@@ -368,13 +424,21 @@ public class GameImplementation implements Game {
 			case RED:
 				player4.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
 				chosenPosition = player4.chooseMeeple();
-				if (content == board.checkPosition(chosenPosition, content)) {
+				
+				for (Integer meeple : possibleMeeple) {
+					if (meeple == chosenPosition.getIndex()) {
+						meeplePossible = true;
+						chosenMeeple = meeple;
+					}
+				}
+				
+				if (meeplePossible) {
+					possibleMeeple.remove(chosenMeeple);
 					return chosenPosition;
 				}else {
 					player4.message("Bitte wählen Sie ein Feld mit einer Ihrer noch bewegbaren Figuren aus.");
-					player4.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
 					chosen = -1;
-					}
+				}
 				break;
 			default: break;
 			}
@@ -397,6 +461,98 @@ public class GameImplementation implements Game {
 	@Override
 	public void returnPosition(Position position) {
 		// TODO Auto-generated method stub
+
+	}
+
+
+	// Erzeugt ein Array mit allen Positionen von bewegbaren Meeple beinhaltet
+	public void checkMovePossible(Content content) {
+
+		int j = 0;
+		switch (content) {
 		
+		case YELLOW: 	
+			possibleMeeple = new ArrayList<Integer>();
+
+			for (int i = 0; i < board.getPlayboard().length;i++) {
+				if (board.getPlayboard()[i] == content) {
+					possibleMeeple.add(i);
+					j++;
+				}
+			}
+
+			for (int i = 0; i < board.getStreetY().length;i++) {
+				if (board.getStreetY()[i] == content && j<= 4-board.getHouseY()-board.getFinishedY()-1) {
+					possibleMeeple.add(i + 40);
+					j++;
+				}
+			}
+
+			break;
+
+		case GREEN: 	
+			possibleMeeple = new ArrayList<Integer>();
+		
+
+			for (int i = 0; i < board.getPlayboard().length;i++) {
+				if (board.getPlayboard()[i] == content) {
+					possibleMeeple.add(i);
+					j++;
+				}
+			}
+
+			for (int i = 0; i < board.getStreetG().length;i++) {
+				if (board.getStreetG()[i] == content && j<= 4-board.getHouseG()-board.getFinishedG()-1) {
+					possibleMeeple.add(i+50);
+					j++;
+				}
+			}
+
+			break;
+
+		case BLUE: 	
+			possibleMeeple = new ArrayList<Integer>();
+	
+			for (int i = 0; i < board.getPlayboard().length;i++) {
+				if (board.getPlayboard()[i] == content) {
+					possibleMeeple.add(i);
+					j++;
+				}
+			}
+
+			for (int i = 0; i < board.getStreetB().length;i++) {
+				if (board.getStreetB()[i] == content && j<= 4-board.getHouseB()-board.getFinishedB()-1) {
+					possibleMeeple.add(i+60);
+					j++;
+				}
+			}
+
+			break;
+
+		case RED: 	
+			possibleMeeple = new ArrayList<Integer>();
+
+
+			for (int i = 0; i < board.getPlayboard().length;i++) {
+				if (board.getPlayboard()[i] == content) {
+					possibleMeeple.add(i);
+					j++;
+				}
+			}
+
+			for (int i = 0; i < board.getStreetR().length;i++) {
+				if (board.getStreetR()[i] == content && j<= 4-board.getHouseR()-board.getFinishedR()-1) {
+					possibleMeeple.add(i+70);
+					j++;
+				}
+			}
+
+			break;
+			
+		default:
+			break;
+
+		}
+
 	}
 }

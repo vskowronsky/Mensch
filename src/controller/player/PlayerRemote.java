@@ -2,7 +2,6 @@ package controller.player;
 
 import java.net.Socket;
 
-import controller.exceptions.NoMoveException;
 import controller.game.Game;
 import controller.net.Server;
 import model.Content;
@@ -41,7 +40,7 @@ public class PlayerRemote implements Player {
 		server.send(game.getBoard());
 	}
 
-	public Position chooseMeeple() throws NoMoveException{
+	public Position chooseMeeple(){
 		server.send("choose");
 		return server.receivePosition();
 	}
@@ -74,6 +73,7 @@ public class PlayerRemote implements Player {
 	public void message(String message) {
 		server.send("message");
 		server.send(message);
+		server.send(game.getBoard());
 	}
 
 }

@@ -15,7 +15,6 @@ public class PlayerCUI implements Player {
 	private int id;
 
 	public PlayerCUI() {
-		this.content = Content.FREE;
 		this.game = null;
 		this.id = -1;
 	}
@@ -27,7 +26,6 @@ public class PlayerCUI implements Player {
 	}
 
 	public void enable() {
-		System.out.println("NEUE RUNDE!");
 		int sl = -1;
 		System.out.println(game.getBoard());
 		do {
@@ -77,7 +75,7 @@ public class PlayerCUI implements Player {
 		}
 	}
 
-	public Position chooseMeeple() throws NoMoveException {
+	public Position chooseMeeple(){
 		int chosen = -1;
 		
 			
