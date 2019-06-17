@@ -156,6 +156,7 @@ public class Client extends Service<String>
 	 */
 	public void send(Position position){
 		try {
+			
 			System.out.println("Sende Position " + position.getIndex());
 			out.reset();
 			out.writeObject(position);

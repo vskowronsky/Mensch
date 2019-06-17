@@ -40,6 +40,7 @@ public class Server {
 		
 		System.out.println("Server lauscht.");
 		String s = receiveString();
+		Position p = receivePosition();
 		System.out.println(s);
 		switch(s){
 			case "update": player.update(); break;
@@ -49,6 +50,9 @@ public class Server {
 			case "load": 
 				s = receiveString();
 				player.load(s);	break;
+			case "position": 
+				p = receivePosition();
+				player.chooseMeeple();
 		}
 	}
 	
@@ -57,11 +61,12 @@ public class Server {
 	 * Methode um eine Position zu empfangen
 	 * @return Die empfangene Position
 	 */
-	public Position receivePosition(){
+	public Position receivePosition(){		
 		try {
-			
-			
 			Position position = (Position) in.readObject();
+			if (position == null) {
+				receiveString();
+			}
 			return position;
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();

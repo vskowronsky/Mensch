@@ -10,6 +10,7 @@ import controller.game.Game;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
@@ -113,10 +114,6 @@ public class PlayerGUI implements Player{
 
 	}
 	
-	
-
-
-
 	// Werden später wieder gelöscht
 	private void update() {
 		stageWidth = stage.getWidth();
@@ -160,13 +157,13 @@ public class PlayerGUI implements Player{
 			public void handle(ActionEvent event) {
 				Label firstRule = new Label("In the beginning of the game every player has four Meeple in a house.");
 				Label secondRule = new Label("If you throw a 6 the computer set one meeple from the house to its starting position");
-				StackPane secondLayout = new StackPane();
+				Group layout = new Group();
 				VBox labelBox = new VBox(20);
 
 				labelBox.getChildren().addAll(firstRule, secondRule);
-				secondLayout.getChildren().add(labelBox);
+				layout.getChildren().add(labelBox);
 
-				Scene secondScene = new Scene(secondLayout, 500,300);
+				Scene secondScene = new Scene(layout, 500,300);
 
 				Stage newWindow = new Stage();
 				newWindow.setTitle("Rules of ludo");
