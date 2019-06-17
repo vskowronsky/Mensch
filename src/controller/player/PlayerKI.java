@@ -28,7 +28,6 @@ public class PlayerKI implements Player {
 	}
 
 	public void enable() {
-
 		this.meeplecounter = 1;
 		this.enemycounter = 1;
 		System.out.println("NEUE RUNDE!");
@@ -58,7 +57,6 @@ public class PlayerKI implements Player {
 		case RED : street = board.getStreetR(); dif = 70; break;
 		default : break;
 		}
-
 
 		for (int i = 0; i<this.board.getPlayboard().length; i++) {
 			
@@ -158,7 +156,5 @@ public class PlayerKI implements Player {
 			this.enemycounter = 1; 
 			break;	
 		}
-
-
 	}
 }

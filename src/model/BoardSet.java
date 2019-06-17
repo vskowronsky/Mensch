@@ -17,14 +17,11 @@ public class BoardSet extends Board implements Serializable {
 		super();
 	}
 
-	
-
 	public boolean setMeeple(Position position, Content content, Game game) throws OwnMeepleException, 
 	MoveStreetException, NoMoveException, MissedEnemyException {
 
-
 		enforcer(position, content);
-	
+
 		if(position.getIndex() >= 40){
 			Position currentPos = positionInStreet(content, position);
 			if (currentPos.getIndex() + diceValue < nextStreetMeeple(currentPos,content)) {
@@ -35,10 +32,8 @@ public class BoardSet extends Board implements Serializable {
 		} else {
 			if (position.getIndex() + diceValue >= 40) {
 				newPosition = new Position((position.getIndex() + diceValue) - 40);
-
 				if (checkNearEnd(content, position)) {
 					enterStreet(position, content);
-
 				} else {
 					flingEnemy(content, game);
 					playboard[(position.getIndex() + diceValue) - 40] = content;
@@ -47,12 +42,10 @@ public class BoardSet extends Board implements Serializable {
 				newPosition = new Position(position.getIndex() + diceValue);
 				if (checkNearEnd(content, position)) {
 					enterStreet(position, content);
-
 				} else {
 					flingEnemy(content, game);
 					playboard[position.getIndex() + diceValue] = content;
 				}
-
 			} 
 			if (diceValue != 0) {
 				playboard[position.getIndex()] = Content.FREE;
@@ -62,56 +55,56 @@ public class BoardSet extends Board implements Serializable {
 	}
 
 	// Schlagzwangüberprüfung
-		public void enforcer(Position position, Content content) throws MissedEnemyException {
-			// enforce = true sagt, dass wir einen Meeple haben, der einen Gegner schlagen kann 
-			enforce = false;
+	public void enforcer(Position position, Content content) throws MissedEnemyException {
+		// enforce = true sagt, dass wir einen Meeple haben, der einen Gegner schlagen kann 
+		enforce = false;
 
-			for (int i = 0; i <=39; i++) {
-				if (playboard[i] == content) {	
-					if (i + diceValue >= 40) {
-						if (checkEnemy(content, new Position((i + diceValue) - 40)) == 2) {
-							enforce = true;
-							break;
-						}
-					} else {
-						if (checkEnemy(content, new Position(i + diceValue)) == 2) {
-							enforce = true;
-							break;
-						}
+		for (int i = 0; i <=39; i++) {
+			if (playboard[i] == content) {	
+				if (i + diceValue >= 40) {
+					if (checkEnemy(content, new Position((i + diceValue) - 40)) == 2) {
+						enforce = true;
+						break;
 					}
-				}
-			}
-
-			if (position.getIndex() + diceValue >= 40) {
-				if (checkEnemy(content, new Position((position.getIndex() + diceValue) - 40)) != 2 
-						&& enforce && !checkNearEnd(content,position) && position.getIndex()<=40) {
-					switch(content) {
-					case YELLOW: houseY ++; break;
-					case GREEN: houseG ++; break;
-					case BLUE: houseB ++; break;
-					case RED: houseR ++; break;
-					default: break;
+				} else {
+					if (checkEnemy(content, new Position(i + diceValue)) == 2) {
+						enforce = true;
+						break;
 					}
-					playboard[position.getIndex()]  = Content.FREE;
-					throw new MissedEnemyException();
-				}
-			} else {
-				if (checkEnemy(content, new Position(position.getIndex() + diceValue)) != 2 
-						&& enforce && !checkNearEnd(content,position) && position.getIndex()<=40) {
-					switch(content) {
-					case YELLOW: houseY ++; break;
-					case GREEN: houseG ++; break;
-					case BLUE: houseB ++; break;
-					case RED: houseR ++; break;
-					default: break;
-					}
-					playboard[position.getIndex()] = Content.FREE;
-					throw new MissedEnemyException();
 				}
 			}
 		}
 
-		
+		if (position.getIndex() + diceValue >= 40) {
+			if (checkEnemy(content, new Position((position.getIndex() + diceValue) - 40)) != 2 
+					&& enforce && !checkNearEnd(content,position) && position.getIndex()<=40) {
+				switch(content) {
+				case YELLOW: houseY ++; break;
+				case GREEN: houseG ++; break;
+				case BLUE: houseB ++; break;
+				case RED: houseR ++; break;
+				default: break;
+				}
+				playboard[position.getIndex()]  = Content.FREE;
+				throw new MissedEnemyException();
+			}
+		} else {
+			if (checkEnemy(content, new Position(position.getIndex() + diceValue)) != 2 
+					&& enforce && !checkNearEnd(content,position) && position.getIndex()<=40) {
+				switch(content) {
+				case YELLOW: houseY ++; break;
+				case GREEN: houseG ++; break;
+				case BLUE: houseB ++; break;
+				case RED: houseR ++; break;
+				default: break;
+				}
+				playboard[position.getIndex()] = Content.FREE;
+				throw new MissedEnemyException();
+			}
+		}
+	}
+
+
 	public void setStart(Status status, Game game) throws OwnMeepleException, MoveStreetException,
 	NoMoveException, MissedEnemyException  {
 		switch(status) {
@@ -123,28 +116,6 @@ public class BoardSet extends Board implements Serializable {
 		}
 	}
 
-	//	public boolean movePossible(Content content, Position position, Game game) {
-	//		//ist setMeeple für irgendeins der Figuren der Farbe möglich?
-	//		int meeple = 1;
-	//		int currentMeeple = 1;
-	//		for (int i = 0; i<= 74; i++) {
-	//			if(checkPosition(new Position (i), content) == content && meeple == currentMeeple) {
-	//				try {
-	//					if(!setMeeple(position, content, game)) {
-	//						return true;
-	//					} else {
-	//						throw new NoMoveException();
-	//					}
-	//				
-	//			}finally {
-	//				
-	//			}
-	//				}else if (checkPosition(new Position (i), content) == content) {
-	//				currentMeeple++;
-	//			}
-	//		}
-	//		return true;
-	//	}
 
 	public void setStreet(Content content, Position currentPos) {
 		switch(content) {
@@ -176,7 +147,6 @@ public class BoardSet extends Board implements Serializable {
 				finishedR++;
 			}
 			break;
-
 		default: break;
 		}
 	}
@@ -187,7 +157,6 @@ public class BoardSet extends Board implements Serializable {
 		case GREEN: return (new Position(position.getIndex() - 50)); 
 		case BLUE: return (new Position(position.getIndex() - 60)); 
 		case RED: return (new Position(position.getIndex() - 70));
-
 		default: return null;
 		}
 	}
@@ -217,7 +186,6 @@ public class BoardSet extends Board implements Serializable {
 				return false;
 			}
 		} return true;
-
 		default: return false;
 		}
 	}
@@ -253,7 +221,6 @@ public class BoardSet extends Board implements Serializable {
 				}	
 			}
 			return 4;
-
 		default: return -1;
 		} 
 	}
@@ -268,7 +235,6 @@ public class BoardSet extends Board implements Serializable {
 			} else {
 				throw new MoveStreetException();
 			}
-
 			if (isFinished(diff, content)) {
 				finishedY++;
 			}
@@ -280,7 +246,6 @@ public class BoardSet extends Board implements Serializable {
 			} else {
 				throw new MoveStreetException();
 			}
-
 			if (isFinished(diff, content)) {
 				finishedG++;
 			}
@@ -292,7 +257,6 @@ public class BoardSet extends Board implements Serializable {
 			} else {
 				throw new MoveStreetException();
 			}
-
 			if (isFinished(diff, content)) {
 				finishedB++;
 			}
@@ -304,7 +268,6 @@ public class BoardSet extends Board implements Serializable {
 			} else {
 				throw new MoveStreetException();
 			}
-
 			if (isFinished(diff, content)) {
 				finishedR++;
 			}
@@ -314,11 +277,10 @@ public class BoardSet extends Board implements Serializable {
 	}
 
 	public void flingEnemy(Content content, Game game) throws OwnMeepleException {
-
 		if (checkEnemy(content, newPosition) == 1) {
 			throw new OwnMeepleException();
-		}else if (checkEnemy(content, newPosition) == 2) {
-			
+		} else if (checkEnemy(content, newPosition) == 2) {
+
 			String message = "Eine Figur wurde geworfen.";
 			switch(playboard[newPosition.getIndex()]) {
 			case YELLOW: houseY++; game.message(message); break;
@@ -328,7 +290,6 @@ public class BoardSet extends Board implements Serializable {
 			default:
 				break;}
 		}
-
 	}
 
 
@@ -392,7 +353,6 @@ public class BoardSet extends Board implements Serializable {
 					throwCount++;
 					diceThrow();
 					game.message("Sie haben eine " + diceValue + " gewürfelt.");
-					
 				}
 			}
 			break;

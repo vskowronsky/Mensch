@@ -77,10 +77,7 @@ public class PlayerCUI implements Player {
 
 	public Position chooseMeeple(){
 		int chosen = -1;
-		
-			
 		System.out.println("Wählen Sie eine Spielfigur aus.");
-
 		while (chosen == -1) {
 			chosen = readInt();
 			if (chosen != -1) {
@@ -102,17 +99,8 @@ public class PlayerCUI implements Player {
 	}
 
 	private void load() {
-		//		int name = -1;
-		//		while (name != -1) {
 		System.out.println("Bitte geben Sie den Namen der zu ladenden Datei ein.");
-		//			if ((enterFileName()) {
-		game.load(enterFileName());
-		//		} else {
-		//			System.out.println("Der Name der zu ladenen Datei existiert nicht. Bitte gegen Sie ihn erneut ein.");
-		//			name = -1;
-		//		}
-		//		}
-		//		
+		game.load(enterFileName());	
 	}
 
 	public void disable() {

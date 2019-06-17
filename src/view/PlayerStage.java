@@ -7,11 +7,13 @@ import javafx.stage.Stage;
 public class PlayerStage extends Stage {
 
 private ScenePane pane;
+
 	
 	public PlayerStage(ScenePane pane){
 		super();
 		this.pane = pane;
 		init();
+		this.setFullScreen(true);
 	}
 	
 	//(pane,BREITE, HÖHE, Farbe)

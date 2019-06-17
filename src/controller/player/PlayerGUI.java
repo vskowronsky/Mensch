@@ -13,9 +13,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -41,6 +43,7 @@ public class PlayerGUI implements Player{
 	private int id;
 	private boolean choosing;
 	private int position;
+	public double stageWidth;
 
 	public PlayerGUI () {
 		this.content = Content.FREE;
@@ -62,9 +65,18 @@ public class PlayerGUI implements Player{
 		playerPane = new PlayerPane(this);
 		infoPane = new InfoPane(id);
 		dicePane = new DicePane();
-		root = new ScenePane(playerPane, infoPane, dicePane, menuBar);
+		root = new ScenePane(playerPane, infoPane, dicePane, menuBar, this);
 		stage = new PlayerStage(root);
 		stage.show();
+		
+		
+		
+		
+		stage.widthProperty().addListener((obs, oldVal, newVal) -> {
+			stageWidth = stage.getWidth();
+			root.enable();
+		});
+
 	}
 
 
@@ -96,10 +108,14 @@ public class PlayerGUI implements Player{
 		}
 
 	}
+	
+	
+
 
 
 	// Werden später wieder gelöscht
 	private void update() {
+		stageWidth = stage.getWidth();
 		root.enable();
 		game.update();
 
@@ -131,12 +147,13 @@ public class PlayerGUI implements Player{
 		MenuBar menuBar = new MenuBar();
 		menuBar.setUseSystemMenuBar(true);
 		Menu saveload = new Menu("Save/Load");
-		MenuItem rules = new MenuItem("Rules");
 		Menu about = new Menu("About");
+		MenuItem rules = new MenuItem("Rules");
+		
 		rules.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				Label firstRule = new Label("Startposition sind die 4 Felder, auf denen die Figuren am Anfang des Spiels stehen.");
-				Label secondRule = new Label("Zielposition sind die 4 Felder, die erreicht werden, wenn die Spielfigur einmal um das Spielbrett gezogen ist.");
+				Label firstRule = new Label("In the beginning of the game every player has four Meeple in a house.");
+				Label secondRule = new Label("If you throw a 6 the computer set one meeple from the house to its starting position");
 				StackPane secondLayout = new StackPane();
 				VBox labelBox = new VBox(20);
 
@@ -155,6 +172,13 @@ public class PlayerGUI implements Player{
 			}
 		});
 
+		MenuItem exit = new MenuItem("Exit");
+		exit.setAccelerator(KeyCombination.keyCombination("Ctrl+X"));
+		exit.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+				System.exit(0);
+			}});
+		
 		MenuItem menusave = new MenuItem("Save");
 		//		menusave.setOnAction((ActionEvent t) -> {game.save(enterFileName());});
 		MenuItem menuload = new MenuItem("Load");
@@ -163,7 +187,7 @@ public class PlayerGUI implements Player{
 
 		saveload.getItems().addAll(menusave, menuload);
 
-		about.getItems().add(rules);
+		about.getItems().addAll(rules, exit);
 
 
 		menuBar.getMenus().addAll(saveload,about);
@@ -256,8 +280,9 @@ public class PlayerGUI implements Player{
 		public void handle(MouseEvent t) {
 			CircleWithPos circle = (CircleWithPos) t.getSource();
 			if (choosing) {
-				circle.setCursor(Cursor.HAND);
 				choosing = false;
+				AudioClip clickSound = new AudioClip("file:src/view/Click-Sound.wav");
+				clickSound.play();
 				if(circle.getPosition() < 40) {
 					circle.setStroke(Color.BLACK);
 					circle.setStrokeWidth(2);
@@ -282,7 +307,7 @@ public class PlayerGUI implements Player{
 					circle.setCursor(Cursor.HAND);
 					circle.setStroke(Color.MAGENTA);
 					circle.setStrokeWidth(5);
-				} else if (circle.getPosition() > 40 && circle.getFill() != Color.FLORALWHITE) {
+				} else if (circle.getPosition() >= 40 && circle.getFill() != Color.FLORALWHITE) {
 					circle.setCursor(Cursor.HAND);
 					circle.setStroke(Color.MAGENTA);
 					circle.setStrokeWidth(5);

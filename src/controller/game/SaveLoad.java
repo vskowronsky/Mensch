@@ -38,33 +38,7 @@ public class SaveLoad {
 			e.printStackTrace();
 		}
 	}
-	/**
-	 * Static method for saving a PersistenceObject into a readable csv File Mensch.csv.
-	 * @param po the object to safe
-	 
-	
-	public static void saveCSV(PersistenceObject po){
-		
-		try {
-			BufferedWriter bw = new BufferedWriter(new FileWriter("Mensch.csv"));
-			for(int row = 0 ; row < 3; row++){
-				for(int column = 0; column < 3; column++){
-					bw.write(po.getBoard().getIndex(new Position(index)).toString() + ",");
-				}
-				bw.newLine();
-			}
-			bw.write(po.getStatus() + "");
 
-			bw.flush();
-			bw.close();
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	*/
-	
 	
 	/**
 	 * Static method for loading a PersistenceObject from the file Mensch.ser.
@@ -86,40 +60,4 @@ public class SaveLoad {
 		
 		return null;
 	}
-
-	/**
-	 * Static method for loading a PersistenceObject from the file Mensch.csv.
-	 * @return the loaded PersistenceObject.
-	 
-	public static PersistenceObject loadCSV(){
-		BoardSet board = new BoardSet();
-		int status = 0;
-		try {
-			BufferedReader br = new BufferedReader(new FileReader("Mensch.csv"));
-			for(int row = 0; row < 3; row++){
-				String s = br.readLine();
-				String[] split = s.split(",");
-				for(int column = 0; column < split.length; column++){
-					if(split[column].equals("CIRCLE")){
-						board.setCircle(new Position(row,column));
-					}
-					if(split[column].equals("CROSS")){
-						board.setCross(new Position(row, column));
-					}
-				}
-			}
-			status = (new Integer(br.readLine())).intValue();
-			br.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		PersistenceObject po = new PersistenceObject(status,board);
-		return po;
-		
-	}
-	*/
   }

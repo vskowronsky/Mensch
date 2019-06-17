@@ -7,7 +7,7 @@ import controller.game.Status;
 
 public class Board implements Serializable {
 /**
- * Konstruktor der Klasse Board. Beim Implementieren des Boardes wird ein Würfel implementiert, ein Array board, das 
+ * Konstruktor der Klasse Board. Beim Implementieren des Boardes wird ein Array board, das 
  * das Spielfeld darstellt, vier weitere Arrays, die die Zielstraße des jeweiligen Spielers sind, sowie int-Werte für die jeweiligen
  * Häuser der Spieler (4) und finished (0), da noch kein Spielstein am Ziel angekommen ist.
  */
@@ -34,18 +34,14 @@ public class Board implements Serializable {
 	protected int finishedB;
 	protected int finishedR;
 	protected int diceValue;
-	protected Position newPosition;
 	boolean enforce = false;
 
 
 	public Board() {
-
-
 		playboard = new Content[40];
 		for (int i = 0; i < playboard.length; i++) {
 			playboard[i] = Content.FREE;
 		}
-
 		streetY = new Content[4];
 		for (int i = 0; i < streetY.length; i++) {
 			streetY[i] = Content.FREE;
@@ -62,7 +58,6 @@ public class Board implements Serializable {
 		for (int i = 0; i < streetR.length; i++) {
 			streetR[i] = Content.FREE;
 		}
-	
 		houseY = 4;
 		houseG = 4;
 		houseB = 4;
@@ -137,7 +132,6 @@ public class Board implements Serializable {
 	
 	/**
 	 * Überprüfung, ob sich der Spielstein in der Nähe seiner Zielstraße befindet.
-	 * 
 	 *
 	 */
 	public boolean checkNearEnd(Content content, Position position) {
@@ -222,8 +216,6 @@ public class Board implements Serializable {
 	}
 
 	
-
-
 	/**
 	 * Ausgabe des Spielfeldes.
 	 */
@@ -266,111 +258,67 @@ public class Board implements Serializable {
 	}
 
 	
-	
 	public Content[] getPlayboard() {
 		return playboard;
 	}
 
-	public void setPlayboard(Content[] playboard) {
-		this.playboard = playboard;
-	}
 
 	public Content[] getStreetY() {
 		return streetY;
 	}
 
-	public void setStreetY(Content[] streetY) {
-		this.streetY = streetY;
-	}
 
 	public Content[] getStreetG() {
 		return streetG;
 	}
 
-	public void setStreetG(Content[] streetG) {
-		this.streetG = streetG;
-	}
 
 	public Content[] getStreetB() {
 		return streetB;
 	}
 
-	public void setStreetB(Content[] streetB) {
-		this.streetB = streetB;
-	}
 
 	public Content[] getStreetR() {
 		return streetR;
 	}
 
-	public void setStreetR(Content[] streetR) {
-		this.streetR = streetR;
-	}
 
 	public int getHouseY() {
 		return houseY;
 	}
 
-	public void setHouseY(int houseY) {
-		this.houseY = houseY;
-	}
 
 	public int getHouseG() {
 		return houseG;
 	}
 
-	public void setHouseG(int houseG) {
-		this.houseG = houseG;
-	}
 
 	public int getHouseB() {
 		return houseB;
 	}
 
-	public void setHouseB(int houseB) {
-		this.houseB = houseB;
-	}
 
 	public int getHouseR() {
 		return houseR;
 	}
 
-	public void setHouseR(int houseR) {
-		this.houseR = houseR;
-	}
 
 	public int getFinishedY() {
 		return finishedY;
 	}
 
-	public void setFinishedY(int finishedY) {
-		this.finishedY = finishedY;
-	}
 
 	public int getFinishedG() {
 		return finishedG;
 	}
 
-	public void setFinishedG(int finishedG) {
-		this.finishedG = finishedG;
-	}
 
 	public int getFinishedB() {
 		return finishedB;
 	}
 
-	public void setFinishedB(int finishedB) {
-		this.finishedB = finishedB;
-	}
 
 	public int getFinishedR() {
 		return finishedR;
 	}
-
-	public void setFinishedR(int finishedR) {
-		this.finishedR = finishedR;
-	}
-	
-
-
 }

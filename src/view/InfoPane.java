@@ -8,6 +8,7 @@ import javafx.scene.effect.Lighting;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -40,8 +41,8 @@ public class InfoPane extends BorderPane {
 		
 		label = new Label("");
 		int id1 = id%4 +1;
-		labelDisable = "Warten auf Spieler " + id1;
-		labelEnable = "Machen Sie Ihren Zug";
+		labelDisable = "Warten auf Spieler " + id1 + ".";
+		labelEnable = "Machen Sie Ihren Zug.";
 		labelWin = "Sie haben gewonnen!";
 		labelLose = "Sie haben verloren!";
 		
@@ -61,8 +62,8 @@ public class InfoPane extends BorderPane {
 		label.setFont(Font.font(Font.getDefault().getFamily(),30));
 		messageBox.getChildren().addAll(label);
 		
-		bigBox.setPadding(new Insets(10, 50, 50, 50));
-	    bigBox.setSpacing(10);
+		bigBox.setPadding(new Insets(5, 5, 5, 5));
+	    bigBox.setSpacing(5);
 	    
 		bigBox.getChildren().addAll(text, messageBox);
 		
@@ -79,10 +80,14 @@ public class InfoPane extends BorderPane {
 	}
 
 	public void win() {
+		AudioClip successSound = new AudioClip("file:src/view/Success-Sound.wav");
+		successSound.play();
 		label.setText(labelWin);
-	}
+			}
 
 	public void lose() {
+		AudioClip loseSound = new AudioClip("file:src/view/Lose-Sound.mp3");
+		loseSound.play();
 		label.setText(labelLose);
 	}
 	 
