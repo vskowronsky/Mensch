@@ -140,10 +140,10 @@ public class Client extends Service<String>
 	 * Methode um ein String zu senden.
 	 * @param Die zu sendene Nachricht als String
 	 */
-	public void send(String message){
+	public void send(String string){
 		try {
-			System.out.println("Sende Nachricht " + message);
-			out.writeObject(message);
+			System.out.println("Sende Nachricht " + string);
+			out.writeObject(string);
 			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();

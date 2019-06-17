@@ -1,7 +1,9 @@
 package controller.player;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
+import java.util.Optional;
 
 import controller.exceptions.NoMoveException;
 import controller.game.Game;
@@ -13,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
@@ -20,6 +23,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Board;
 import model.Content;
@@ -123,6 +127,7 @@ public class PlayerGUI implements Player{
 	// Werden später wieder gelöscht
 	private void save() {
 		System.out.println("Bitte geben Sie der zu speichernden Datei einen Namen.");
+		
 		game.save(enterFileName());
 	}
 	
@@ -144,6 +149,7 @@ public class PlayerGUI implements Player{
 
 
 	private MenuBar setMenu() {
+		TextInputDialog input = new TextInputDialog();
 		MenuBar menuBar = new MenuBar();
 		menuBar.setUseSystemMenuBar(true);
 		Menu saveload = new Menu("Save/Load");
@@ -180,9 +186,12 @@ public class PlayerGUI implements Player{
 			}});
 		
 		MenuItem menusave = new MenuItem("Save");
-		//		menusave.setOnAction((ActionEvent t) -> {game.save(enterFileName());});
+		menusave.setOnAction((ActionEvent t) -> {
+			
+			Optional<String> result = input.showAndWait();
+					game.save(result.get());});
 		MenuItem menuload = new MenuItem("Load");
-		//		menuload.setOnAction((ActionEvent t) -> {game.load(enterFileName()); playerPane.update(game.getBoard());});		
+		menuload.setOnAction((ActionEvent t) -> {game.load(enterFileName()); playerPane.update(game.getBoard());});		
 
 
 		saveload.getItems().addAll(menusave, menuload);

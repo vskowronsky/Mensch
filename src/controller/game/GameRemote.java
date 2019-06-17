@@ -125,6 +125,7 @@ public class GameRemote implements Game {
 	 * @see controller.game.Game#safe()
 	 */
 	public void save (String string){
+		client.send((Position) null); 
 		client.send("save");
 		client.send(string);
 	}

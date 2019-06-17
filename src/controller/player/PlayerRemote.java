@@ -58,6 +58,7 @@ public class PlayerRemote implements Player {
 	public void save(String fileName){
 		server.send("save");
 		game.save(fileName);
+		server.listen();
 	}
 	
 	public void load(String fileName){
