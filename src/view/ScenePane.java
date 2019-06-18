@@ -20,53 +20,42 @@ public class ScenePane extends BorderPane{
 	private PlayerPane playerPane;
 	private InfoPane infoPane;
 	private DicePane dicePane;
+	private MessagePane messagePane;
 	private MenuBar menuBar;
 	private PlayerGUI playerGUI;
 	private VBox  test;
-	
-	
-	public ScenePane(PlayerPane playerPane, InfoPane infoPane, DicePane dicePane, MenuBar menuBar, PlayerGUI playerGUI) {
+
+
+	public ScenePane(PlayerPane playerPane, InfoPane infoPane, DicePane dicePane, MessagePane messagePane, MenuBar menuBar, PlayerGUI playerGUI) {
 		super();
 		this.playerPane = playerPane;
 		this.infoPane = infoPane;
 		this.dicePane = dicePane;
+		this.messagePane = messagePane;
 		this.menuBar = menuBar;
 		this.playerGUI = playerGUI;
-		
+
 		init();
 	}
 
 
 	private void init(){
-//		AnchorPane center = new AnchorPane();
-//		center.getChildren().add(playerPane);
-//		
-//		AnchorPane.setTopAnchor(playerPane, 20.);
-//		AnchorPane.setLeftAnchor(playerPane, 20.);
-		
-		
 		this.setTop(menuBar);
 		this.setCenter(playerPane);
 		this.setRight(dicePane); 
-		this.setBottom(infoPane);
-		
-		test = new VBox();
-		this.setLeft(test);
+		this.setLeft(infoPane);
+		this.setBottom(messagePane);
 
-		
-//		BorderPane.setAlignment(main, Pos.CENTER);
-	
-//		this.setLeft(dicePane);
-
+		//		test = new VBox();
+		//		this.setLeft(test);
 	}
-	
+
 	public void enable(){
-		
-		test.setPrefWidth((playerGUI.stageWidth-playerPane.width)*0.5);
+		setPrefWidth((playerGUI.stageWidth-playerPane.width)*0.5);
 	}
-	
-	
+
+
 	public void disable(){
-		
+
 	}
 }

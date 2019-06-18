@@ -19,12 +19,10 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Board;
 import model.Content;
@@ -32,6 +30,7 @@ import model.Position;
 import view.CircleWithPos;
 import view.DicePane;
 import view.InfoPane;
+import view.MessagePane;
 import view.PlayerPane;
 import view.PlayerStage;
 import view.ScenePane;
@@ -43,6 +42,7 @@ public class PlayerGUI implements Player{
 	private PlayerStage stage;
 	private InfoPane infoPane;
 	private DicePane dicePane;
+	private MessagePane messagePane;
 	private Content content;
 	private Game game;
 	private int id;
@@ -58,10 +58,7 @@ public class PlayerGUI implements Player{
 		this.position = -1;
 	}
 
-
-
 	public void initialize(Content content, Game game, int id) {
-
 		this.content = content;
 		this.game = game;
 		this.id = id;
@@ -70,13 +67,12 @@ public class PlayerGUI implements Player{
 		playerPane = new PlayerPane(this);
 		infoPane = new InfoPane(id);
 		dicePane = new DicePane();
-		root = new ScenePane(playerPane, infoPane, dicePane, menuBar, this);
+		messagePane = new MessagePane();
+		root = new ScenePane(playerPane, infoPane, dicePane, messagePane, menuBar, this);
 		stage = new PlayerStage(root);
 		stage.show();
 		
-		
-		
-		
+						
 		stage.widthProperty().addListener((obs, oldVal, newVal) -> {
 			stageWidth = stage.getWidth();
 			root.enable();
@@ -87,31 +83,23 @@ public class PlayerGUI implements Player{
 
 
 	public void enable() {
-
-		int sl = -1;
+		TextInputDialog input = new TextInputDialog();
+//		int sl = -1;
 		playerPane.update(game.getBoard());
 		infoPane.enable();
-		do {
-			System.out.println("Sie sind dran, Spieler " + id);
-			System.out.println(
-					"Wollen Sie eine Spielfigur setzen, einen Spielstand speichern oder einen Spielstand laden? \n 0 für Setzen, 1 für Speichern, 2 für Laden");
+		update();
 			
-			// IMMER GLEICH UPDATE
-			sl = 0;
-
-		} while (sl < 0 || sl > 2);
-		if (sl == 0) {
-			update();
-		}
-		if (sl == 1) {
-			save();
-			update();
-		}
-		if (sl == 2) {
-			load();
-			update();
-		}
-
+			infoPane.saveBtn.setOnAction((ActionEvent t) -> {
+				AudioClip clickSound = new AudioClip("file:src/view/Click-Sound.wav");
+				clickSound.play();
+				Optional<String> result = input.showAndWait();
+						game.save(result.get());});
+			
+			infoPane.loadBtn.setOnAction((ActionEvent t) -> {
+				AudioClip clickSound = new AudioClip("file:src/view/Click-Sound.wav");
+				clickSound.play();
+				Optional<String> result = input.showAndWait();
+				game.load(result.get());});	
 	}
 	
 	// Werden später wieder gelöscht
@@ -120,28 +108,6 @@ public class PlayerGUI implements Player{
 		root.enable();
 		game.update();
 
-	}
-	// Werden später wieder gelöscht
-	private void save() {
-		System.out.println("Bitte geben Sie der zu speichernden Datei einen Namen.");
-		
-		game.save(enterFileName());
-	}
-	
-	
-	// Werden später wieder gelöscht
-	private void load() {
-		//		int name = -1;
-		//		while (name != -1) {
-		System.out.println("Bitte geben Sie den Namen der zu ladenden Datei ein.");
-		//			if ((enterFileName()) {
-		game.load(enterFileName());
-		//		} else {
-		//			System.out.println("Der Name der zu ladenen Datei existiert nicht. Bitte gegen Sie ihn erneut ein.");
-		//			name = -1;
-		//		}
-		//		}
-		//		
 	}
 
 
@@ -184,50 +150,21 @@ public class PlayerGUI implements Player{
 		
 		MenuItem menusave = new MenuItem("Save");
 		menusave.setOnAction((ActionEvent t) -> {
-			
 			Optional<String> result = input.showAndWait();
 					game.save(result.get());});
+		
 		MenuItem menuload = new MenuItem("Load");
-		menuload.setOnAction((ActionEvent t) -> {game.load(enterFileName()); playerPane.update(game.getBoard());});		
-
+		menuload.setOnAction((ActionEvent t) -> {
+			Optional<String> result = input.showAndWait();
+			game.load(result.get());});	
 
 		saveload.getItems().addAll(menusave, menuload);
 
 		about.getItems().addAll(rules, exit);
 
-
 		menuBar.getMenus().addAll(saveload,about);
 
-
-
 		return menuBar;
-	}
-
-	private String readString() {
-		try {
-			BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-			String eingabe = input.readLine();
-			return eingabe;
-		}catch (Exception e) {
-			return null;
-		}
-	}
-
-	private String enterFileName() {
-		return (readString());
-	}
-
-	private int readInt() {
-		try {
-			BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-			String eingabe = "";
-			Integer string_to_int;
-			eingabe = input.readLine();
-			string_to_int = new Integer(eingabe);
-			return string_to_int.intValue();
-		} catch (Exception e) {
-			return -1;
-		}
 	}
 
 	public void disable() {
@@ -238,17 +175,16 @@ public class PlayerGUI implements Player{
 
 	public void win() {
 		playerPane.update(game.getBoard());
-		infoPane.win();
+		messagePane.win();
 	}
 
 	public void lose() {
 		playerPane.update(game.getBoard());
-		infoPane.lose();
+		messagePane.lose();
 	}
 
 	public Position chooseMeeple(){
 		choosing = true;
-
 		return null;
 	}
 
@@ -261,24 +197,8 @@ public class PlayerGUI implements Player{
 		case "Sie haben eine 4 gewürfelt.": dicePane.diceroll(message); break;
 		case "Sie haben eine 5 gewürfelt.": dicePane.diceroll(message); break;
 		case "Sie haben eine 6 gewürfelt.": dicePane.diceroll(message); break;
-		default: infoPane.message(message); break;
+		default: messagePane.message(message); break;
 		}
-
-	}
-
-	public void showRules() {
-		Label firstRule = new Label("Startposition sind die 4 Felder, auf denen die Figuren am Anfang des Spiels stehen.");
-		StackPane secondLayout = new StackPane();
-		secondLayout.getChildren().add(firstRule);
-
-		Scene secondScene = new Scene(secondLayout, 400,300);
-
-		Stage newWindow = new Stage();
-		newWindow.setTitle("Rules of ludo");
-		newWindow.setScene(secondScene);
-
-		newWindow.show();
-
 	}
 
 	public EventHandler<MouseEvent> circleClickedEventHandler = new EventHandler<MouseEvent>() {

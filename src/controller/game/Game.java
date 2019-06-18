@@ -1,8 +1,10 @@
 package controller.game;
 
 
+import controller.exceptions.LoadException;
 import controller.exceptions.NoMoveException;
 import controller.exceptions.OwnMeepleException;
+import controller.exceptions.SaveException;
 import model.Board;
 import model.Content;
 import model.Position;
@@ -40,7 +42,7 @@ public interface Game {
 	public void message(String message);
 		
 
-	public Position chooseMeeple(Content content) throws NoMoveException;
+	public Position chooseMeeple(Content content) throws NoMoveException, SaveException, LoadException;
 	
 	public void returnPosition(Position position);
 	

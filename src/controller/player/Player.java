@@ -1,5 +1,7 @@
 package controller.player;
 
+import controller.exceptions.LoadException;
+import controller.exceptions.SaveException;
 import controller.game.Game;
 import model.Content;
 import model.Position;
@@ -38,7 +40,7 @@ public interface Player {
 	 */
 	public void lose();	
 	
-	public Position chooseMeeple();
+	public Position chooseMeeple() throws SaveException, LoadException;
 	
 	
 	/**

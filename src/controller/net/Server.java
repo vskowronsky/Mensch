@@ -36,24 +36,10 @@ public class Server {
 	 * Methode um auf eine Nachricht vom Client zu warten und zu empfangen
 	 * @throws NoMoveException 
 	 */
-	public void listen(){
+	public String listen(){
 		
 		System.out.println("Server lauscht.");
-		String s = receiveString();
-		Position p = receivePosition();
-		System.out.println(s);
-		switch(s){
-			case "update": player.update(); break;
-			case "save": 
-				s = receiveString();
-				player.save(s);	break;
-			case "load": 
-				s = receiveString();
-				player.load(s);	break;
-			case "position": 
-				p = receivePosition();
-				player.chooseMeeple();
-		}
+		return  receiveString();
 	}
 	
 

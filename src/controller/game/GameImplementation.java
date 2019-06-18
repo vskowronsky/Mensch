@@ -3,10 +3,12 @@ package controller.game;
 import java.util.ArrayList;
 import java.util.List;
 
+import controller.exceptions.LoadException;
 import controller.exceptions.MissedEnemyException;
 import controller.exceptions.MoveStreetException;
 import controller.exceptions.NoMoveException;
 import controller.exceptions.OwnMeepleException;
+import controller.exceptions.SaveException;
 import controller.player.Player;
 import model.*;
 
@@ -267,6 +269,17 @@ public class GameImplementation implements Game {
 				default: break;
 				}
 			}
+			
+			catch (SaveException e) {
+				save(e.savefile);
+				error = false;
+			}
+			
+			catch (LoadException e) {
+				load(e.loadfile);
+				error = false;
+			}
+			
 		} while (error);
 
 		if (board.checkWin(Content.YELLOW)) {
@@ -327,9 +340,13 @@ public class GameImplementation implements Game {
 
 	public void load(String fileName) {
 		PersistenceObject po = SaveLoad.load(fileName);
-		status = po.getStatus();
-		board = po.getBoard();
-		System.out.println(board);
+		this.status = po.getStatus();
+		this.board = po.getBoard();
+		
+		System.out.println(po.getBoard());
+		System.out.println(this.board);
+		
+		message("Loading successfull");
 	}
 
 	public Board getBoard() {
@@ -337,7 +354,7 @@ public class GameImplementation implements Game {
 	}
 
 
-	public Position chooseMeeple(Content content) throws NoMoveException{
+	public Position chooseMeeple(Content content) throws NoMoveException, SaveException, LoadException{
 		int chosen = -1;
 		boolean meeplePossible = false;
 		Position chosenPosition;
