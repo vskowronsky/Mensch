@@ -37,16 +37,16 @@ public class DicePane extends BorderPane {
 
 		mainRec.setHeight(diceWidth); 
 		mainRec.setWidth(diceWidth);
-<<<<<<< HEAD
+/*<<<<<<< HEAD*/
 		mainRec.setStroke(Color.BLACK);
 		mainRec.setStrokeWidth(3);
 		mainRec.setFill(Color.WHITE);
-=======
+//=======
 		mainRec.setStroke(Color.BLACK); 
 		mainRec.setFill(Color.FLORALWHITE);
 		mainRec.setArcWidth(20.);
 		mainRec.setArcHeight(20.);
->>>>>>> b2ecf6fa346087c890b1282aa78744d4e324fff0
+//>>>>>>> b2ecf6fa346087c890b1282aa78744d4e324fff0
 		
 		dice.getChildren().add(mainRec);
 

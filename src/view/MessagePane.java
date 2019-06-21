@@ -35,8 +35,9 @@ public class MessagePane extends Pane {
 		bigBox.getChildren().add(messageBox);
 	}
 	
+	//Hier war das falsche Label gesetzt
 	public void message(String message) {
-		label.setText(message);
+		label1.setText(message);
 	}
 	
 	public void win() {
