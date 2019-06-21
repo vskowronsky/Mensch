@@ -37,7 +37,8 @@ public class DicePane extends BorderPane {
 
 		mainRec.setHeight(diceWidth); 
 		mainRec.setWidth(diceWidth);
-		mainRec.setStroke(Color.BLACK); 
+		mainRec.setStroke(Color.BLACK);
+		mainRec.setStrokeWidth(3);
 		mainRec.setFill(Color.WHITE);
 		
 		dice.getChildren().add(mainRec);

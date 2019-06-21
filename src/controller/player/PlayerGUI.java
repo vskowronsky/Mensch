@@ -155,18 +155,30 @@ public class PlayerGUI implements Player{
 		
 		rules.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				Label firstRule = new Label("In the beginning of the game every player has four Meeple in a house.");
-				Label secondRule = new Label("If you throw a 6 the computer set one meeple from the house to its starting position");
+				Label firstRule = new Label("1. Mensch ärgere Dich nicht wird mit 4 Spielern gespielt, wobei einige von einer KI ersetzt werden können");
+				Label secondRule = new Label("2. Ziel ist es, alle Spielfiguren aus dem Haus ins eigene Zielfeld zu bringen. Hierzu müssen die Spielfiguren das Spielfeld umrunden.");
+				Label thirdRule = new Label("3. Zunächst einmal muss man durch das Würfeln einer 6 die Spielfiguren aus dem Haus auf das Spielfeld bekommen.");
+				Label fourthRule = new Label("4. Im Anschluss darf ein weiteres Mal gewürfelt werden.");
+				Label fifthRule = new Label("5. Die Spielfigur zieht ab diesem Moment immer so viele Felder weiter, wie Augen auf dem Würfel zu erkennen sind.");
+				Label sixthRule = new Label("6. Wenn alle Figuren im Haus oder auf der letzten Position des Zieles stehen, darf 3 mal gewürfelt werden.");
+				Label seventhRule = new Label("7. Bei einer 6 darf generell noch einmal gewürfelt weredn.");
+				Label eighthRule = new Label("8. Für den Fall, dass man durch das Würfeln mit der eigenen Spielfigur auf ein Feld kommt, auf dem schon eine gegnerische Spielfigur steht, muss diese geschlagen werden.");
+				Label ninthRule = new Label("9. Die Spielfigur des Gegners wandert zurück in dessen Startfeld.");
+				Label tenthRule = new Label("10. Das Startfeld ist immer dann frei zu machen, wenn sich noch Figuren im Haus befinden.");
+				Label eleventhRule = new Label("11. Wenn die Würfelzahl zu hoch ist um in die Zielstraße zu kommen, kann nicht gezogen werden.");
+				Label twelfthRule = new Label("12. In der Zielstraße darf nicht übersprungen werden.");
+				Label thirteenthRule = new Label("13. Gewonnen hat der Spieler, der seine 4 Spielfiguren als Erster in sein Zielfeld manövriert hat.");
 				Group layout = new Group();
 				VBox labelBox = new VBox(20);
 
-				labelBox.getChildren().addAll(firstRule, secondRule);
+				labelBox.getChildren().addAll(firstRule, secondRule, thirdRule, fourthRule, fifthRule, sixthRule, 
+											   seventhRule, eighthRule, ninthRule, tenthRule, eleventhRule, twelfthRule, thirteenthRule);
 				layout.getChildren().add(labelBox);
 
-				Scene secondScene = new Scene(layout, 500,300);
+				Scene secondScene = new Scene(layout, 1000,500);
 
 				Stage newWindow = new Stage();
-				newWindow.setTitle("Rules of ludo");
+				newWindow.setTitle("Regeln von Mensch Ärgere Dich Nicht");
 				newWindow.setScene(secondScene);
 
 				newWindow.setX(stage.getX() + 200);
