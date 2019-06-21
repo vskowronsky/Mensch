@@ -1,6 +1,8 @@
 package controller.game;
 
+import controller.exceptions.LoadException;
 import controller.exceptions.NoMoveException;
+import controller.exceptions.SaveException;
 import controller.net.Client;
 import controller.player.Player;
 import javafx.concurrent.WorkerStateEvent;
@@ -93,7 +95,12 @@ public class GameRemote implements Game {
 	 * @throws NoMoveException 
 	 */
 	public void chooseMeeple(){	
-			 player.chooseMeeple();
+			 try {
+				player.chooseMeeple();
+			} catch (SaveException | LoadException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 
 	/**
@@ -124,10 +131,10 @@ public class GameRemote implements Game {
 	/** Methode sendet "save" an den Server
 	 * @see controller.game.Game#safe()
 	 */
-	public void save (String string){
-		client.send((Position) null); 
+	public void save (String string){ 
 		client.send("save");
 		client.send(string);
+		listen();
 	}
 
 	/** Methode sendet "load" an den Server
@@ -136,6 +143,7 @@ public class GameRemote implements Game {
 	public void load(String string)  {
 		client.send("load");
 		client.send(string);
+		listen();
 	}
 
 	/** Get-Methode vom Board
@@ -159,6 +167,7 @@ public class GameRemote implements Game {
 	
 	// EVENT 
 	public void returnPosition(Position p) {
+		client.send("choose");
 		client.send(p);
 		listen();
 	

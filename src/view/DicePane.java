@@ -13,7 +13,7 @@ import javafx.scene.text.Font;
 
 public class DicePane extends BorderPane {
 	public final int width = 250;
-	private double unit = width / 5.;
+	private double unit = width / 5.; //50
 	private double diceWidth = 2*unit;
 	private double diceUnit = diceWidth/3.;
 	private double radius = diceUnit/2.;
@@ -37,9 +37,16 @@ public class DicePane extends BorderPane {
 
 		mainRec.setHeight(diceWidth); 
 		mainRec.setWidth(diceWidth);
+<<<<<<< HEAD
 		mainRec.setStroke(Color.BLACK);
 		mainRec.setStrokeWidth(3);
 		mainRec.setFill(Color.WHITE);
+=======
+		mainRec.setStroke(Color.BLACK); 
+		mainRec.setFill(Color.FLORALWHITE);
+		mainRec.setArcWidth(20.);
+		mainRec.setArcHeight(20.);
+>>>>>>> b2ecf6fa346087c890b1282aa78744d4e324fff0
 		
 		dice.getChildren().add(mainRec);
 

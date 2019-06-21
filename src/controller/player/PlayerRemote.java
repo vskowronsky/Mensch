@@ -2,6 +2,8 @@ package controller.player;
 
 import java.net.Socket;
 
+import controller.exceptions.LoadException;
+import controller.exceptions.SaveException;
 import controller.game.Game;
 import controller.net.Server;
 import model.Content;
@@ -14,16 +16,16 @@ public class PlayerRemote implements Player {
 	private int id;
 	private Game game;
 
-	
+
 	public PlayerRemote(Socket socket){
 		this.server = new Server(socket, this);
 	}
-	
+
 	public void initialize(Content content, Game game, int id) {
 		this.game = game;
 		this.content = content;
 		this.id = id;
-		
+
 		server.send("initialize");
 		server.send(this.id, "string");
 		server.send(this.content);
@@ -32,7 +34,8 @@ public class PlayerRemote implements Player {
 	public void enable(){
 		server.send("enable");
 		server.send(game.getBoard());
-		server.listen();
+		if (server.listen().equals("update")) game.update();
+
 	}
 
 	public void disable() {
@@ -40,10 +43,20 @@ public class PlayerRemote implements Player {
 		server.send(game.getBoard());
 	}
 
-	public Position chooseMeeple(){
+	public Position chooseMeeple() throws SaveException, LoadException{
 		server.send("choose");
-		return server.receivePosition();
-	}
+		String answer = server.receiveString();
+		switch (answer) {
+		case "choose": return server.receivePosition();
+		case "save": 
+			String savefile = server.receiveString();
+			throw new SaveException(savefile);
+		case "load": 
+			String loadfile = server.receiveString();
+			throw new LoadException(loadfile);
+		default: return null;
+		}
+	} 
 
 	public void win() {
 		server.send("win");
@@ -60,7 +73,7 @@ public class PlayerRemote implements Player {
 		game.save(fileName);
 		server.listen();
 	}
-	
+
 	public void load(String fileName){
 		server.send("load");
 		game.load(fileName);
