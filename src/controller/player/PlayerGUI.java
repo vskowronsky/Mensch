@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.util.Optional;
-
-import controller.exceptions.NoMoveException;
 import controller.game.Game;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -73,18 +71,18 @@ public class PlayerGUI implements Player{
 		stage.show();
 		
 						
-		stage.widthProperty().addListener((obs, oldVal, newVal) -> {
-			stageWidth = stage.getWidth();
-			root.enable();
-		});
+//		stage.widthProperty().addListener((obs, oldVal, newVal) -> {
+//			stageWidth = stage.getWidth();
+//			root.enable();
+//		});
 
 	}
 
-
-
 	public void enable() {
 		TextInputDialog input = new TextInputDialog();
-//		int sl = -1;
+		input.setTitle("Speichern/Laden");
+		input.setHeaderText(null);
+		input.setContentText("Dateiname: ");
 		playerPane.update(game.getBoard());
 		infoPane.enable();
 		update();
@@ -104,7 +102,7 @@ public class PlayerGUI implements Player{
 	
 	// Werden später wieder gelöscht
 	private void update() {
-		stageWidth = stage.getWidth();
+//		stageWidth = stage.getWidth();
 		root.enable();
 		game.update();
 
@@ -127,7 +125,7 @@ public class PlayerGUI implements Player{
 				Label fourthRule = new Label("4. Im Anschluss darf ein weiteres Mal gewürfelt werden.");
 				Label fifthRule = new Label("5. Die Spielfigur zieht ab diesem Moment immer so viele Felder weiter, wie Augen auf dem Würfel zu erkennen sind.");
 				Label sixthRule = new Label("6. Wenn alle Figuren im Haus oder auf der letzten Position des Zieles stehen, darf 3 mal gewürfelt werden.");
-				Label seventhRule = new Label("7. Bei einer 6 darf generell noch einmal gewürfelt weredn.");
+				Label seventhRule = new Label("7. Bei einer 6 darf generell noch einmal gewürfelt werden.");
 				Label eighthRule = new Label("8. Für den Fall, dass man durch das Würfeln mit der eigenen Spielfigur auf ein Feld kommt, auf dem schon eine gegnerische Spielfigur steht, muss diese geschlagen werden.");
 				Label ninthRule = new Label("9. Die Spielfigur des Gegners wandert zurück in dessen Startfeld.");
 				Label tenthRule = new Label("10. Das Startfeld ist immer dann frei zu machen, wenn sich noch Figuren im Haus befinden.");
@@ -209,6 +207,7 @@ public class PlayerGUI implements Player{
 		case "Sie haben eine 4 gewürfelt.": dicePane.diceroll(message); break;
 		case "Sie haben eine 5 gewürfelt.": dicePane.diceroll(message); break;
 		case "Sie haben eine 6 gewürfelt.": dicePane.diceroll(message); break;
+		case "Eine Figur wurde geworfen.": messagePane.soundEnemy(message); break;
 		default: messagePane.message(message); break;
 		}
 	}
@@ -274,6 +273,4 @@ public class PlayerGUI implements Player{
 			}
 		}
 	};
-
-
 }

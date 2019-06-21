@@ -1,17 +1,9 @@
 package view;
 
-import javafx.scene.layout.AnchorPane;
+
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Screen;
-import controller.player.Player;
 import controller.player.PlayerGUI;
-import javafx.geometry.Bounds;
-import javafx.geometry.Orientation;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Parent;
 import javafx.scene.control.MenuBar;
 
 
@@ -23,7 +15,7 @@ public class ScenePane extends BorderPane{
 	private MessagePane messagePane;
 	private MenuBar menuBar;
 	private PlayerGUI playerGUI;
-	private VBox  test;
+
 
 
 	public ScenePane(PlayerPane playerPane, InfoPane infoPane, DicePane dicePane, MessagePane messagePane, MenuBar menuBar, PlayerGUI playerGUI) {
@@ -45,13 +37,10 @@ public class ScenePane extends BorderPane{
 		this.setRight(dicePane); 
 		this.setLeft(infoPane);
 		this.setBottom(messagePane);
-
-		//		test = new VBox();
-		//		this.setLeft(test);
 	}
 
 	public void enable(){
-		setPrefWidth((playerGUI.stageWidth-playerPane.width)*0.5);
+//		setPrefWidth((playerGUI.stageWidth-playerPane.width)*0.5);
 	}
 
 
