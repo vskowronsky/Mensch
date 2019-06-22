@@ -24,8 +24,8 @@ public class InfoPane extends BorderPane {
 	private String labelEnable;
 	public Button saveBtn;
 	public Button loadBtn;
-//	private String labelWin;
-//	private String labelLose;
+	private String labelWin;
+	private String labelLose;
 	
 	public InfoPane(int id) {
 		super();
@@ -62,7 +62,6 @@ public class InfoPane extends BorderPane {
 		Text buttonText = new Text("Was möchten Sie machen?");
 		saveBtn = new Button("Speichern");
 		loadBtn = new Button("Laden");
-		
 		
 		HBox messageBox = new HBox();
 		label.setFont(Font.font(Font.getDefault().getFamily(),20));

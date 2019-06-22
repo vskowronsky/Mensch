@@ -313,7 +313,11 @@ public class BoardSet extends Board implements Serializable {
 					throwCount++;
 					diceThrow();
 					game.message("Sie haben eine " + diceValue + " gewürfelt.");
+					if (throwCount == 3) {
+						game.message("Es wurde keine 6 gewürfelt. Versuchen Sie es in der nächsten Runde nochmal.");
+					}
 				}
+			
 			}
 			break;
 
@@ -333,6 +337,9 @@ public class BoardSet extends Board implements Serializable {
 					throwCount++;
 					diceThrow();
 					game.message("Sie haben eine " + diceValue + " gewürfelt.");
+					if (throwCount == 3) {
+						game.message("Es wurde keine 6 gewürfelt. Versuchen Sie es in der nächsten Runde nochmal.");
+					}
 				}
 			}
 			break;
@@ -353,6 +360,9 @@ public class BoardSet extends Board implements Serializable {
 					throwCount++;
 					diceThrow();
 					game.message("Sie haben eine " + diceValue + " gewürfelt.");
+					if (throwCount == 3) {
+						game.message("Es wurde keine 6 gewürfelt. Versuchen Sie es in der nächsten Runde nochmal.");
+					}
 				}
 			}
 			break;
@@ -373,6 +383,9 @@ public class BoardSet extends Board implements Serializable {
 					throwCount++;
 					diceThrow();
 					game.message("Sie haben eine " + diceValue + " gewürfelt.");
+					if (throwCount == 3) {
+						game.message("Es wurde keine 6 gewürfelt. Versuchen Sie es in der nächsten Runde nochmal.");
+					}
 				}
 			}	
 			break;
