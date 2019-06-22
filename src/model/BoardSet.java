@@ -284,7 +284,7 @@ public class BoardSet extends Board implements Serializable {
 		} else if (checkEnemy(content, newPosition) == 2) {
 
 			String message = "Sie haben eine Figur geworfen.";
-			String enemyMessage = "Sie wurden von "+ content.toString() + " geworfen";
+			String enemyMessage = "Sie wurden von "+ content.toString() + " geworfen.";
 			switch(playboard[newPosition.getIndex()]) {
 			case YELLOW: houseY++; game.message(message); break;
 			case GREEN: houseG++; game.message(message); break;

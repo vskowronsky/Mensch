@@ -209,16 +209,16 @@ public class PlayerGUI implements Player{
 		case "Warten auf Spieler 3." : infoPane.setText(message); break;
 		case "Warten auf Spieler 4." : infoPane.setText(message); break;
 		
-		case "Sie wurden von YELLOW geworfen": 
+		case "Sie wurden von YELLOW geworfen.": 
 			messagePane.message(message, new AudioClip("file:src/view/EnemyHasThrown.wav"));
 			break;
-		case "Sie wurden von GREEN geworfen":
+		case "Sie wurden von GREEN geworfen.":
 			messagePane.message(message, new AudioClip("file:src/view/EnemyHasThrown.wav"));
 			break;
-		case "Sie wurden von BLUE geworfen": 
+		case "Sie wurden von BLUE geworfen.": 
 			messagePane.message(message, new AudioClip("file:src/view/EnemyHasThrown.wav")); 
 			break;
-		case "Sie wurden von RED geworfen": 
+		case "Sie wurden von RED geworfen.": 
 			messagePane.message(message, new AudioClip("file:src/view/EnemyHasThrown.wav"));
 			break;
 		
