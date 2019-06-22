@@ -16,7 +16,7 @@ public class DicePane extends BorderPane {
 	private double unit = width / 5.; //50
 	private double diceWidth = 2*unit;
 	private double diceUnit = diceWidth/3.;
-	private double radius = diceUnit/2.;
+	private double radius = diceUnit/3.;
 
 	Label label = new Label("Würfelzahl:");
 	Rectangle mainRec = new Rectangle();
@@ -61,7 +61,7 @@ public class DicePane extends BorderPane {
 	public void diceroll(String message) {
 		switch (message) {
 		case "Sie haben eine 1 gewürfelt.": 
-			Circle circle = new Circle(diceUnit+radius, diceUnit+radius, radius);
+			Circle circle = new Circle(diceUnit+diceUnit/2, diceUnit+diceUnit/2, radius);
 			dice.getChildren().clear();
 			dice.getChildren().add(mainRec);
 			dice.getChildren().add(circle);
@@ -75,7 +75,7 @@ public class DicePane extends BorderPane {
 			break;
 		case "Sie haben eine 3 gewürfelt.": 
 			Circle circle4 = new Circle(diceUnit/1.5, diceUnit/1.5, radius);
-			Circle circle5 = new Circle(diceUnit+radius, diceUnit+radius, radius);
+			Circle circle5 = new Circle(diceUnit+diceUnit/2, diceUnit+diceUnit/2, radius);
 			Circle circle6 = new Circle(2*diceUnit+diceUnit/3.5, 2*diceUnit+diceUnit/3.5, radius);
 			dice.getChildren().clear();
 			dice.getChildren().add(mainRec);
@@ -95,7 +95,7 @@ public class DicePane extends BorderPane {
 			Circle circle12 = new Circle(2*diceUnit+diceUnit/3.5, diceUnit/1.5, radius);
 			Circle circle13 = new Circle(diceUnit/1.5, 2*diceUnit+diceUnit/3.5, radius);
 			Circle circle14 = new Circle(2*diceUnit+diceUnit/3.5, 2*diceUnit+diceUnit/3.5, radius);
-			Circle circle15 = new Circle(diceUnit+radius, diceUnit+radius, radius);
+			Circle circle15 = new Circle(diceUnit+diceUnit/2, diceUnit+diceUnit/2, radius);
 			dice.getChildren().clear();
 			dice.getChildren().add(mainRec);
 			dice.getChildren().addAll(circle11, circle12, circle13, circle14, circle15);
@@ -105,8 +105,8 @@ public class DicePane extends BorderPane {
 			Circle circle17 = new Circle(2*diceUnit+diceUnit/3.5, diceUnit/1.5, radius);
 			Circle circle18 = new Circle(diceUnit/1.5, 2*diceUnit+diceUnit/3.5, radius);
 			Circle circle19 = new Circle(2*diceUnit+diceUnit/3.5, 2*diceUnit+diceUnit/3.5, radius);
-			Circle circle20 = new Circle(diceUnit/1.5, diceUnit+diceUnit/3.5, radius );
-			Circle circle21 = new Circle(2*diceUnit+diceUnit/3.5, diceUnit+diceUnit/1.5, radius);
+			Circle circle20 = new Circle(diceUnit/1.5, diceUnit+diceUnit/2.2, radius );
+			Circle circle21 = new Circle(2*diceUnit+diceUnit/3.5, diceUnit+diceUnit/2.2, radius);
 			dice.getChildren().clear();
 			dice.getChildren().add(mainRec);
 			dice.getChildren().addAll(circle16, circle17, circle18, circle19, circle20, circle21);
