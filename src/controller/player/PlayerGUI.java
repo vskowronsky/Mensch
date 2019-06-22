@@ -1,10 +1,9 @@
 package controller.player;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
 import java.util.Optional;
 import controller.game.Game;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
@@ -20,9 +19,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import model.Board;
+import javafx.util.Duration;
 import model.Content;
 import model.Position;
 import view.CircleWithPos;
@@ -47,6 +45,7 @@ public class PlayerGUI implements Player{
 	private boolean choosing;
 	private int position;
 	public double stageWidth;
+	public double stageHeight;
 
 	public PlayerGUI () {
 		this.content = Content.FREE;
@@ -61,20 +60,33 @@ public class PlayerGUI implements Player{
 		this.game = game;
 		this.id = id;
 		MenuBar menuBar = setMenu();
-
-		playerPane = new PlayerPane(this);
-		infoPane = new InfoPane(id);
-		dicePane = new DicePane();
 		messagePane = new MessagePane();
+		playerPane = new PlayerPane(this, messagePane, menuBar);
+		infoPane = new InfoPane(id, this);
+		dicePane = new DicePane(this);
+
 		root = new ScenePane(playerPane, infoPane, dicePane, messagePane, menuBar, this);
 		stage = new PlayerStage(root);
 		stage.show();
+
+
+		stage.widthProperty().addListener((obs, oldVal, newVal) -> {
+			stageWidth = stage.getWidth();
+			stageHeight = stage.getHeight();
+			root.enable();
+			playerPane.update(game.getBoard());
+		});
 		
-						
-//		stage.widthProperty().addListener((obs, oldVal, newVal) -> {
-//			stageWidth = stage.getWidth();
-//			root.enable();
-//		});
+		stage.heightProperty().addListener((obs, oldVal, newVal) -> {
+			stageWidth = stage.getWidth();
+			stageHeight = stage.getHeight();
+			root.enable();
+			playerPane.update(game.getBoard());
+		});
+		
+		stageWidth = stage.getWidth();
+		stageHeight = stage.getHeight();
+		root.enable();
 
 	}
 
@@ -83,31 +95,29 @@ public class PlayerGUI implements Player{
 		input.setTitle("Speichern/Laden");
 		input.setHeaderText(null);
 		input.setContentText("Dateiname: ");
+
 		playerPane.update(game.getBoard());
-		infoPane.enable();
+
+		infoPane.setText("Machen Sie Ihren Zug.");
 		update();
-			
-			infoPane.saveBtn.setOnAction((ActionEvent t) -> {
-				AudioClip clickSound = new AudioClip("file:src/view/Click-Sound.wav");
-				clickSound.play();
-				Optional<String> result = input.showAndWait();
-						game.save(result.get());});
-			
-			infoPane.loadBtn.setOnAction((ActionEvent t) -> {
-				AudioClip clickSound = new AudioClip("file:src/view/Click-Sound.wav");
-				clickSound.play();
-				Optional<String> result = input.showAndWait();
-				game.load(result.get());});	
+
+		infoPane.saveBtn.setOnAction((ActionEvent t) -> {
+			AudioClip clickSound = new AudioClip("file:src/view/Click-Sound.wav");
+			clickSound.play();
+			Optional<String> result = input.showAndWait();
+			game.save(result.get());});
+
+		infoPane.loadBtn.setOnAction((ActionEvent t) -> {
+			AudioClip clickSound = new AudioClip("file:src/view/Click-Sound.wav");
+			clickSound.play();
+			Optional<String> result = input.showAndWait();
+			game.load(result.get());});	
 	}
-	
-	// Werden später wieder gelöscht
+
 	private void update() {
-//		stageWidth = stage.getWidth();
-		root.enable();
 		game.update();
 
 	}
-
 
 	private MenuBar setMenu() {
 		TextInputDialog input = new TextInputDialog();
@@ -116,7 +126,6 @@ public class PlayerGUI implements Player{
 		Menu saveload = new Menu("Save/Load");
 		Menu about = new Menu("About");
 		MenuItem rules = new MenuItem("Rules");
-		
 		rules.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				Label firstRule = new Label("1. Mensch ärgere Dich nicht wird mit 4 Spielern gespielt, wobei einige von einer KI ersetzt werden können");
@@ -134,63 +143,49 @@ public class PlayerGUI implements Player{
 				Label thirteenthRule = new Label("13. Gewonnen hat der Spieler, der seine 4 Spielfiguren als Erster in sein Zielfeld manövriert hat.");
 				Group layout = new Group();
 				VBox labelBox = new VBox(20);
-
 				labelBox.getChildren().addAll(firstRule, secondRule, thirdRule, fourthRule, fifthRule, sixthRule, 
-											   seventhRule, eighthRule, ninthRule, tenthRule, eleventhRule, twelfthRule, thirteenthRule);
+						seventhRule, eighthRule, ninthRule, tenthRule, eleventhRule, twelfthRule, thirteenthRule);
 				layout.getChildren().add(labelBox);
-
 				Scene secondScene = new Scene(layout, 1000,500);
-
 				Stage newWindow = new Stage();
 				newWindow.setTitle("Regeln von Mensch Ärgere Dich Nicht");
 				newWindow.setScene(secondScene);
-
 				newWindow.setX(stage.getX() + 200);
 				newWindow.setY(stage.getY() + 100);
 				newWindow.show();	
-			}
-		});
-
+			}});
 		MenuItem exit = new MenuItem("Exit");
 		exit.setAccelerator(KeyCombination.keyCombination("Ctrl+X"));
 		exit.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				System.exit(0);
-			}});
-		
+				System.exit(0);}});
 		MenuItem menusave = new MenuItem("Save");
 		menusave.setOnAction((ActionEvent t) -> {
 			Optional<String> result = input.showAndWait();
-					game.save(result.get());});
-		
+			game.save(result.get());});
 		MenuItem menuload = new MenuItem("Load");
 		menuload.setOnAction((ActionEvent t) -> {
 			Optional<String> result = input.showAndWait();
 			game.load(result.get());});	
-
 		saveload.getItems().addAll(menusave, menuload);
-
 		about.getItems().addAll(rules, exit);
-
 		menuBar.getMenus().addAll(saveload,about);
-
 		return menuBar;
 	}
 
 	public void disable() {
 		playerPane.update(game.getBoard());
-		infoPane.disable();
 		root.disable();
 	}
 
 	public void win() {
 		playerPane.update(game.getBoard());
-		messagePane.win();
+		messagePane.message("Sie haben gewonnen!", new AudioClip("file:src/view/Success-Sound.wav"));
 	}
 
 	public void lose() {
 		playerPane.update(game.getBoard());
-		messagePane.lose();
+		messagePane.message("Sie haben verloren!", new AudioClip("file:src/view/Lose-Sound.mp3"));
 	}
 
 	public Position chooseMeeple(){
@@ -199,21 +194,50 @@ public class PlayerGUI implements Player{
 	}
 
 	public void message(String message) {
-		playerPane.update(game.getBoard());
+
+		System.out.println(message);
 		switch (message) {
-		case "Sie haben eine 1 gewürfelt.": dicePane.diceroll(message); break;
-		case "Sie haben eine 2 gewürfelt.": dicePane.diceroll(message); break;
-		case "Sie haben eine 3 gewürfelt.": dicePane.diceroll(message); break;
-		case "Sie haben eine 4 gewürfelt.": dicePane.diceroll(message); break;
-		case "Sie haben eine 5 gewürfelt.": dicePane.diceroll(message); break;
-		case "Sie haben eine 6 gewürfelt.": dicePane.diceroll(message); break;
-		case "Eine Figur wurde geworfen.": messagePane.soundEnemy(message); break;
-		default: messagePane.message(message); break;
+		case "Sie haben eine 1 gewürfelt.": dicePane.diceRoll(message); break;
+		case "Sie haben eine 2 gewürfelt.": dicePane.diceRoll(message); break;
+		case "Sie haben eine 3 gewürfelt.": dicePane.diceRoll(message); break;
+		case "Sie haben eine 4 gewürfelt.": dicePane.diceRoll(message); break;
+		case "Sie haben eine 5 gewürfelt.": dicePane.diceRoll(message); break;
+		case "Sie haben eine 6 gewürfelt.": dicePane.diceRoll(message); break;
+		
+		case "Warten auf Spieler 1." : infoPane.setText(message); break;
+		case "Warten auf Spieler 2." : infoPane.setText(message); break;
+		case "Warten auf Spieler 3." : infoPane.setText(message); break;
+		case "Warten auf Spieler 4." : infoPane.setText(message); break;
+		
+		case "Sie wurden von YELLOW geworfen": 
+			messagePane.message(message, new AudioClip("file:src/view/EnemyHasThrown.wav"));
+			break;
+		case "Sie wurden von GREEN geworfen":
+			messagePane.message(message, new AudioClip("file:src/view/EnemyHasThrown.wav"));
+			break;
+		case "Sie wurden von BLUE geworfen": 
+			messagePane.message(message, new AudioClip("file:src/view/EnemyHasThrown.wav")); 
+			break;
+		case "Sie wurden von RED geworfen": 
+			messagePane.message(message, new AudioClip("file:src/view/EnemyHasThrown.wav"));
+			break;
+		
+		case "Sie haben eine Figur geworfen.": 
+			messagePane.message(message, new AudioClip("file:src/view/EnemyThrown.mp3")); 
+			break;
+			
+		case "Sie ziehen aus dem Haus." : 
+			messagePane.message(message, new AudioClip("file:src/view/LeaveHouse-Sound.wav")); 
+			break;
+			
+		default: messagePane.message(message, null); break;
 		}
+		playerPane.update(game.getBoard());
 	}
+	
+	
 
 	public EventHandler<MouseEvent> circleClickedEventHandler = new EventHandler<MouseEvent>() {
-
 		public void handle(MouseEvent t) {
 			CircleWithPos circle = (CircleWithPos) t.getSource();
 			if (choosing) {
@@ -235,11 +259,9 @@ public class PlayerGUI implements Player{
 	};
 
 	public EventHandler<MouseEvent> circleEnteredEventHandler = new EventHandler<MouseEvent>() {
-
 		public void handle(MouseEvent t) {
 			CircleWithPos circle = (CircleWithPos) t.getSource();
 			if (choosing) {
-
 				if(circle.getPosition() < 40) {
 					circle.setCursor(Cursor.HAND);
 					circle.setStroke(Color.MAGENTA);
@@ -256,7 +278,6 @@ public class PlayerGUI implements Player{
 	};
 
 	public EventHandler<MouseEvent> circleExitedEventHandler = new EventHandler<MouseEvent>() {
-
 		public void handle(MouseEvent t) {
 			CircleWithPos circle = (CircleWithPos) t.getSource();
 			if (choosing) {

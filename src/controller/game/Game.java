@@ -46,4 +46,8 @@ public interface Game {
 	
 	public void returnPosition(Position position);
 	
+	public void enemyMessage(Content content, String message);
+	
+	public void pause (int time);
+	
 }

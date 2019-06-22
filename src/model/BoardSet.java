@@ -13,14 +13,15 @@ public class BoardSet extends Board implements Serializable {
 
 	private static final long serialVersionUID = -6925781465692944476L;
 	private Position newPosition;
+	private boolean leftHouse;
 	public BoardSet() {
 		super();
 	}
 
 	public boolean setMeeple(Position position, Content content, Game game) throws OwnMeepleException, 
 	MoveStreetException, NoMoveException, MissedEnemyException {
-
-		enforcer(position, content);
+		
+		if (!leftHouse) enforcer(position, content);
 
 		if(position.getIndex() >= 40){
 			Position currentPos = positionInStreet(content, position);
@@ -51,6 +52,7 @@ public class BoardSet extends Board implements Serializable {
 				playboard[position.getIndex()] = Content.FREE;
 			}
 		}
+		leftHouse = false;
 		return true;
 	}
 
@@ -281,7 +283,8 @@ public class BoardSet extends Board implements Serializable {
 			throw new OwnMeepleException();
 		} else if (checkEnemy(content, newPosition) == 2) {
 
-			String message = "Eine Figur wurde geworfen.";
+			String message = "Sie haben eine Figur geworfen.";
+			String enemyMessage = "Sie wurden von "+ content.toString() + " geworfen";
 			switch(playboard[newPosition.getIndex()]) {
 			case YELLOW: houseY++; game.message(message); break;
 			case GREEN: houseG++; game.message(message); break;
@@ -289,6 +292,7 @@ public class BoardSet extends Board implements Serializable {
 			case RED: houseR++; game.message(message); break;
 			default:
 				break;}
+			game.enemyMessage(playboard[newPosition.getIndex()], enemyMessage);
 		}
 	}
 
@@ -299,21 +303,27 @@ public class BoardSet extends Board implements Serializable {
 		switch (status) {
 		case PLAYER1:
 			while (throwCount < 3 || (throwCount == 3 && diceValue == 6)) {
+				game.message("Sie haben eine " + diceValue + " gewürfelt.");
 				if (diceValue == 6) {
 					diceValue = 0;
 					setMeeple(STARTY, Content.YELLOW, game);
 					houseY--;
+					game.message("Sie ziehen aus dem Haus.");
 					diceThrow();
-					//Benachrichtigt die Spiellogik, dem Spieler mitzuteilen,
-					// dass der Würfel neu gesetzt wurde;
+					
+					game.pause(1000);
+					
 					game.message("Sie haben eine " + diceValue + " gewürfelt.");
+					
+					leftHouse = true;
 					setMeeple(STARTY, Content.YELLOW, game);
 					break;
 				} else {
+					game.pause(1000);
 					throwCount++;
 					diceThrow();
-					game.message("Sie haben eine " + diceValue + " gewürfelt.");
-					if (throwCount == 3) {
+					if (throwCount == 3 && diceValue != 6) {
+						game.message("Sie haben eine " + diceValue + " gewürfelt.");
 						game.message("Es wurde keine 6 gewürfelt. Versuchen Sie es in der nächsten Runde nochmal.");
 					}
 				}
@@ -323,21 +333,29 @@ public class BoardSet extends Board implements Serializable {
 
 		case PLAYER2:
 			while (throwCount < 3 || (throwCount == 3 && diceValue == 6)) {
+				game.message("Sie haben eine " + diceValue + " gewürfelt.");
 				if (diceValue == 6) {
 					diceValue = 0;
 					setMeeple(STARTG, Content.GREEN, game);
 					houseG--;
 					diceThrow();
-					//Benachrichtigt die Spiellogik, dem Spieler mitzuteilen,
-					// dass der Würfel neu gesetzt wurde;
+					
+					game.pause(1000);
+					
 					game.message("Sie haben eine " + diceValue + " gewürfelt.");
+					leftHouse = true;
 					setMeeple(STARTG, Content.GREEN, game);
 					break;
 				} else {
+					
+					
+					game.pause(1000);
+					
+					
 					throwCount++;
 					diceThrow();
-					game.message("Sie haben eine " + diceValue + " gewürfelt.");
-					if (throwCount == 3) {
+					if (throwCount == 3 && diceValue != 6) {
+						game.message("Sie haben eine " + diceValue + " gewürfelt.");
 						game.message("Es wurde keine 6 gewürfelt. Versuchen Sie es in der nächsten Runde nochmal.");
 					}
 				}
@@ -346,21 +364,26 @@ public class BoardSet extends Board implements Serializable {
 
 		case PLAYER3:
 			while (throwCount < 3 || (throwCount == 3 && diceValue == 6)) {
+				game.message("Sie haben eine " + diceValue + " gewürfelt.");
 				if (diceValue == 6) {
 					diceValue = 0;
 					setMeeple(STARTB, Content.BLUE, game);
 					houseB--;
 					diceThrow();
-					//Benachrichtigt die Spiellogik, dem Spieler mitzuteilen,
-					// dass der Würfel neu gesetzt wurde;
+
+					game.pause(1000);
+					
 					game.message("Sie haben eine " + diceValue + " gewürfelt.");
+					leftHouse = true;
 					setMeeple(STARTB, Content.BLUE, game);
 					break;
 				} else {
+					
+					game.pause(1000);
 					throwCount++;
 					diceThrow();
-					game.message("Sie haben eine " + diceValue + " gewürfelt.");
-					if (throwCount == 3) {
+					if (throwCount == 3 && diceValue != 6) {
+						game.message("Sie haben eine " + diceValue + " gewürfelt.");
 						game.message("Es wurde keine 6 gewürfelt. Versuchen Sie es in der nächsten Runde nochmal.");
 					}
 				}
@@ -369,21 +392,26 @@ public class BoardSet extends Board implements Serializable {
 
 		case PLAYER4:
 			while (throwCount < 3 || (throwCount == 3 && diceValue == 6)) {
+				game.message("Sie haben eine " + diceValue + " gewürfelt.");
 				if (diceValue == 6) {
 					diceValue = 0;
 					setMeeple(STARTR, Content.RED, game);
 					houseR--;
 					diceThrow();
-					//Benachrichtigt die Spiellogik, dem Spieler mitzuteilen,
-					// dass der Würfel neu gesetzt wurde;
+
+					game.pause(1000);
+					
 					game.message("Sie haben eine " + diceValue + " gewürfelt.");
+					leftHouse = true;
 					setMeeple(STARTR, Content.RED, game);
 					break;
 				} else {
+					
+					game.pause(1000);
 					throwCount++;
 					diceThrow();
-					game.message("Sie haben eine " + diceValue + " gewürfelt.");
-					if (throwCount == 3) {
+					if (throwCount == 3 && diceValue != 6) {
+						game.message("Sie haben eine " + diceValue + " gewürfelt.");
 						game.message("Es wurde keine 6 gewürfelt. Versuchen Sie es in der nächsten Runde nochmal.");
 					}
 				}
@@ -391,5 +419,9 @@ public class BoardSet extends Board implements Serializable {
 			break;
 		default: break;
 		}
+	}
+	
+	public void setLeftHouseFalse() {
+		leftHouse = false;
 	}
 }

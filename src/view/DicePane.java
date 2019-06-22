@@ -1,39 +1,61 @@
 package view;
 
 
+import controller.player.PlayerGUI;
+import javafx.animation.FadeTransition;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.util.Duration;
 
-public class DicePane extends BorderPane {
-	public final int width = 250;
-	private double unit = width / 5.; //50
-	private double diceWidth = 2*unit;
-	private double diceUnit = diceWidth/3.;
-	private double radius = diceUnit/2.;
+public class DicePane extends VBox {
+	public double width;
+	private double unit;
+	private double diceWidth;
+	private double diceUnit;
+	private double radius;
+	private PlayerGUI playerGUI;
 
-	Label label = new Label("Würfelzahl:");
-	Rectangle mainRec = new Rectangle();
+	private Label label;
+	private String lastmessage;
+	private Rectangle mainRec;
+
+
 	VBox vbox;
 	Group dice;
 
-	public DicePane() {
+	public DicePane(PlayerGUI playerGUI) {
 		super();
-		dice = new Group();
+		this.playerGUI = playerGUI;
+		this.width = 250;
+		this.unit = width / 5.; //50
+		this.diceWidth = 2*unit;
+		this.diceUnit = diceWidth/3.;
+		this.radius = diceUnit/2.;
+		lastmessage = "";
+
 		init();
 	}
 
 	private void init() {
-		vbox = new VBox(20);
+		dice = new Group();
 
-		this.setPrefHeight(300);
-		label.setFont(Font.font(Font.getDefault().getFamily(),30));
+
+		label = new Label("Würfelzahl:");
+		mainRec = new Rectangle();
+
+		//		this.setPrefHeight(this.width);
+		label.setFont(Font.font(Font.getDefault().getFamily(),this.width/12));
 
 		mainRec.setHeight(diceWidth); 
 		mainRec.setWidth(diceWidth);
@@ -47,18 +69,116 @@ public class DicePane extends BorderPane {
 		mainRec.setArcWidth(20.);
 		mainRec.setArcHeight(20.);
 
-		
+
 		dice.getChildren().add(mainRec);
 
-		vbox.setPadding(new Insets(50, 50,50, 50));
-		vbox.setSpacing(30);
+		this.setPadding(new Insets(this.width*1.2,this.width/4,0,0 ));
+		//		this.setSpacing(30);
 
-		vbox.getChildren().addAll(label, dice);
+		this.getChildren().addAll(label, dice);
 
-		this.setCenter(vbox);
 	}
 
-	public void diceroll(String message) {
+
+	public void diceRoll(String message ) {
+
+		dice("Sie haben eine 3 gewürfelt.");
+
+		FadeTransition trans = new FadeTransition(Duration.seconds(0.05), dice);
+		trans.setFromValue(1.0);
+		trans.setToValue(.20);
+		// Let the animation run forever
+		trans.setCycleCount(2);
+		// Reverse direction on alternating cycles
+		trans.setAutoReverse(true);
+		// Play the Animation
+		trans.play();
+
+		trans.setOnFinished(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				dice("Sie haben eine 5 gewürfelt.");
+				FadeTransition trans = new FadeTransition(Duration.seconds(0.05), dice);
+				trans.setFromValue(1.0);
+				trans.setToValue(.20);
+				// Let the animation run forever
+				trans.setCycleCount(2);
+				// Reverse direction on alternating cycles
+				trans.setAutoReverse(true);
+				// Play the Animation
+				trans.play();
+
+				trans.setOnFinished(new EventHandler<ActionEvent>() {
+
+					@Override
+					public void handle(ActionEvent event) {
+						dice("Sie haben eine 3 gewürfelt.");
+						FadeTransition trans = new FadeTransition(Duration.seconds(0.05), dice);
+						trans.setFromValue(1.0);
+						trans.setToValue(.20);
+						// Let the animation run forever
+						trans.setCycleCount(2);
+						// Reverse direction on alternating cycles
+						trans.setAutoReverse(true);
+						// Play the Animation
+						trans.play();
+						trans.setOnFinished(new EventHandler<ActionEvent>() {
+
+							@Override
+							public void handle(ActionEvent event) {
+								dice("Sie haben eine 4 gewürfelt.");
+								FadeTransition trans = new FadeTransition(Duration.seconds(0.05), dice);
+								trans.setFromValue(1.0);
+								trans.setToValue(.20);
+								// Let the animation run forever
+								trans.setCycleCount(2);
+								// Reverse direction on alternating cycles
+								trans.setAutoReverse(true);
+								// Play the Animation
+								trans.play();
+
+								trans.setOnFinished(new EventHandler<ActionEvent>() {
+
+									@Override
+									public void handle(ActionEvent event) {
+										dice("Sie haben eine 2 gewürfelt.");
+										FadeTransition trans = new FadeTransition(Duration.seconds(0.05), dice);
+										trans.setFromValue(1.0);
+										trans.setToValue(.20);
+										// Let the animation run forever
+										trans.setCycleCount(2);
+										// Reverse direction on alternating cycles
+										trans.setAutoReverse(true);
+										// Play the Animation
+										trans.play();
+
+										trans.setOnFinished(new EventHandler<ActionEvent>() {
+
+											@Override
+											public void handle(ActionEvent event) {
+												dice(message);
+											}
+										});
+									}
+								});
+							}
+						});
+					}
+				});
+			}
+		});
+
+	}
+
+	public void dice(String message) {
+		lastmessage = message;
+
+		AudioClip sound = new AudioClip("file:src/view/Dice.mp3");
+		sound.play();
+
+
+
 		switch (message) {
 		case "Sie haben eine 1 gewürfelt.": 
 			Circle circle = new Circle(diceUnit+radius, diceUnit+radius, radius);
@@ -113,6 +233,18 @@ public class DicePane extends BorderPane {
 			break;
 		default: break;
 		}
+	}
+
+	public void updateWidth() {
+		this.getChildren().clear();
+		this.width = (playerGUI.stageWidth)*0.2;
+		this.unit = this.width / 5.; //50
+		this.diceWidth = 2*unit;
+		this.diceUnit = diceWidth/3.;
+		this.radius = diceUnit/2.;
+
+		init();
+		dice(lastmessage);
 	}
 
 }

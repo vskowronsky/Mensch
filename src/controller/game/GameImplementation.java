@@ -62,16 +62,21 @@ public class GameImplementation implements Game {
 			player3.disable();
 			player4.enable();
 		}
-		
+
 	}
 
 	@Override
 	public void update() {
+
+		pause(500);
+
+		
 		counter++;
 		board.diceThrow();
 		first = true;
 		firstChoose = true;
 		do {
+			board.setLeftHouseFalse();
 			try {
 				error = true;
 				switch (status) {
@@ -82,20 +87,20 @@ public class GameImplementation implements Game {
 						player1.message("Das Startfeld war belegt und musste vorrangig gespielt werden.");
 					} else 
 						if (board.checkThreeThrows(Content.YELLOW)) {
-							player1.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
+							player1.message("Sie dürfen dreimal würfeln.");
 							first = false;
 							board.leaveHouse(status, this);
 						} else if (board.getDiceValue() == 6 && board.checkNumHouse(status) && first) {
-							player1.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
 							first = false;
 							board.leaveHouse(status, this);
 						} else if (board.getDiceValue() == 6 && board.checkDoubleDice(status)) {
 							board.setMeeple(chooseMeeple(Content.YELLOW), Content.YELLOW, this);
-
 							board.diceThrow();
-							player1.message("Sie dürfen nochmal würfeln. Sie haben eine " + board.getDiceValue() + " gewürfelt");
+							player1.message("Sie haben nochmal gewürfelt.");
+							player1.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
 							checkMovePossible(Content.YELLOW);
 							board.setMeeple(chooseMeeple(Content.YELLOW), Content.YELLOW, this);
+
 						}else {
 							if (board.setMeeple(chooseMeeple(Content.YELLOW), Content.YELLOW, this)) {
 
@@ -103,6 +108,7 @@ public class GameImplementation implements Game {
 								throw new MoveStreetException();						
 							}
 						}
+					playerchange();
 					status = Status.PLAYER2;
 					player1.disable();
 					break;
@@ -114,18 +120,18 @@ public class GameImplementation implements Game {
 						player2.message("Das Startfeld war belegt und musste vorrangig gespielt werden.");
 					} else 
 						if (board.checkThreeThrows(Content.GREEN)) {
-							player2.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
+							player2.message("Sie dürfen dreimal würfeln.");
 							first = false;
 							board.leaveHouse(status, this);
 						} else if (board.getDiceValue() == 6 && board.checkNumHouse(status) && first) {
-							player2.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
+							player2.message("Sie ziehen aus dem Haus.");
 							first = false;
 							board.leaveHouse(status, this);
 						} else if (board.getDiceValue() == 6 && board.checkDoubleDice(status)) {
 							board.setMeeple(chooseMeeple(Content.GREEN), Content.GREEN, this);
-
 							board.diceThrow();
-							player2.message("Sie dürfen nochmal würfeln. Sie haben eine " + board.getDiceValue() + " gewürfelt");
+							player2.message("Sie haben nochmal gewürfelt.");
+							player2.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
 							checkMovePossible(Content.GREEN);
 							board.setMeeple(chooseMeeple(Content.GREEN), Content.GREEN, this);
 						} else {
@@ -135,8 +141,10 @@ public class GameImplementation implements Game {
 								throw new MoveStreetException();
 							}
 						}
+					playerchange();
 					status = Status.PLAYER3;
 					player2.disable();
+
 					break;
 
 				case PLAYER3:
@@ -146,18 +154,18 @@ public class GameImplementation implements Game {
 						player3.message("Das Startfeld war belegt und musste vorrangig gespielt werden.");
 					} else 
 						if (board.checkThreeThrows(Content.BLUE)) {
-							player3.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
+							player3.message("Sie dürfen dreimal würfeln.");
 							first = false;
 							board.leaveHouse(status, this);
 						} else if (board.getDiceValue() == 6 && board.checkNumHouse(status) && first) {
-							player3.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
+							player3.message("Sie ziehen aus dem Haus.");
 							first = false;
 							board.leaveHouse(status, this);
 						} else if (board.getDiceValue() == 6 && board.checkDoubleDice(status)) {
 							board.setMeeple(chooseMeeple(Content.BLUE), Content.BLUE, this);
-
 							board.diceThrow();
-							player3.message("Sie dürfen nochmal würfeln. Sie haben eine " + board.getDiceValue() + " gewürfelt");
+							player3.message("Sie haben nochmal gewürfelt.");
+							player3.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
 							checkMovePossible(Content.BLUE);
 							board.setMeeple(chooseMeeple(Content.BLUE), Content.BLUE, this);	
 
@@ -168,6 +176,7 @@ public class GameImplementation implements Game {
 								throw new MoveStreetException();
 							}
 						}
+					playerchange();
 					status = Status.PLAYER4;
 					player3.disable();
 					break;
@@ -179,18 +188,18 @@ public class GameImplementation implements Game {
 						player4.message("Das Startfeld war belegt und musste vorrangig gespielt werden.");
 					} else 
 						if (board.checkThreeThrows(Content.RED)) {
-							player4.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
+							player4.message("Sie dürfen dreimal würfeln.");
 							first = false;
 							board.leaveHouse(status, this);
 						} else if (board.getDiceValue() == 6 && board.checkNumHouse(status) && first) {
-							player4.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
+							player4.message("Sie ziehen aus dem Haus.");
 							first = false;
 							board.leaveHouse(status, this);
 						} else if (board.getDiceValue() == 6 && board.checkDoubleDice(status)) {
 							board.setMeeple(chooseMeeple(Content.RED), Content.RED, this);
-
 							board.diceThrow();
-							player4.message("Sie dürfen nochmal würfeln. Sie haben eine " + board.getDiceValue() + " gewürfelt");
+							player4.message("Sie haben nochmal gewürfelt.");
+							player4.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
 							checkMovePossible(Content.RED);
 							board.setMeeple(chooseMeeple(Content.RED), Content.RED, this);
 						} else {
@@ -201,6 +210,7 @@ public class GameImplementation implements Game {
 								throw new MoveStreetException();
 							}
 						}
+					playerchange();
 					status = Status.PLAYER1;
 					player4.disable();
 					break;
@@ -221,21 +231,25 @@ public class GameImplementation implements Game {
 				switch(status) {
 				case PLAYER1:
 					player1.message("Sie haben verpasst einen Gegner zu schlagen. Dafür wurde Ihre Figur zurück ins Haus gesetzt.");
+					playerchange();
 					status = Status.PLAYER2;
 					player1.disable();
 					break;
 				case PLAYER2:
 					player2.message("Sie haben verpasst einen Gegner zu schlagen. Dafür wurde Ihre Figur zurück ins Haus gesetzt.");
+					playerchange();
 					status = Status.PLAYER3;
 					player2.disable();
 					break;
 				case PLAYER3:
 					player3.message("Sie haben verpasst einen Gegner zu schlagen. Dafür wurde Ihre Figur zurück ins Haus gesetzt.");
+					playerchange();
 					status = Status.PLAYER4;
 					player3.disable();
 					break;
 				case PLAYER4: 
 					player4.message("Sie haben verpasst einen Gegner zu schlagen. Dafür wurde Ihre Figur zurück ins Haus gesetzt.");
+					playerchange();
 					status = Status.PLAYER1;
 					player4.disable();
 					break;
@@ -248,38 +262,42 @@ public class GameImplementation implements Game {
 				switch(status) {
 				case PLAYER1:
 					player1.message("Kein Zug ist möglich. Der nächste Spieler ist dran.");
+					playerchange();
 					status = Status.PLAYER2;
 					player1.disable();
 					break;
 				case PLAYER2:
 					player2.message("Kein Zug ist möglich. Der nächste Spieler ist dran.");
+					playerchange();
 					status = Status.PLAYER3;
 					player2.disable();
 					break;
 				case PLAYER3:
 					player3.message("Kein Zug ist möglich. Der nächste Spieler ist dran.");
+					playerchange();
 					status = Status.PLAYER4;
 					player3.disable();
 					break;
 				case PLAYER4: 
 					player4.message("Kein Zug ist möglich. Der nächste Spieler ist dran.");
+					playerchange();
 					status = Status.PLAYER1;
 					player4.disable();
 					break;
 				default: break;
 				}
 			}
-			
+
 			catch (SaveException e) {
 				save(e.savefile);
 				error = false;
 			}
-			
+
 			catch (LoadException e) {
 				load(e.loadfile);
 				error = false;
 			}
-			
+
 		} while (error);
 
 		if (board.checkWin(Content.YELLOW)) {
@@ -315,7 +333,7 @@ public class GameImplementation implements Game {
 		if (status == Status.PLAYER1) {
 			System.out.println("Spieler 1 ist dran");
 			player1.enable();
-		
+
 		} else if (status == Status.PLAYER2) {
 			System.out.println("Spieler 2 ist dran");
 			player2.enable();
@@ -323,14 +341,12 @@ public class GameImplementation implements Game {
 		} else if (status == Status.PLAYER3) {
 			System.out.println("Spieler 3 ist dran");
 			player3.enable();
-			
+
 		} else if (status == Status.PLAYER4) {
 			System.out.println("Spieler 4 ist dran");
 			System.out.println(counter);
 			player4.enable();
-		
 		}
-
 	}
 
 	public void save(String fileName) {
@@ -342,10 +358,10 @@ public class GameImplementation implements Game {
 		PersistenceObject po = SaveLoad.load(fileName);
 		this.status = po.getStatus();
 		this.board = po.getBoard();
-		
+
 		System.out.println(po.getBoard());
 		System.out.println(this.board);
-		
+
 		message("Loading successfull");
 	}
 
@@ -359,36 +375,35 @@ public class GameImplementation implements Game {
 		boolean meeplePossible = false;
 		Position chosenPosition;
 		Integer chosenMeeple = null;
-		
+
 		if (firstChoose) {
-		checkMovePossible(content);
-		firstChoose =false;
+			checkMovePossible(content);
+			firstChoose =false;
 		}
-		
+
 		while (chosen == -1) {
-			
+
 			if (possibleMeeple.isEmpty()) {
 				throw new NoMoveException();
 			}
-			
 			switch (content) {
 
 			case YELLOW:
 				player1.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
 				chosenPosition = player1.chooseMeeple();
-				
-			
-				
+
+
+
 				for (Integer meeple : possibleMeeple) {
 					if (meeple == chosenPosition.getIndex()) {
 						meeplePossible = true;
 						chosenMeeple = meeple;
 					}
 				}
-				
+
 				if (meeplePossible) {
 					possibleMeeple.remove(chosenMeeple);
-					
+
 					return chosenPosition;
 				}else {
 
@@ -400,18 +415,18 @@ public class GameImplementation implements Game {
 			case GREEN:
 				player2.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
 				chosenPosition = player2.chooseMeeple();
-				
-				
+
+
 				for (Integer meeple : possibleMeeple) {
 					if (meeple == chosenPosition.getIndex()) {
 						meeplePossible = true;
 						chosenMeeple = meeple;
 					}
 				}
-				
+
 				if (meeplePossible) {
 					possibleMeeple.remove(chosenMeeple);
-					
+
 					return chosenPosition;
 				}else {
 					player2.message("Bitte wählen Sie ein Feld mit einer Ihrer noch bewegbaren Figuren aus.");
@@ -428,7 +443,7 @@ public class GameImplementation implements Game {
 						chosenMeeple = meeple;
 					}
 				}
-				
+
 				if (meeplePossible) {
 					possibleMeeple.remove(chosenMeeple);
 					return chosenPosition;
@@ -441,14 +456,14 @@ public class GameImplementation implements Game {
 			case RED:
 				player4.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
 				chosenPosition = player4.chooseMeeple();
-				
+
 				for (Integer meeple : possibleMeeple) {
 					if (meeple == chosenPosition.getIndex()) {
 						meeplePossible = true;
 						chosenMeeple = meeple;
 					}
 				}
-				
+
 				if (meeplePossible) {
 					possibleMeeple.remove(chosenMeeple);
 					return chosenPosition;
@@ -474,6 +489,18 @@ public class GameImplementation implements Game {
 		default: break;
 		}
 	}
+	
+	public void enemyMessage(Content content, String message) {
+		switch (content) {
+
+		case YELLOW: player1.message(message); break;
+		case GREEN: player2.message(message); break;
+		case BLUE: player3.message(message); break;
+		case RED: player4.message(message); break;
+		default: break;
+		}
+		
+	}
 
 	@Override
 	public void returnPosition(Position position) {
@@ -487,7 +514,7 @@ public class GameImplementation implements Game {
 
 		int j = 0;
 		switch (content) {
-		
+
 		case YELLOW: 	
 			possibleMeeple = new ArrayList<Integer>();
 
@@ -509,7 +536,7 @@ public class GameImplementation implements Game {
 
 		case GREEN: 	
 			possibleMeeple = new ArrayList<Integer>();
-		
+
 
 			for (int i = 0; i < board.getPlayboard().length;i++) {
 				if (board.getPlayboard()[i] == content) {
@@ -529,7 +556,7 @@ public class GameImplementation implements Game {
 
 		case BLUE: 	
 			possibleMeeple = new ArrayList<Integer>();
-	
+
 			for (int i = 0; i < board.getPlayboard().length;i++) {
 				if (board.getPlayboard()[i] == content) {
 					possibleMeeple.add(i);
@@ -565,11 +592,63 @@ public class GameImplementation implements Game {
 			}
 
 			break;
-			
+
 		default:
 			break;
 
 		}
 
+	}
+
+	public void playerchange() {
+		switch (status) {
+		case PLAYER1 : 
+			player1.message("Dein Spielzug ist beendet.");
+			player1.message("Warten auf Spieler 2.");
+//			player2.message("Spieler 1 ist fertig.");
+//			player3.message("Spieler 1 ist fertig.");
+			player3.message("Warten auf Spieler 2.");
+//			player4.message("Spieler 1 ist fertig.");
+			player4.message("Warten auf Spieler 2.");
+			break;
+
+		case PLAYER2 : 
+//			player1.message("Spieler 2 ist fertig.");
+			player1.message("Warten auf Spieler 3.");
+			player2.message("Dein Spielzug ist beendet.");
+			player2.message("Warten auf Spieler 3.");
+//			player3.message("Spieler 2 ist fertig.");
+//			player4.message("Spieler 2 ist fertig.");
+			player4.message("Warten auf Spieler 3.");
+			break;
+		case PLAYER3 : 
+//			player1.message("Spieler 3 ist fertig.");
+			player1.message("Warten auf Spieler 4.");
+//			player2.message("Spieler 3 ist fertig.");
+			player2.message("Warten auf Spieler 4.");
+			player3.message("Dein Spielzug ist beendet.");
+			player3.message("Warten auf Spieler 4.");
+//			player4.message("Spieler 3 ist fertig.");
+			break;
+		case PLAYER4 :
+//			player1.message("Spieler 4 ist fertig.");
+//			player2.message("Spieler 4 ist fertig.");
+			player2.message("Warten auf Spieler 1.");
+//			player3.message("Spieler 4 ist fertig.");
+			player3.message("Warten auf Spieler 1.");
+			player4.message("Dein Spielzug ist beendet.");
+			player4.message("Warten auf Spieler 1.");
+			break;
+		default: break;
+		}
+	}
+	
+	public void pause(int time) {
+		try {
+			Thread.sleep(time);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 }

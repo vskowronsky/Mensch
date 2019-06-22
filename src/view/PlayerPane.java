@@ -1,6 +1,7 @@
 package view;
 
 import javafx.scene.Cursor;
+import javafx.scene.control.MenuBar;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -13,14 +14,16 @@ import model.Board;
 import model.Content;
 
 public class PlayerPane extends Pane{
-	public final int width = 660;
-	private double unit = width/11;
-	private double size = unit*0.9;
-	private double dif = 0.05*unit;
-	private double radius = size/2*0.94;
-	private double middle = unit/2;
+	public double width;
+	private double unit;
+	private double size;
+	private double dif;
+	private double radius;
+	private double middle;
 	public Board board;
-	PlayerGUI gui;
+	private PlayerGUI gui;
+	private MessagePane messagePane;
+	private MenuBar menuBar;
 	public CircleWithPos[] boardOfCircles;
 	public Rectangle[] recStreetGreen;
 	public Rectangle[] recStreetBlue;
@@ -37,11 +40,21 @@ public class PlayerPane extends Pane{
 
 
 
-	public PlayerPane(PlayerGUI gui) {
+	public PlayerPane(PlayerGUI gui, MessagePane messagePane, MenuBar menuBar) {
 		super();
 		this.gui = gui;
 		this.board = new Board();
+		this.messagePane = messagePane;
+		this.menuBar = menuBar;
+		this.width = 660;
+		this.unit = width/11;
+		this.size = unit*0.9;
+		this.dif = 0.05*unit;
+		this.radius = size/2*0.94;
+		this.middle = unit/2;
+
 		init();
+
 	}
 
 	private void init() {
@@ -50,6 +63,27 @@ public class PlayerPane extends Pane{
 		initStreet();
 		circleStreet();
 		circleHouse();
+	}
+
+	public void updateWidth() {
+		this.getChildren().clear();
+		if (gui.stageWidth*0.6 >= gui.stageHeight - messagePane.getHeight()-menuBar.getHeight()) {
+			this.width = gui.stageWidth*0.6-messagePane.getHeight();
+		} else {
+			this.width = gui.stageWidth*0.6-menuBar.getHeight();
+		}
+		this.unit = width/11;
+		this.size = unit*0.9;
+		this.dif = 0.05*unit;
+		this.radius = size/2*0.94;
+		this.middle = unit/2;
+		setPrefWidth(this.width);
+		initHouse();
+		initBoard();
+		initStreet();
+		circleStreet();
+		circleHouse();
+
 	}
 
 	private void initHouse() {
@@ -261,7 +295,7 @@ public class PlayerPane extends Pane{
 			circleStreetGreen[i].setOnMouseClicked(gui.circleClickedEventHandler);
 			circleStreetGreen[i].setOnMouseEntered(gui.circleEnteredEventHandler);
 			circleStreetGreen[i].setOnMouseExited(gui.circleExitedEventHandler);
-			
+
 		}
 
 		circleStreetBlue = new CircleWithPos[4];
@@ -289,7 +323,7 @@ public class PlayerPane extends Pane{
 			circleStreetYellow[i].setOnMouseClicked(gui.circleClickedEventHandler);
 			circleStreetYellow[i].setOnMouseEntered(gui.circleEnteredEventHandler);
 			circleStreetYellow[i].setOnMouseExited(gui.circleExitedEventHandler);
-		
+
 		}
 
 		getChildren().addAll(circleStreetGreen);
@@ -346,7 +380,7 @@ public class PlayerPane extends Pane{
 	}
 
 	public void update(Board board) {
-		
+
 		for (int i = 0; i < boardOfCircles.length; i++) {
 			switch(board.getPlayboard()[i]) {
 			case FREE: boardOfCircles[i].setFill(Color.FLORALWHITE); break;
@@ -421,5 +455,7 @@ public class PlayerPane extends Pane{
 		for (int i = 0; i < board.getHouseY(); i++) {
 			circleHouseYellow[i].setFill(Color.GOLD);
 		}
+
+
 	}
 }

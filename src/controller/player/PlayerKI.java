@@ -13,6 +13,7 @@ public class PlayerKI implements Player {
 	private Game game;
 	private int meeplecounter;
 	private int enemycounter;
+	private boolean six;
 	private Board board;
 
 	public PlayerKI(){
@@ -30,6 +31,7 @@ public class PlayerKI implements Player {
 	public void enable() {
 		this.meeplecounter = 1;
 		this.enemycounter = 1;
+		six = false;
 		System.out.println("NEUE RUNDE!");
 		System.out.println("KI " +id + " ist dran.");
 		this.board = game.getBoard();
@@ -44,6 +46,7 @@ public class PlayerKI implements Player {
 	//KI soll über das Array board gehen und die erste Figur, die seinem Content entspricht, 
 	//zurückgeben
 	public Position chooseMeeple(){
+
 		int localCounter = 1;
 		int localEnemyCounter = 1;
 
@@ -59,7 +62,7 @@ public class PlayerKI implements Player {
 		}
 
 		for (int i = 0; i<this.board.getPlayboard().length; i++) {
-			
+
 			if (i+this.board.getDiceValue() >= 40) {
 				if (this.board.getPlayboard()[i] == this.content && this.board.getPlayboard()[i+this.board.getDiceValue()-40] != Content.FREE && this.board.getPlayboard()[i+this.board.getDiceValue()-40] != content) {
 					if (localEnemyCounter == this.enemycounter) {
@@ -83,7 +86,7 @@ public class PlayerKI implements Player {
 			}
 
 		}
-		
+
 		for (int i = 0; i<this.board.getPlayboard().length; i++) {
 			if (this.board.getPlayboard()[i] == this.content) {
 
@@ -96,7 +99,7 @@ public class PlayerKI implements Player {
 					localCounter++;
 				}
 			}
-		
+
 		}
 		for (int i = 0; i<4; i++) {
 
@@ -104,7 +107,7 @@ public class PlayerKI implements Player {
 
 				if (localCounter == this.meeplecounter) {
 					meeplecounter++;
-					System.out.println("Ausgewähltes i: " + i+dif);
+					System.out.println("Ausgewähltes i: " + (dif+i));
 					game.returnPosition(new Position (i+dif));
 					return null;
 				} else {
@@ -131,30 +134,10 @@ public class PlayerKI implements Player {
 		System.out.println(message);
 		this.board = game.getBoard();
 
-		switch (message) {
-		case "Sie dürfen nochmal würfeln. Sie haben eine 1 gewürfelt" : 
+		if (message.equals("Sie haben nochmal gewürfelt.")) {
 			this.meeplecounter = 1;
 			this.enemycounter = 1; 
-			break;
-		case "Sie dürfen nochmal würfeln. Sie haben eine 2 gewürfelt" : 
-			this.meeplecounter = 1;
-			this.enemycounter = 1; 
-			break;
-		case "Sie dürfen nochmal würfeln. Sie haben eine 3 gewürfelt" : 
-			this.meeplecounter = 1;
-			this.enemycounter = 1; 
-			break;
-		case "Sie dürfen nochmal würfeln. Sie haben eine 4 gewürfelt" : 
-			this.meeplecounter = 1; 
-			this.enemycounter = 1; 
-			break;
-		case "Sie dürfen nochmal würfeln. Sie haben eine 5 gewürfelt" : 
-			this.meeplecounter = 1; 
-			break;
-		case "Sie dürfen nochmal würfeln. Sie haben eine 6 gewürfelt" : 
-			this.meeplecounter = 1; 
-			this.enemycounter = 1; 
-			break;	
 		}
+
 	}
 }

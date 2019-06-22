@@ -128,7 +128,7 @@ public class Client extends Service<String>
 	public Board receiveBoard(){
 		try {
 			Board board = (Board) in.readObject();
-			System.out.println("Empfange Board " + board);
+			System.out.println("Empfange Board ");
 			return board;
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();

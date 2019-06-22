@@ -173,5 +173,17 @@ public class GameRemote implements Game {
 	
 	}
 
+	@Override
+	public void enemyMessage(Content content, String message) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void pause(int time) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }
