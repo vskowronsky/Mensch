@@ -45,9 +45,4 @@ public class ScenePane extends BorderPane{
 		dicePane.updateWidth();
 //		messagePane.updateWidth();
 	}
-
-
-	public void disable(){
-
-	}
 }

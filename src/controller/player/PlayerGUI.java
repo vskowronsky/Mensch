@@ -31,6 +31,9 @@ import view.PlayerPane;
 import view.PlayerStage;
 import view.ScenePane;
 
+/**
+ * Klasse erzeugt einen Spieler für das Graphical User Interface.
+ */
 public class PlayerGUI implements Player{
 
 	private PlayerPane playerPane;
@@ -55,6 +58,11 @@ public class PlayerGUI implements Player{
 		this.position = -1;
 	}
 
+	/**
+	 * Initialisiert einen Spieler mit den übergebenen Parametern. 
+	 * Desweiteren werden Elemente der GUI initialisiert.
+	 * @author Vanessa
+	 */
 	public void initialize(Content content, Game game, int id) {
 		this.content = content;
 		this.game = game;
@@ -64,11 +72,27 @@ public class PlayerGUI implements Player{
 		playerPane = new PlayerPane(this, messagePane, menuBar);
 		infoPane = new InfoPane(id, this);
 		dicePane = new DicePane(this);
+		
+		TextInputDialog input = new TextInputDialog();
+		input.setTitle("Speichern/Laden");
+		input.setHeaderText(null);
+		input.setContentText("Dateiname: ");
 
 		root = new ScenePane(playerPane, infoPane, dicePane, messagePane, menuBar, this);
 		stage = new PlayerStage(root);
-		stage.show();
+		
+		
+		infoPane.saveBtn.setOnAction((ActionEvent t) -> {
+			AudioClip clickSound = new AudioClip("file:src/view/Click-Sound.wav");
+			clickSound.play();
+			Optional<String> result = input.showAndWait();
+			game.save(result.get());});
 
+		infoPane.loadBtn.setOnAction((ActionEvent t) -> {
+			AudioClip clickSound = new AudioClip("file:src/view/Click-Sound.wav");
+			clickSound.play();
+			Optional<String> result = input.showAndWait();
+			game.load(result.get());});	
 
 		stage.widthProperty().addListener((obs, oldVal, newVal) -> {
 			stageWidth = stage.getWidth();
@@ -83,48 +107,45 @@ public class PlayerGUI implements Player{
 			root.enable();
 			playerPane.update(game.getBoard());
 		});
+	
 		
 		stageWidth = stage.getWidth();
 		stageHeight = stage.getHeight();
 		root.enable();
-
+		
+		stage.show();
 	}
 
+	/**
+	 * Aktivierung des Spielers
+	 * @author Vanessa
+	 */
 	public void enable() {
-		TextInputDialog input = new TextInputDialog();
-		input.setTitle("Speichern/Laden");
-		input.setHeaderText(null);
-		input.setContentText("Dateiname: ");
-
 		playerPane.update(game.getBoard());
-
 		infoPane.setText("Machen Sie Ihren Zug.");
 		update();
-
-		infoPane.saveBtn.setOnAction((ActionEvent t) -> {
-			AudioClip clickSound = new AudioClip("file:src/view/Click-Sound.wav");
-			clickSound.play();
-			Optional<String> result = input.showAndWait();
-			game.save(result.get());});
-
-		infoPane.loadBtn.setOnAction((ActionEvent t) -> {
-			AudioClip clickSound = new AudioClip("file:src/view/Click-Sound.wav");
-			clickSound.play();
-			Optional<String> result = input.showAndWait();
-			game.load(result.get());});	
 	}
 
+	/**
+	 * Aufrauf der Methode update im Spiel.
+	 */
 	private void update() {
 		game.update();
 
 	}
 
+	/**
+	 * Methode um die Menuleiste mit ihren Unterpunkten zu initialisieren. 
+	 * @return Die Menüleiste
+	 * @author Laura, Vanessa
+	 */
 	private MenuBar setMenu() {
 		TextInputDialog input = new TextInputDialog();
 		MenuBar menuBar = new MenuBar();
 		menuBar.setUseSystemMenuBar(true);
 		Menu saveload = new Menu("Save/Load");
 		Menu about = new Menu("About");
+		
 		MenuItem rules = new MenuItem("Rules");
 		rules.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
@@ -142,7 +163,7 @@ public class PlayerGUI implements Player{
 				Label twelfthRule = new Label("12. In der Zielstraße darf nicht übersprungen werden.");
 				Label thirteenthRule = new Label("13. Gewonnen hat der Spieler, der seine 4 Spielfiguren als Erster in sein Zielfeld manövriert hat.");
 				Group layout = new Group();
-				VBox labelBox = new VBox(20);
+				VBox labelBox = new VBox(15);
 				labelBox.getChildren().addAll(firstRule, secondRule, thirdRule, fourthRule, fifthRule, sixthRule, 
 						seventhRule, eighthRule, ninthRule, tenthRule, eleventhRule, twelfthRule, thirteenthRule);
 				layout.getChildren().add(labelBox);
@@ -154,45 +175,71 @@ public class PlayerGUI implements Player{
 				newWindow.setY(stage.getY() + 100);
 				newWindow.show();	
 			}});
+		
 		MenuItem exit = new MenuItem("Exit");
 		exit.setAccelerator(KeyCombination.keyCombination("Ctrl+X"));
 		exit.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				System.exit(0);}});
+		
 		MenuItem menusave = new MenuItem("Save");
 		menusave.setOnAction((ActionEvent t) -> {
 			Optional<String> result = input.showAndWait();
 			game.save(result.get());});
+		
 		MenuItem menuload = new MenuItem("Load");
 		menuload.setOnAction((ActionEvent t) -> {
 			Optional<String> result = input.showAndWait();
-			game.load(result.get());});	
+			game.load(result.get());});
+		
 		saveload.getItems().addAll(menusave, menuload);
 		about.getItems().addAll(rules, exit);
 		menuBar.getMenus().addAll(saveload,about);
 		return menuBar;
 	}
 
+	/**
+	 * Spieler wird deaktiviert und das Spielfeld aktualisiert.
+	 * @author Vanessa
+	 */
 	public void disable() {
 		playerPane.update(game.getBoard());
-		root.disable();
 	}
 
+	/**
+	 * Der Spieler hat gewonnen. Das Spielfeld wird aktualisiert. 
+	 * Eine Nachricht sowie ein Audioclip werden an die MessagePane übergeben.
+	 * @author Vanessa
+	 */
 	public void win() {
 		playerPane.update(game.getBoard());
 		messagePane.message("Sie haben gewonnen!", new AudioClip("file:src/view/Success-Sound.wav"));
 	}
 
+	/**
+	 * Der Spieler hat verloren. Das Spielfeld wird aktualisiert. 
+	 * Eine Nachricht sowie ein Audioclip werden an die MessagePane übergeben.
+	 * @author Vanessa
+	 */
 	public void lose() {
 		playerPane.update(game.getBoard());
 		messagePane.message("Sie haben verloren!", new AudioClip("file:src/view/Lose-Sound.mp3"));
 	}
 
+	/**
+	 * Der Spieler ist dran eine Figur auszuwählen.
+	 * @author Vanessa
+	 */
 	public Position chooseMeeple(){
 		choosing = true;
 		return null;
 	}
 
+	/**
+	 * Verarbeitung und Weiterreichung verschiedener Nachrichten, die vom Spiel geschickt wurden.
+	 * Das Spielfeld wird aktualisiert.
+	 * @author Vanessa
+	 */
 	public void message(String message) {
 
 		System.out.println(message);
@@ -235,8 +282,11 @@ public class PlayerGUI implements Player{
 		playerPane.update(game.getBoard());
 	}
 	
-	
-
+	/**
+	 * Eventhandler, wenn ein Kreis geklickt wurde. Ist nur möglich, wenn chooseMeeple schon 
+	 * aufgerufen wurden.
+	 * @author Vanessa
+	 */
 	public EventHandler<MouseEvent> circleClickedEventHandler = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent t) {
 			CircleWithPos circle = (CircleWithPos) t.getSource();
@@ -258,6 +308,10 @@ public class PlayerGUI implements Player{
 		}
 	};
 
+	/**
+	 * Eventhandler, wenn die Maus einen Kreis betritt. 
+	 * @author Vanessa
+	 */
 	public EventHandler<MouseEvent> circleEnteredEventHandler = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent t) {
 			CircleWithPos circle = (CircleWithPos) t.getSource();
@@ -277,6 +331,10 @@ public class PlayerGUI implements Player{
 		}
 	};
 
+	/**
+	 * Eventhandler, wenn die Maus einen Kreis verlässt. 
+	 * @author Vanessa
+	 */
 	public EventHandler<MouseEvent> circleExitedEventHandler = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent t) {
 			CircleWithPos circle = (CircleWithPos) t.getSource();

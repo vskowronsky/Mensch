@@ -6,46 +6,51 @@ import controller.game.Game;
 import model.Content;
 import model.Position;
 
+/**
+ * Interface des Player
+ */
+
 public interface Player {
 	
 	/**
-	 * 
-	 * Initializes the Player-Client
-	 * 
-	 * @param content
-	 * @param game
-	 * @param id
-	 *
+	 * Initialisiert den Player-Client
+	 * @param content Farbe des Spielers, der dran ist.
+	 * @param game Das Spiel selber.
+	 * @param id ID des Spielers
 	 */
-	
 	public void initialize(Content content, Game game, int id);
 	
 	/**
-	 * Enables the player for the next turn 
+	 * Aktiviert den Spieler für den nächsten Zug.
 	 */
 	public void enable();
 	
 	/**
-	 * Disables the player for the next turn
+	 * Deaktiviert den Spieler für den nächsten Zug.
 	 */
 	public void disable();
 	
 	/**
-	 * Sets the information that the player has won
+	 * Informiert den Spieler, dass er gewonnen hat.
 	 */
 	public  void win();
 	
 	/**
-	 * Sets the information that the player has lost
+	 * Informiert den Spieler, dass er verloren hat.
 	 */
 	public void lose();	
 	
+	/**
+	 * Spieler wählt eine Position aus.
+	 * @return Die gewählte Position
+	 * @throws SaveException
+	 * @throws LoadException
+	 */
 	public Position chooseMeeple() throws SaveException, LoadException;
 	
-	
 	/**
-	 * Receives and displays a message
-	 * @param message
+	 * Bekommt eine Message übergeben, die dann weiterverarbeitet wird.
+	 * @param message Ein String
 	 */
 	public void message(String message);
 

@@ -6,6 +6,9 @@ import model.Board;
 import model.Content;
 import model.Position;
 
+/**
+ * Klasse erzeugt eine künstliche Intelligenz als Spieler
+ */
 public class PlayerKI implements Player {
 
 	private int id;
@@ -22,12 +25,20 @@ public class PlayerKI implements Player {
 		game = null;
 	}
 
+	/**
+	 * Initialisiert einen künstlichen Spieler mit den übergebenen Parametern.
+	 * @author Vanessa
+	 */
 	public void initialize(Content content, Game game, int id) {
 		this.content = content;
 		this.game = game;
 		this.id = id;
 	}
 
+	/**
+	 * Aktivierung der KI.
+	 * @author Vanessa
+	 */
 	public void enable() {
 		this.meeplecounter = 1;
 		this.enemycounter = 1;
@@ -39,21 +50,29 @@ public class PlayerKI implements Player {
 		game.update();
 	}
 
+	/**
+	 * Methode printet, dass der Spielzug beendet ist.
+	 * @author Vanessa
+	 */
 	public void disable() {
 		System.out.println("Der Spielzug ist beendet.");
 	}
 
-	//KI soll über das Array board gehen und die erste Figur, die seinem Content entspricht, 
-	//zurückgeben
+	/**
+	 * Methode gibt die Reihenfolge vor, in dem die KI eine Spielfigur auswählt.
+	 * Zunächst wird überprüft, ob ein Gegner geschlagen werden kann. Wenn dies nicht möglich ist, 
+	 * wird ein Spielfigur auf dem Spielfeld gesetzt. Wenn dies misslingt, wird eine Figur in der
+	 * Spielstraße gesetzt.
+	 * @return Die ausgewählte Position
+	 * @author Vanessa
+	 */
 	public Position chooseMeeple(){
-
 		int localCounter = 1;
 		int localEnemyCounter = 1;
 
 		Content[] street = null;
 		int dif = 0;
 		switch (this.content) {
-
 		case YELLOW : street = board.getStreetY(); dif = 40; break;
 		case GREEN : street = board.getStreetG(); dif = 50; break;
 		case BLUE : street = board.getStreetB(); dif = 60; break;
@@ -62,9 +81,10 @@ public class PlayerKI implements Player {
 		}
 
 		for (int i = 0; i<this.board.getPlayboard().length; i++) {
-
 			if (i+this.board.getDiceValue() >= 40) {
-				if (this.board.getPlayboard()[i] == this.content && this.board.getPlayboard()[i+this.board.getDiceValue()-40] != Content.FREE && this.board.getPlayboard()[i+this.board.getDiceValue()-40] != content) {
+				if (this.board.getPlayboard()[i] == this.content && 
+						this.board.getPlayboard()[i+this.board.getDiceValue()-40] != Content.FREE && 
+						this.board.getPlayboard()[i+this.board.getDiceValue()-40] != content) {
 					if (localEnemyCounter == this.enemycounter) {
 						this.enemycounter++;
 						game.returnPosition(new Position (i));
@@ -74,7 +94,9 @@ public class PlayerKI implements Player {
 					}
 				}
 			} else {
-				if (this.board.getPlayboard()[i] == this.content && this.board.getPlayboard()[i+this.board.getDiceValue()] != Content.FREE && this.board.getPlayboard()[i+this.board.getDiceValue()] != content) {
+				if (this.board.getPlayboard()[i] == this.content && 
+						this.board.getPlayboard()[i+this.board.getDiceValue()] != Content.FREE && 
+						this.board.getPlayboard()[i+this.board.getDiceValue()] != content) {
 					if (localEnemyCounter == this.enemycounter) {
 						this.enemycounter++;
 						game.returnPosition(new Position (i));
@@ -84,12 +106,10 @@ public class PlayerKI implements Player {
 					}
 				}
 			}
-
 		}
 
 		for (int i = 0; i<this.board.getPlayboard().length; i++) {
 			if (this.board.getPlayboard()[i] == this.content) {
-
 				if (localCounter == this.meeplecounter) {
 					meeplecounter++;
 					System.out.println("Ausgewähltes i: " + i);
@@ -99,12 +119,10 @@ public class PlayerKI implements Player {
 					localCounter++;
 				}
 			}
-
 		}
+
 		for (int i = 0; i<4; i++) {
-
 			if (street[i] == this.content) {
-
 				if (localCounter == this.meeplecounter) {
 					meeplecounter++;
 					System.out.println("Ausgewähltes i: " + (dif+i));
@@ -118,18 +136,31 @@ public class PlayerKI implements Player {
 		return null;
 	}
 
+	/**
+	 * Methode zur Print-Ausgabe in der Konsole der KI.
+	 * @author Vanessa
+	 */
 	public void win() {
 		System.out.println("KI " + id + " hat gewonnen!");
 		this.board = game.getBoard();
 		System.out.println(this.board);
 	}
 
+	/**
+	 * Methode zur Print-Ausgabe in der Konsole der KI.
+	 * @author Vanessa
+	 */
 	public void lose() {
 		System.out.println("KI " + id + " hat verloren!");
 		this.board = game.getBoard();
 		System.out.println(this.board);
 	}
 
+	/**
+	 * Methode zur Print-Ausgabe in der Konsole der KI.
+	 * Bei einer bestimmten Nachricht, werden zwei globale Variablen der Klasse neu gesetzt.
+	 * @author Vanessa
+	 */
 	public void message(String message){
 		System.out.println(message);
 		this.board = game.getBoard();

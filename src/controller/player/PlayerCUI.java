@@ -9,6 +9,10 @@ import controller.game.Game;
 import model.Content;
 import model.Position;
 
+/**
+ * Klasse erzeugt einen Spieler für das Command User Interface.
+ *
+ */
 public class PlayerCUI implements Player {
 	private Content content;
 	private Game game;
@@ -19,12 +23,20 @@ public class PlayerCUI implements Player {
 		this.id = -1;
 	}
 
+	/**
+	 * Initialisiert einen Spieler mit den übergebenen Parametern.
+	 * @author Laura, Vanessa
+	 */
 	public void initialize(Content content, Game game, int id) {
 		this.content = content;
 		this.game = game;
 		this.id = id;
 	}
 
+	/**
+	 * Der Spieler wird aktiviert und gefragt, was er machen möchte.
+	 * @author Laura, Vanessa
+	 */
 	public void enable() {
 		int sl = -1;
 		System.out.println(game.getBoard());
@@ -48,20 +60,11 @@ public class PlayerCUI implements Player {
 		}
 	}
 
-	private String readString() {
-		try {
-			BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-			String eingabe = input.readLine();
-			return eingabe;
-		}catch (Exception e) {
-			return null;
-		}
-	}
-
-	private String enterFileName() {
-		return (readString());
-	}
-
+	/**
+	 * Methode um einen über die Konsole eingegeben int zu verarbeiten.
+	 * Rückgabe -1 bei eine ungültigen Eingabe.
+	 * @return int, der eingegeben wurde, sonst -1 
+	 */
 	private int readInt() {
 		try {
 			BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
@@ -75,6 +78,11 @@ public class PlayerCUI implements Player {
 		}
 	}
 
+	/**
+	 * Aufforderung an den Spieler eine Position auszuwählen. 
+	 * Erneute Aufforderung eine Position zu wählen, wenn die erste Eingabe falsch war.
+	 *@author Vanessa
+	 */
 	public Position chooseMeeple(){
 		int chosen = -1;
 		System.out.println("Wählen Sie eine Spielfigur aus.");
@@ -89,34 +97,78 @@ public class PlayerCUI implements Player {
 		return null;
 	} 
 
+	/**
+	 * Aufrauf der Methode update im Spiel.
+	 */
 	private void update() {
 		game.update();
 	}
 
+	/**
+	 * Methode um einen Spielstand zu speichern. Dazu muss der zu speichernden Datei ein
+	 * Name gegeben werden.
+	 * @author Vanessa
+	 */
 	private void save() {
 		System.out.println("Bitte geben Sie der zu speichernden Datei einen Namen.");
-		game.save(enterFileName());
+		game.save(readString());
 	}
 
+	/**
+	 * Methode um einen Spielstand zu laden. Die zu ladene Datei muss über ihren Namen
+	 * aufgerufen werden.
+	 * @author Vanessa
+	 */
 	private void load() {
 		System.out.println("Bitte geben Sie den Namen der zu ladenden Datei ein.");
-		game.load(enterFileName());	
+		game.load(readString());	
 	}
 
+	/**
+	 * Read-Methode für einen String.
+	 * @return Ein String
+	 * @author Vanessa
+	 */
+	private String readString() {
+		try {
+			BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+			String eingabe = input.readLine();
+			return eingabe;
+		}catch (Exception e) {
+			return null;
+		}
+	}
+	
+	/**
+	 * Mitteilung, dass der Spielzug beendet wurde. Das Board wird einmal ausgegeben.
+	 * @author Laura, Vanessa
+	 */
 	public void disable() {
 		System.out.println("Der Spielzug ist beendet.");
 		System.out.println(game.getBoard());
 	}
 
+	/**
+	 * Mitteilung, dass der Spieler gewonnen hat. Das Board wird einmal ausgegeben.
+	 * @author Laura, Vanessa
+	 */
 	public void win() {
 		System.out.println("Spieler " + id + " hat gewonnen!");
 		System.out.println(game.getBoard());
 	}
 
+	/**
+	 * Mitteilung, dass der Spieler verloren hat.
+	 * @author Laura, Vanessa
+	 */
 	public void lose() {
 		System.out.println("Spieler " + id + " hat verloren!");
 	}
 
+	/**
+	 * Ausgabe, der Nachricht, die vom Board geschickt wurde.
+	 * @author Vanessa
+	 */
 	public void message(String message) {
 		System.out.println(message);
 	}

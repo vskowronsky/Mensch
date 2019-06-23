@@ -16,13 +16,13 @@ import model.PersistenceObject;
 import model.Position;
 
 /**
- * 
- * Class for managing to safe and to load the game into file TicTacToe.ser. Consists only of two static methods.
+ * Klasse zum Managen von Speichern und Laden des Spiels in eine "dateiname".ser-Datei
 */
 public class SaveLoad {
-	/**
-	 * Static method for saving a PersistenceObject into the file Mensch.ser.
-	 * @param po the object to safe
+	/*
+	 * Methode, um ein PersistenceObjcet in der Datei "dateiname".ser zu speichern.
+	 * @param po Objekt, das gespeichert werden soll.
+	 * @param fileName Name, den die Datei bekommen soll.
 	 */
 	public static void save(PersistenceObject po, String fileName) {
 		try {
@@ -41,8 +41,9 @@ public class SaveLoad {
 
 	
 	/**
-	 * Static method for loading a PersistenceObject from the file Mensch.ser.
-	 * @return the loaded PersistenceObject.
+	 * Methode, um ein PersistenceObject aus der Datei "dateiname".ser zu laden.
+	 * @param fileName Name der Datei, die geladen werden soll.
+	 * @return Das geladene PersistenceObject.
 	 */
 	public static PersistenceObject load(String fileName){
 		try {
@@ -57,7 +58,6 @@ public class SaveLoad {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		
 		return null;
 	}
   }

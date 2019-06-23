@@ -2,7 +2,6 @@ package controller.game;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import controller.exceptions.LoadException;
 import controller.exceptions.MissedEnemyException;
 import controller.exceptions.MoveStreetException;
@@ -12,6 +11,9 @@ import controller.exceptions.SaveException;
 import controller.player.Player;
 import model.*;
 
+/**
+ * Klasse erzeugt eine Implementation des Spieles, die Logik des Spieles.
+   */
 public class GameImplementation implements Game {
 	private Player player1;
 	private Player player2;
@@ -25,7 +27,9 @@ public class GameImplementation implements Game {
 	List<Integer> possibleMeeple;
 	int counter;
 
-
+/**
+ * Konstruktor des Spiels. Hier wird ein Spielfeld initialisiert und vier Spielern zugeordnet.
+ */
 	public GameImplementation(Player player1, Player player2, Player player3, Player player4) {
 		board = new BoardSet();
 		this.player1 = player1;
@@ -39,6 +43,11 @@ public class GameImplementation implements Game {
 		this.status = Status.PLAYER1;
 	}
 
+	/**
+	 * Methode um das Spiel zu starten. Ja nach Status wird der jeweilige Spieler aktiviert,
+	 * die anderen deaktiviert.s
+	 * @author Laura, Vanessa
+	 */
 	public void start() {
 		System.out.println("Das Spiel wurde erfolgreich geladen.");
 		if (status == Status.PLAYER1) {
@@ -65,12 +74,15 @@ public class GameImplementation implements Game {
 
 	}
 
-	@Override
+	/**
+	 * Die update-Methode startet einen neuen Spielzug für einen Spieler. 
+	 * Das Spiel entscheidet anhand des aktuellen Zustandes des Spiels wie es weiter geht.
+	 * @author Vanessa
+	 */
 	public void update() {
 
 		pause(500);
 
-		
 		counter++;
 		board.diceThrow();
 		first = true;
@@ -100,7 +112,6 @@ public class GameImplementation implements Game {
 							player1.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
 							checkMovePossible(Content.YELLOW);
 							board.setMeeple(chooseMeeple(Content.YELLOW), Content.YELLOW, this);
-
 						}else {
 							if (board.setMeeple(chooseMeeple(Content.YELLOW), Content.YELLOW, this)) {
 
@@ -301,33 +312,39 @@ public class GameImplementation implements Game {
 		} while (error);
 
 		if (board.checkWin(Content.YELLOW)) {
-			status = Status.WINPLAYER1;
+			status = Status.WIN;
 			player1.win();
 			player2.lose();
 			player3.lose();
 			player4.lose();
 			System.out.println(counter);		
 		} else if (board.checkWin(Content.GREEN)) {
-			status = Status.WINPLAYER2;
+			status = Status.WIN;
 			player2.win();
 			player3.lose();
 			player4.lose();
 			player1.lose();
 			System.out.println(counter);	
 		} else if (board.checkWin(Content.BLUE)) {
-			status = Status.WINPLAYER3;
+			status = Status.WIN;
 			player3.win();
 			player4.lose();
 			player1.lose();
 			player2.lose();
 			System.out.println(counter);	
 		} else if (board.checkWin(Content.RED)) {
-			status = Status.WINPLAYER4;
+			status = Status.WIN;
 			player4.win();
 			player1.lose();
 			player2.lose();
 			player3.lose();
 			System.out.println(counter);
+		}
+		
+		if (status == Status.WIN) {
+			pause(10000);
+			System.exit(0);
+			
 		}
 
 		if (status == Status.PLAYER1) {
@@ -344,16 +361,25 @@ public class GameImplementation implements Game {
 
 		} else if (status == Status.PLAYER4) {
 			System.out.println("Spieler 4 ist dran");
-			System.out.println(counter);
 			player4.enable();
 		}
 	}
 
+	/**
+	 * Methode erzeugt ein neues PersistenceObject, das den aktuellen Status sowie das Board übergeben
+	 * bekommt. 
+	 * @param fileName Name, der zu speichernden Datei
+	 */
 	public void save(String fileName) {
 		PersistenceObject po = new PersistenceObject(status, board);
 		SaveLoad.save(po, fileName);
 	}
 
+	/**
+	 * Methode lädt ein PersistenceObject mit dem übergebenen Namen und übernimmt den Status und das 
+	 * Board.
+	 * @param fileName Name der zu ladenen Datei
+	 */
 	public void load(String fileName) {
 		PersistenceObject po = SaveLoad.load(fileName);
 		this.status = po.getStatus();
@@ -365,11 +391,20 @@ public class GameImplementation implements Game {
 		message("Loading successfull");
 	}
 
+	/**
+	 * Get-Methode des Boards.
+	 * @return Das Board
+	 */
 	public Board getBoard() {
 		return board;
 	}
 
-
+	/**
+	 * Methode überprüft, ob die vom Spieler ausgewählte Spielfigur bewegbar ist. Wenn nicht,
+	 * wird der Spieler erneut aufgefordert zu wählen oder informiert, dass kein Zug möglich ist.
+	 * @param content Farbe des Spielers, der dran ist.
+	 * @author Vanessa
+	 */
 	public Position chooseMeeple(Content content) throws NoMoveException, SaveException, LoadException{
 		int chosen = -1;
 		boolean meeplePossible = false;
@@ -382,17 +417,13 @@ public class GameImplementation implements Game {
 		}
 
 		while (chosen == -1) {
-
 			if (possibleMeeple.isEmpty()) {
 				throw new NoMoveException();
 			}
 			switch (content) {
-
 			case YELLOW:
 				player1.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
 				chosenPosition = player1.chooseMeeple();
-
-
 
 				for (Integer meeple : possibleMeeple) {
 					if (meeple == chosenPosition.getIndex()) {
@@ -403,10 +434,8 @@ public class GameImplementation implements Game {
 
 				if (meeplePossible) {
 					possibleMeeple.remove(chosenMeeple);
-
 					return chosenPosition;
-				}else {
-
+				} else {
 					player1.message("Bitte wählen Sie ein Feld mit einer Ihrer noch bewegbaren Figuren aus.");
 					chosen = -1;
 				}
@@ -416,7 +445,6 @@ public class GameImplementation implements Game {
 				player2.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
 				chosenPosition = player2.chooseMeeple();
 
-
 				for (Integer meeple : possibleMeeple) {
 					if (meeple == chosenPosition.getIndex()) {
 						meeplePossible = true;
@@ -426,9 +454,8 @@ public class GameImplementation implements Game {
 
 				if (meeplePossible) {
 					possibleMeeple.remove(chosenMeeple);
-
 					return chosenPosition;
-				}else {
+				} else {
 					player2.message("Bitte wählen Sie ein Feld mit einer Ihrer noch bewegbaren Figuren aus.");
 					chosen = -1;
 				}
@@ -447,7 +474,7 @@ public class GameImplementation implements Game {
 				if (meeplePossible) {
 					possibleMeeple.remove(chosenMeeple);
 					return chosenPosition;
-				}else {
+				} else {
 					player3.message("Bitte wählen Sie ein Feld mit einer Ihrer noch bewegbaren Figuren aus.");
 					chosen = -1;
 				}
@@ -467,7 +494,7 @@ public class GameImplementation implements Game {
 				if (meeplePossible) {
 					possibleMeeple.remove(chosenMeeple);
 					return chosenPosition;
-				}else {
+				} else {
 					player4.message("Bitte wählen Sie ein Feld mit einer Ihrer noch bewegbaren Figuren aus.");
 					chosen = -1;
 				}
@@ -476,12 +503,93 @@ public class GameImplementation implements Game {
 			}
 		}
 		return null;
-
 	}
 
+	
+
+	/**
+	 * Methode erzeugt eine ArrayList, die alle Positionen von bewegbaren Meeple beinhaltet.
+	 * @param content Farbe des Spielers, der dran ist.
+	 * @author Vanessa
+	 */
+	public void checkMovePossible(Content content) {
+		int j = 0;
+		switch (content) {
+		case YELLOW: 	
+			possibleMeeple = new ArrayList<Integer>();
+			for (int i = 0; i < board.getPlayboard().length;i++) {
+				if (board.getPlayboard()[i] == content) {
+					possibleMeeple.add(i);
+					j++;
+				}
+			}
+			for (int i = 0; i < board.getStreetY().length;i++) {
+				if (board.getStreetY()[i] == content && j<= 4-board.getHouseY()-board.getFinishedY()-1) {
+					possibleMeeple.add(i + 40);
+					j++;
+				}
+			}
+			break;
+
+		case GREEN: 	
+			possibleMeeple = new ArrayList<Integer>();
+			for (int i = 0; i < board.getPlayboard().length;i++) {
+				if (board.getPlayboard()[i] == content) {
+					possibleMeeple.add(i);
+					j++;
+				}
+			}
+			for (int i = 0; i < board.getStreetG().length;i++) {
+				if (board.getStreetG()[i] == content && j<= 4-board.getHouseG()-board.getFinishedG()-1) {
+					possibleMeeple.add(i+50);
+					j++;
+				}
+			}
+			break;
+
+		case BLUE: 	
+			possibleMeeple = new ArrayList<Integer>();
+			for (int i = 0; i < board.getPlayboard().length;i++) {
+				if (board.getPlayboard()[i] == content) {
+					possibleMeeple.add(i);
+					j++;
+				}
+			}
+			for (int i = 0; i < board.getStreetB().length;i++) {
+				if (board.getStreetB()[i] == content && j<= 4-board.getHouseB()-board.getFinishedB()-1) {
+					possibleMeeple.add(i+60);
+					j++;
+				}
+			}
+			break;
+
+		case RED: 	
+			possibleMeeple = new ArrayList<Integer>();
+			for (int i = 0; i < board.getPlayboard().length;i++) {
+				if (board.getPlayboard()[i] == content) {
+					possibleMeeple.add(i);
+					j++;
+				}
+			}
+			for (int i = 0; i < board.getStreetR().length;i++) {
+				if (board.getStreetR()[i] == content && j<= 4-board.getHouseR()-board.getFinishedR()-1) {
+					possibleMeeple.add(i+70);
+					j++;
+				}
+			}
+			break;
+
+		default: break;
+		}
+	}
+
+	/**
+	 * Methode zur Weitergabe von Nachrichten.
+	 * @param message Der Nachrichtentext
+	 * @author Vanessa
+	 */
 	public void message(String message) {
 		switch (status) {
-
 		case PLAYER1: player1.message(message); break;
 		case PLAYER2: player2.message(message); break;
 		case PLAYER3: player3.message(message); break;
@@ -489,166 +597,74 @@ public class GameImplementation implements Game {
 		default: break;
 		}
 	}
-	
+
+	/**
+	 * Methode um den Spieler zu informieren, dass er von einem Gegner geschlagen wurde.
+	 * @param content Farbe des Spielers, der dran ist.
+	 * @param message Nachricht, von wem geschlagen wurde.
+	 * @author Vanessa
+	 */
 	public void enemyMessage(Content content, String message) {
 		switch (content) {
-
 		case YELLOW: player1.message(message); break;
 		case GREEN: player2.message(message); break;
 		case BLUE: player3.message(message); break;
 		case RED: player4.message(message); break;
 		default: break;
 		}
-		
 	}
-
-	@Override
-	public void returnPosition(Position position) {
-		// TODO Auto-generated method stub
-
-	}
-
-
-	// Erzeugt ein Array mit allen Positionen von bewegbaren Meeple beinhaltet
-	public void checkMovePossible(Content content) {
-
-		int j = 0;
-		switch (content) {
-
-		case YELLOW: 	
-			possibleMeeple = new ArrayList<Integer>();
-
-			for (int i = 0; i < board.getPlayboard().length;i++) {
-				if (board.getPlayboard()[i] == content) {
-					possibleMeeple.add(i);
-					j++;
-				}
-			}
-
-			for (int i = 0; i < board.getStreetY().length;i++) {
-				if (board.getStreetY()[i] == content && j<= 4-board.getHouseY()-board.getFinishedY()-1) {
-					possibleMeeple.add(i + 40);
-					j++;
-				}
-			}
-
-			break;
-
-		case GREEN: 	
-			possibleMeeple = new ArrayList<Integer>();
-
-
-			for (int i = 0; i < board.getPlayboard().length;i++) {
-				if (board.getPlayboard()[i] == content) {
-					possibleMeeple.add(i);
-					j++;
-				}
-			}
-
-			for (int i = 0; i < board.getStreetG().length;i++) {
-				if (board.getStreetG()[i] == content && j<= 4-board.getHouseG()-board.getFinishedG()-1) {
-					possibleMeeple.add(i+50);
-					j++;
-				}
-			}
-
-			break;
-
-		case BLUE: 	
-			possibleMeeple = new ArrayList<Integer>();
-
-			for (int i = 0; i < board.getPlayboard().length;i++) {
-				if (board.getPlayboard()[i] == content) {
-					possibleMeeple.add(i);
-					j++;
-				}
-			}
-
-			for (int i = 0; i < board.getStreetB().length;i++) {
-				if (board.getStreetB()[i] == content && j<= 4-board.getHouseB()-board.getFinishedB()-1) {
-					possibleMeeple.add(i+60);
-					j++;
-				}
-			}
-
-			break;
-
-		case RED: 	
-			possibleMeeple = new ArrayList<Integer>();
-
-
-			for (int i = 0; i < board.getPlayboard().length;i++) {
-				if (board.getPlayboard()[i] == content) {
-					possibleMeeple.add(i);
-					j++;
-				}
-			}
-
-			for (int i = 0; i < board.getStreetR().length;i++) {
-				if (board.getStreetR()[i] == content && j<= 4-board.getHouseR()-board.getFinishedR()-1) {
-					possibleMeeple.add(i+70);
-					j++;
-				}
-			}
-
-			break;
-
-		default:
-			break;
-
-		}
-
-	}
-
+	
+	/**
+	 * Methode um den Spieler zu informieren, auf welche Spieler gewartet werden muss.
+	 * @author Vanessa
+	 */
 	public void playerchange() {
 		switch (status) {
 		case PLAYER1 : 
-			player1.message("Dein Spielzug ist beendet.");
+			player1.message("Ihr Spielzug ist beendet.");
 			player1.message("Warten auf Spieler 2.");
-//			player2.message("Spieler 1 ist fertig.");
-//			player3.message("Spieler 1 ist fertig.");
 			player3.message("Warten auf Spieler 2.");
-//			player4.message("Spieler 1 ist fertig.");
 			player4.message("Warten auf Spieler 2.");
 			break;
 
 		case PLAYER2 : 
-//			player1.message("Spieler 2 ist fertig.");
 			player1.message("Warten auf Spieler 3.");
-			player2.message("Dein Spielzug ist beendet.");
+			player2.message("Ihr Spielzug ist beendet.");
 			player2.message("Warten auf Spieler 3.");
-//			player3.message("Spieler 2 ist fertig.");
-//			player4.message("Spieler 2 ist fertig.");
 			player4.message("Warten auf Spieler 3.");
 			break;
 		case PLAYER3 : 
-//			player1.message("Spieler 3 ist fertig.");
 			player1.message("Warten auf Spieler 4.");
-//			player2.message("Spieler 3 ist fertig.");
 			player2.message("Warten auf Spieler 4.");
-			player3.message("Dein Spielzug ist beendet.");
+			player3.message("Ihr Spielzug ist beendet.");
 			player3.message("Warten auf Spieler 4.");
-//			player4.message("Spieler 3 ist fertig.");
 			break;
 		case PLAYER4 :
-//			player1.message("Spieler 4 ist fertig.");
-//			player2.message("Spieler 4 ist fertig.");
 			player2.message("Warten auf Spieler 1.");
-//			player3.message("Spieler 4 ist fertig.");
 			player3.message("Warten auf Spieler 1.");
-			player4.message("Dein Spielzug ist beendet.");
+			player4.message("Ihr Spielzug ist beendet.");
 			player4.message("Warten auf Spieler 1.");
 			break;
 		default: break;
 		}
 	}
-	
+
+	/**
+	 * Methode pausiert den aktuellen Thread.
+	 * @param int Zeit, die pausiert werden soll
+	 * @author Vanessa
+	 */
 	public void pause(int time) {
 		try {
 			Thread.sleep(time);
 		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+	}
+
+	/**
+	 * Wird nicht überschrieben.
+	 */
+	public void returnPosition(Position position) {
 	}
 }

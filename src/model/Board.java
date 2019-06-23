@@ -5,12 +5,12 @@ import java.util.Random;
 
 import controller.game.Status;
 
-public class Board implements Serializable {
 /**
- * Konstruktor der Klasse Board. Beim Implementieren des Boardes wird ein Array board, das 
- * das Spielfeld darstellt, vier weitere Arrays, die die Zielstraße des jeweiligen Spielers sind, sowie int-Werte für die jeweiligen
- * Häuser der Spieler (4) und finished (0), da noch kein Spielstein am Ziel angekommen ist.
+ * @author vanes
+ *
  */
+public class Board implements Serializable {
+
 	private static final long serialVersionUID = -928528169455344979L;
 	protected Content[] playboard;
 	protected Content[] streetY;
@@ -36,7 +36,13 @@ public class Board implements Serializable {
 	protected int diceValue;
 	boolean enforce = false;
 
-
+	/**
+	 * Konstruktor der Klasse Board. Beim Aufruf des Konstrukturs wird ein Array playboard, das Spielfeld, sowie vier
+	 * weitere Arrays, die Ziele der jeweiligen Farben, erzeugt. Zu dem werden alle Häuser, ein int, auf 4 gesetzt.
+	 * Die Variable finished gibt an, wie viele Spielsteine an der richtigen Position im Ziel stehen. Beim ersten
+	 * Aufruf des Boardes ist dies Null.
+	 * @author Laura, Vanessa 
+	 */
 	public Board() {
 		playboard = new Content[40];
 		for (int i = 0; i < playboard.length; i++) {
@@ -70,37 +76,46 @@ public class Board implements Serializable {
 	}
 
 	/**
-	 * Die Wüfel-Methode wird aufgerufen und die Würfelzahl in der deklarierten Variable gespeichert.
+	 * Methode, um zu würfeln. Dabei wird ein zufällige ganzzahlige Zahl von 1 bis 6 vom Board erzeugt.
+	 * @author Laura
 	 */
 	public void diceThrow() {
 		diceValue = new Random().nextInt(6) +1;	
 	}
 
+	/**
+	 * Get-Methode der Würfelzahl.
+	 * @return Die Würfelzahl als int
+	 * @author Laura
+	 */
 	public int getDiceValue() {
 		return diceValue;
 	}
 	
 	/**
-	 * Mit checkThreeThrows wird überprüft, ob der Spieler dreimal würfeln darf. Dazu werden die Variablen house und finished 
-	 * geprüft. 
+	 * Überprüfung, ob der Spieler dreimal würfeln darf. Dazu muss die Variable des Hauses und die finished-Variable
+	 * gleich 4 sein.
+	 * @param content Farbe des Spielers, der dran ist.
+	 * @return boolean true wenn Haus + finished = 4, sonst false.
+	 * @author Vanessa
 	 */
-
 	public boolean checkThreeThrows(Content content) {
 		switch (content) {
 		case YELLOW: if(houseY + finishedY == 4) {return true;} break;
 		case GREEN: if(houseG + finishedG == 4) {return true;} break;
 		case BLUE: if(houseB + finishedB == 4) {return true;} break;
 		case RED: if(houseR + finishedR == 4) {return true;} break;
-
 		default: break;
 		}
 		return false;
-
 	}
 
+	
 	/**
-	 * Methode, um zu überprüfen, ob bei einer 6 im Laufe des Spieles ein Spielstein aus dem Haus gezogen werden muss 
-	 * 
+	 * Methode, um zu überprüfen, ob bei einer 6 der Spieler aus dem Haus ziehen muss.
+	 * @param status Spieler, der gerade am Zug ist.
+	 * @return true, wenn er aus dem Haus ziehen muss, sonst false.
+	 * @author Vanessa
 	 */
 	public boolean checkNumHouse(Status status) {
 		switch (status) {
@@ -108,15 +123,17 @@ public class Board implements Serializable {
 		case PLAYER2: if (houseG != 0) {return true;} break;
 		case PLAYER3: if (houseB != 0) {return true;} break;
 		case PLAYER4: if (houseR != 0) {return true;} break;
-
 		default: break;
 		}
 		return false;
 	}
 
+	
 	/**
-	 * Methode, um zu überpüfen, ob bei einer gewürfelten 6, diese für einen regulären Zug genutzt werden darf.
-	 * 
+	 * Methode, um zu überpüfen, ob eine gewürfelte 6 für einen regulären Zug genutzt werden darf.
+	 * @param status Spieler, der gerade am Zug ist.
+	 * @return true, wenn die 6 für einen regulären Zug genutzt werden darf, sonst false.
+	 * @author Vanessa
 	 */
 	public boolean checkDoubleDice(Status status) {
 		switch (status) {
@@ -124,26 +141,43 @@ public class Board implements Serializable {
 		case PLAYER2: if (houseG == 0) {return true;} break;
 		case PLAYER3: if (houseB == 0) {return true;} break;
 		case PLAYER4: if (houseR == 0) {return true;} break;
-
 		default: break;
 		}
 		return false;
 	}
 	
+	
 	/**
 	 * Überprüfung, ob sich der Spielstein in der Nähe seiner Zielstraße befindet.
-	 *
+	 * Dies wird mit einer verschachtelten UND-Verknüpfung überprüft. Dazu muss die Position, auf der sich die Spielfigur
+	 * befindet, kleiner gleich ihrer Endposition sein. Damit ist die Spielfigur einmal um das Spielfeld gezogen.
+	 * Die nächste Überprüfung ist, ob die neue Position (position.getIndex()+diceValue) größer als die Endposition 
+	 * ist und gleichzeitig nicht größer gleich Endposition plus 6 (höchste Würfelzahl). 
+	 * Gelb benötigt die erste UND-Verknüpfung nicht, da es gerade von 0 bis 39 über das Array läuft.
+	 * Diese Methode wird benötigt, um später abfragen zu können, ob die Spielfigur ins Ziel abbiegen kann.
+	 * @param content Farbe des Spielers, der dran ist.
+	 * @param position Position des ausgewählten Spielsteins.
+	 * @return true, wenn die Spielfigur in der Nähe der Zielstraße ist, sonst false.
+	 * @author Vanessa
 	 */
 	public boolean checkNearEnd(Content content, Position position) {
 		switch(content) {
 		case YELLOW: 
-			if(position.getIndex() > 6 &&(position.getIndex()+diceValue > 39 && position.getIndex()+diceValue <= 45)) {return true;} break;
+			if(position.getIndex()+diceValue > 39 && position.getIndex()+diceValue <= 45){
+				return true;} 
+			break;
 		case GREEN: 
-			if(position.getIndex() <= 9 &&(position.getIndex()+diceValue > 9 && position.getIndex()+diceValue <= 15)) {return true;} break;
+			if(position.getIndex() <= 9 &&(position.getIndex()+diceValue > 9 && position.getIndex()+diceValue <= 15)){
+				return true;} 
+			break;
 		case BLUE: 
-			if(position.getIndex() <= 19 &&(position.getIndex()+diceValue > 19 && position.getIndex()+diceValue <= 25)) {return true;} break;
+			if(position.getIndex() <= 19 &&(position.getIndex()+diceValue > 19 && position.getIndex()+diceValue <= 25)){
+				return true;} 
+			break;
 		case RED: 
-			if(position.getIndex() <= 29 &&(position.getIndex()+diceValue > 29 && position.getIndex()+diceValue <= 35)) {return true;} break;
+			if(position.getIndex() <= 29 &&(position.getIndex()+diceValue > 29 && position.getIndex()+diceValue <= 35)){
+				return true;} 
+			break;
 		default:
 			break;
 		}
@@ -152,8 +186,10 @@ public class Board implements Serializable {
 	
 	
 	/**
-	 * Überprüfung, ob sich auf der Startposition der jeweilige eigene Content befindet. Wenn dies stimmt, wird true zurückgegeben.
-	 * 
+	 * Überprüfung, ob sich auf der Startposition der eigene Content befindet.
+	 * @param content Farbe des Spielers, der dran ist.
+	 * @return true, wenn es stimmt, sonst false
+	 * @author Vanessa
 	 */
 	public boolean checkStartFree(Content content) {
 		switch(content) {
@@ -166,24 +202,31 @@ public class Board implements Serializable {
 		return false;
 	}
 	
+	/**
+	 * Überprüfung, was sich auf der Position befindet.
+	 * @param content Farbe des Spielers, der dran ist.
+	 * @param position Position, die überprüft werden soll.
+	 * @return Bei 0 ist das Feld frei; bei 1 befindet sich dort der eigene Content;
+	 * bei 3 ein gegnerischer Content
+	 * @author Vanessa
+	 */
 	public int checkEnemy(Content content, Position position) {
 		if (playboard[position.getIndex()] != Content.FREE) {
 			if (playboard[position.getIndex()] == content) {
 				return 1;
-
 			} else {
 				return 2;
 			}
 		} else {
 			return 0;
 		}
-
 	}
 
 	/**
-	 * Überprüfung, ob die Zielstraße voll ist. Dazu wird die finished-Variable überprüft. Diese gibt an, wie viele Spielsteine
-	 * auf der richtigen Position stehen. Ein finished von 4 bedeutet eine volle Straße und der Spieler hat gewonnen.
-	 * 
+	 * Überprüfung, ob gewonnen wurde.
+	 * @param content Farbe des Spielers, der dran ist.
+	 * @return true, wenn finished 4 ist, sonst false.
+	 * @author Vanessa
 	 */
 	public boolean checkWin(Content content) {
 		switch (content) {
@@ -215,9 +258,9 @@ public class Board implements Serializable {
 		}
 	}
 
-	
 	/**
-	 * Ausgabe des Spielfeldes.
+	 * toString-Methode zur Ausgabe des Spielfeldes.
+	 * @author Laura, Vanessa
 	 */
 	public String toString() {
 		String path = "";
