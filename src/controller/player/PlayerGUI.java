@@ -81,6 +81,7 @@ public class PlayerGUI implements Player{
 		root = new ScenePane(playerPane, infoPane, dicePane, messagePane, menuBar, this);
 		stage = new PlayerStage(root);
 		
+		stage.show();
 		
 		infoPane.saveBtn.setOnAction((ActionEvent t) -> {
 			AudioClip clickSound = new AudioClip("file:src/view/Click-Sound.wav");
@@ -101,19 +102,13 @@ public class PlayerGUI implements Player{
 			playerPane.update(game.getBoard());
 		});
 		
-		stage.heightProperty().addListener((obs, oldVal, newVal) -> {
-			stageWidth = stage.getWidth();
-			stageHeight = stage.getHeight();
-			root.enable();
-			playerPane.update(game.getBoard());
-		});
 	
 		
 		stageWidth = stage.getWidth();
 		stageHeight = stage.getHeight();
 		root.enable();
 		
-		stage.show();
+	
 	}
 
 	/**

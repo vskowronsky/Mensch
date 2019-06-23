@@ -13,7 +13,7 @@ import model.*;
 
 /**
  * Klasse erzeugt eine Implementation des Spieles, die Logik des Spieles.
-   */
+ */
 public class GameImplementation implements Game {
 	private Player player1;
 	private Player player2;
@@ -27,9 +27,9 @@ public class GameImplementation implements Game {
 	List<Integer> possibleMeeple;
 	int counter;
 
-/**
- * Konstruktor des Spiels. Hier wird ein Spielfeld initialisiert und vier Spielern zugeordnet.
- */
+	/**
+	 * Konstruktor des Spiels. Hier wird ein Spielfeld initialisiert und vier Spielern zugeordnet.
+	 */
 	public GameImplementation(Player player1, Player player2, Player player3, Player player4) {
 		board = new BoardSet();
 		this.player1 = player1;
@@ -340,11 +340,11 @@ public class GameImplementation implements Game {
 			player3.lose();
 			System.out.println(counter);
 		}
-		
+
 		if (status == Status.WIN) {
 			pause(10000);
 			System.exit(0);
-			
+
 		}
 
 		if (status == Status.PLAYER1) {
@@ -410,10 +410,11 @@ public class GameImplementation implements Game {
 		boolean meeplePossible = false;
 		Position chosenPosition;
 		Integer chosenMeeple = null;
+		boolean firstDiceMessage = true;
 
 		if (firstChoose) {
 			checkMovePossible(content);
-			firstChoose =false;
+			firstChoose = false;
 		}
 
 		while (chosen == -1) {
@@ -422,7 +423,10 @@ public class GameImplementation implements Game {
 			}
 			switch (content) {
 			case YELLOW:
-				player1.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
+				if (firstDiceMessage) {
+					firstDiceMessage = false;
+					player1.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
+				}
 				chosenPosition = player1.chooseMeeple();
 
 				for (Integer meeple : possibleMeeple) {
@@ -442,7 +446,10 @@ public class GameImplementation implements Game {
 				break;
 
 			case GREEN:
-				player2.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
+				if (firstDiceMessage) {
+					firstDiceMessage = false;
+					player2.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
+				}
 				chosenPosition = player2.chooseMeeple();
 
 				for (Integer meeple : possibleMeeple) {
@@ -462,7 +469,10 @@ public class GameImplementation implements Game {
 				break;
 
 			case BLUE:
-				player3.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
+				if (firstDiceMessage) {
+					firstDiceMessage = false;
+					player3.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
+				}
 				chosenPosition = player3.chooseMeeple();
 				for (Integer meeple : possibleMeeple) {
 					if (meeple == chosenPosition.getIndex()) {
@@ -481,7 +491,10 @@ public class GameImplementation implements Game {
 				break;
 
 			case RED:
-				player4.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
+				if (firstDiceMessage) {
+					firstDiceMessage = false;
+					player4.message("Sie haben eine " + board.getDiceValue() + " gewürfelt.");
+				}
 				chosenPosition = player4.chooseMeeple();
 
 				for (Integer meeple : possibleMeeple) {
@@ -505,7 +518,7 @@ public class GameImplementation implements Game {
 		return null;
 	}
 
-	
+
 
 	/**
 	 * Methode erzeugt eine ArrayList, die alle Positionen von bewegbaren Meeple beinhaltet.
@@ -613,7 +626,7 @@ public class GameImplementation implements Game {
 		default: break;
 		}
 	}
-	
+
 	/**
 	 * Methode um den Spieler zu informieren, auf welche Spieler gewartet werden muss.
 	 * @author Vanessa

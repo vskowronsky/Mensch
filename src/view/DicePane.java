@@ -26,7 +26,6 @@ public class DicePane extends VBox {
 	private double radius;
 	private PlayerGUI playerGUI;
 
-	private Label label;
 	private String lastmessage;
 	private Rectangle mainRec;
 
@@ -51,11 +50,9 @@ public class DicePane extends VBox {
 		dice = new Group();
 
 
-		label = new Label("WÃ¼rfelzahl:");
 		mainRec = new Rectangle();
 
-		//		this.setPrefHeight(this.width);
-		label.setFont(Font.font(Font.getDefault().getFamily(),this.width/12));
+
 
 		mainRec.setHeight(diceWidth); 
 		mainRec.setWidth(diceWidth);
@@ -75,14 +72,17 @@ public class DicePane extends VBox {
 		this.setPadding(new Insets(this.width*1.2,this.width/4,0,0 ));
 		//		this.setSpacing(30);
 
-		this.getChildren().addAll(label, dice);
+		this.getChildren().add(dice);
 
 	}
 
 
 	public void diceRoll(String message ) {
+		
+		AudioClip sound = new AudioClip("file:src/view/Dice.mp3");
+		sound.play();
 
-		dice("Sie haben eine 3 gewÃ¼rfelt.");
+		dice("Sie haben eine 3 gewürfelt.");
 
 		FadeTransition trans = new FadeTransition(Duration.seconds(0.05), dice);
 		trans.setFromValue(1.0);
@@ -98,7 +98,7 @@ public class DicePane extends VBox {
 
 			@Override
 			public void handle(ActionEvent event) {
-				dice("Sie haben eine 5 gewÃ¼rfelt.");
+				dice("Sie haben eine 5 gewürfelt.");
 				FadeTransition trans = new FadeTransition(Duration.seconds(0.05), dice);
 				trans.setFromValue(1.0);
 				trans.setToValue(.20);
@@ -113,7 +113,7 @@ public class DicePane extends VBox {
 
 					@Override
 					public void handle(ActionEvent event) {
-						dice("Sie haben eine 3 gewÃ¼rfelt.");
+						dice("Sie haben eine 3 gewürfelt.");
 						FadeTransition trans = new FadeTransition(Duration.seconds(0.05), dice);
 						trans.setFromValue(1.0);
 						trans.setToValue(.20);
@@ -127,7 +127,7 @@ public class DicePane extends VBox {
 
 							@Override
 							public void handle(ActionEvent event) {
-								dice("Sie haben eine 4 gewÃ¼rfelt.");
+								dice("Sie haben eine 4 gewürfelt.");
 								FadeTransition trans = new FadeTransition(Duration.seconds(0.05), dice);
 								trans.setFromValue(1.0);
 								trans.setToValue(.20);
@@ -142,7 +142,7 @@ public class DicePane extends VBox {
 
 									@Override
 									public void handle(ActionEvent event) {
-										dice("Sie haben eine 2 gewÃ¼rfelt.");
+										dice("Sie haben eine 2 gewürfelt.");
 										FadeTransition trans = new FadeTransition(Duration.seconds(0.05), dice);
 										trans.setFromValue(1.0);
 										trans.setToValue(.20);
@@ -174,26 +174,25 @@ public class DicePane extends VBox {
 	public void dice(String message) {
 		lastmessage = message;
 
-		AudioClip sound = new AudioClip("file:src/view/Dice.mp3");
-		sound.play();
+		
 
 
 
 		switch (message) {
-		case "Sie haben eine 1 gewÃ¼rfelt.": 
+		case "Sie haben eine 1 gewürfelt.": 
 			Circle circle = new Circle(diceUnit+diceUnit/2, diceUnit+diceUnit/2, radius);
 			dice.getChildren().clear();
 			dice.getChildren().add(mainRec);
 			dice.getChildren().add(circle);
 			break;
-		case "Sie haben eine 2 gewÃ¼rfelt.": 
+		case "Sie haben eine 2 gewürfelt.": 
 			Circle circle2 = new Circle(diceUnit/1.5, diceUnit/1.5, radius);
 			Circle circle3 = new Circle(2*diceUnit+diceUnit/3.5, 2*diceUnit+diceUnit/3.5, radius);
 			dice.getChildren().clear();
 			dice.getChildren().add(mainRec);
 			dice.getChildren().addAll(circle2, circle3);
 			break;
-		case "Sie haben eine 3 gewÃ¼rfelt.": 
+		case "Sie haben eine 3 gewürfelt.": 
 			Circle circle4 = new Circle(diceUnit/1.5, diceUnit/1.5, radius);
 			Circle circle5 = new Circle(diceUnit+diceUnit/2, diceUnit+diceUnit/2, radius);
 			Circle circle6 = new Circle(2*diceUnit+diceUnit/3.5, 2*diceUnit+diceUnit/3.5, radius);
@@ -201,7 +200,7 @@ public class DicePane extends VBox {
 			dice.getChildren().add(mainRec);
 			dice.getChildren().addAll(circle4, circle5, circle6);
 			break;
-		case "Sie haben eine 4 gewÃ¼rfelt.":
+		case "Sie haben eine 4 gewürfelt.":
 			Circle circle7 = new Circle(diceUnit/1.5, diceUnit/1.5, radius);
 			Circle circle8 = new Circle(2*diceUnit+diceUnit/3.5, diceUnit/1.5, radius);
 			Circle circle9 = new Circle(diceUnit/1.5, 2*diceUnit+diceUnit/3.5, radius);
@@ -210,7 +209,7 @@ public class DicePane extends VBox {
 			dice.getChildren().add(mainRec);
 			dice.getChildren().addAll(circle7, circle8, circle9, circle10);
 			break;
-		case "Sie haben eine 5 gewÃ¼rfelt.":
+		case "Sie haben eine 5 gewürfelt.":
 			Circle circle11 = new Circle(diceUnit/1.5, diceUnit/1.5, radius);
 			Circle circle12 = new Circle(2*diceUnit+diceUnit/3.5, diceUnit/1.5, radius);
 			Circle circle13 = new Circle(diceUnit/1.5, 2*diceUnit+diceUnit/3.5, radius);
@@ -220,7 +219,7 @@ public class DicePane extends VBox {
 			dice.getChildren().add(mainRec);
 			dice.getChildren().addAll(circle11, circle12, circle13, circle14, circle15);
 			break;
-		case "Sie haben eine 6 gewÃ¼rfelt.":
+		case "Sie haben eine 6 gewürfelt.":
 			Circle circle16 = new Circle(diceUnit/1.5, diceUnit/1.5, radius);
 			Circle circle17 = new Circle(2*diceUnit+diceUnit/3.5, diceUnit/1.5, radius);
 			Circle circle18 = new Circle(diceUnit/1.5, 2*diceUnit+diceUnit/3.5, radius);

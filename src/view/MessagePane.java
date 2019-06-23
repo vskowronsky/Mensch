@@ -12,9 +12,6 @@ public class MessagePane extends BorderPane {
 	private Label label;
 	private Label label2;
 	private Label label3;
-	private String labelWin;
-	private String labelLose;
-	private Label title;
 
 	public MessagePane() {
 		super();
@@ -22,9 +19,6 @@ public class MessagePane extends BorderPane {
 		label = new Label("");
 		label2 = new Label("");
 		label3 = new Label("");
-		title = new Label("Nachricht:");
-		labelWin = "Sie haben gewonnen!";
-		labelLose = "Sie haben verloren!";
 		init();
 	}
 	
@@ -33,11 +27,10 @@ public class MessagePane extends BorderPane {
 		messageBox.setBackground(Background.EMPTY);
 		  String style = "-fx-background-color: rgba(0, 0, 255, 0.5);";
 		  messageBox.setStyle(style);
-		title.setFont(Font.font(Font.getDefault().getFamily(),20));
 		label.setFont(Font.font(Font.getDefault().getFamily(),20));
 		label2.setFont(Font.font(Font.getDefault().getFamily(),20));
 		label3.setFont(Font.font(Font.getDefault().getFamily(),20));
-		messageBox.getChildren().addAll(title, label, label2, label3);
+		messageBox.getChildren().addAll(label, label2, label3);
 		
 		this.setCenter(messageBox);
 	}
@@ -50,21 +43,4 @@ public class MessagePane extends BorderPane {
 		label2.setText(label3.getText());
 		label3.setText(message);
 	}
-	
-	
-//	public void enemyHasThrown(String message) {
-//		AudioClip sound = new AudioClip("file:src/view/EnemyHasThrown.wav");
-//		sound.play();
-//		label.setText(label2.getText());
-//		label2.setText(message);
-//		
-//	}
-//	
-//	public void leftHouse(String message) {
-//		AudioClip sound = new AudioClip("file:src/view/EnemyHasThrown.wav");
-//		sound.play();
-//		label.setText(label2.getText());
-//		label2.setText(message);
-//		
-//	}
 }
