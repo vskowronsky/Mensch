@@ -9,15 +9,28 @@ public class PersistenceObject implements Serializable {
 	private Status status;
 	private BoardSet board;
 	
+	/**
+	 * Konstruktur der Klasse.
+	 * @param status; aktueller Status des Spiels
+	 * @param board; aktuelles Board
+	 */
 	public PersistenceObject(Status status, BoardSet board) {
 		this.status = status;
 		this.board = board;
 	}
 	
+	/**
+	 * Get-Methode für den Status
+	 * @return status als Status
+	 */
 	public Status getStatus() {
 		return status;
 	}
 	
+	/**
+	 * Get-Methode für das Board
+	 * @return das Board
+	 */
 	public BoardSet getBoard() {
 		return board;
 	}

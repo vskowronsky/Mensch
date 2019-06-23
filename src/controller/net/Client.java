@@ -13,7 +13,7 @@ import model.Position;
 
 /**
  * 
- * Klasse Client erweitert Service<String> um einen Hintergrundprozess starten zu koennen
+ * Klasse Client erweitert Service<String> um einen Hintergrundprozess starten zu können
  *
  */
 public class Client extends Service<String>
@@ -24,9 +24,8 @@ public class Client extends Service<String>
 	private Socket socket;
 
 	/**
-	 * 
-	 * Konstruktor fuer den Client. Erzeugt einen Socket um sich mit dem Server zu verbinden
-	 * und generiert den Ein- und AusgabeStrom
+	 * Konstruktor des Client. Erzeugt einen Socket um sich mit dem Server zu verbinden
+	 * und generiert den Ein - und Ausgabestrom
 	 * @param Der Server als String, entweder "localhost" oder die IP als String
 	 * @param Der Port als Integer
 	 */
@@ -40,11 +39,10 @@ public class Client extends Service<String>
 		}
 	}
 	
-	
 	/**
-	 * Methode zum Lauschen auf eine Nachricht. Kann mit der Methode createTask als 
-	 * Hintergrundprozess gestartet werden
-	 * @return Einen String als Nachricht.
+	 * Methode zum Lauschen auf eine Nachricht. Wird mit der Methode createTask als 
+	 * Hintergrundprozess gestartet.
+	 * @return String als Nachricht.
 	 */
 	public String listen(){
 		System.out.println("Warte auf Anweisung");
@@ -64,8 +62,8 @@ public class Client extends Service<String>
 	}
 
 	/**
-	 * EmpfÃ¤ngt einen String und gibt diesen zurÃ¼ck
-	 * @return Die vom Server geschickte Nachricht.
+	 * Empfängt einen String und gibt diesen zurück
+	 * @return Vom Server geschickte Nachricht.
 	 */
 	public String receiveString(){
 		try{
@@ -96,7 +94,7 @@ public class Client extends Service<String>
 	
 	/**
 	 * Methode um ein int zu empfangen.
-	 * @return Gibt den empfangenen int zurÃ¼ck
+	 * @return Gibt den empfangenen int zurück
 	 */
 	public int receiveID(){
 		int id = 0;
@@ -109,26 +107,15 @@ public class Client extends Service<String>
 		return id;
 	}
 	
-	public int receiveDice(){
-		int dice = 0;
-		try {
-			dice = in.readInt();
-			System.out.println("Empfange Würfel " + dice);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return dice;
-	}
-	
 	
 	/**
 	 * Methode um ein Board zu empfangen
-	 * @return Gibt das empfangene Board zurÃ¼ck. Null, wenn ein Fehler auftritt.
+	 * @return Gibt das empfangene Board zurück. Null, wenn ein Fehler auftritt.
 	 */
 	public Board receiveBoard(){
 		try {
 			Board board = (Board) in.readObject();
-			System.out.println("Empfange Board " + board);
+			System.out.println("Empfange Board ");
 			return board;
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
@@ -165,19 +152,13 @@ public class Client extends Service<String>
 			e.printStackTrace();
 		}
 	}
-
-	
-//	public void start(){
-//		createTask();
-//	}
 	
 	
 	/** 
-	 * Ãœberschriebene Methode um einen Hintergrundprozess zu starten. 
+	 * Überschriebene Methode um einen Hintergrundprozess zu starten. 
 	 * @see javafx.concurrent.Service#createTask()
 	 */
 	protected Task<String> createTask() {
-		
 		return new Task<String>() {
 			protected String call(){
 				return listen();

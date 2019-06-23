@@ -1,10 +1,9 @@
 package controller.player;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
 import java.util.Optional;
 import controller.game.Game;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
@@ -20,9 +19,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import model.Board;
+import javafx.util.Duration;
 import model.Content;
 import model.Position;
 import view.CircleWithPos;
@@ -33,6 +31,9 @@ import view.PlayerPane;
 import view.PlayerStage;
 import view.ScenePane;
 
+/**
+ * Klasse erzeugt einen Spieler für das Graphical User Interface.
+ */
 public class PlayerGUI implements Player{
 
 	private PlayerPane playerPane;
@@ -47,6 +48,7 @@ public class PlayerGUI implements Player{
 	private boolean choosing;
 	private int position;
 	public double stageWidth;
+	public double stageHeight;
 
 	public PlayerGUI () {
 		this.content = Content.FREE;
@@ -56,67 +58,95 @@ public class PlayerGUI implements Player{
 		this.position = -1;
 	}
 
+	/**
+	 * Initialisiert einen Spieler mit den übergebenen Parametern. 
+	 * Desweiteren werden Elemente der GUI initialisiert.
+	 * @author Vanessa
+	 */
 	public void initialize(Content content, Game game, int id) {
 		this.content = content;
 		this.game = game;
 		this.id = id;
 		MenuBar menuBar = setMenu();
-
-		playerPane = new PlayerPane(this);
-		infoPane = new InfoPane(id);
-		dicePane = new DicePane();
 		messagePane = new MessagePane();
-		root = new ScenePane(playerPane, infoPane, dicePane, messagePane, menuBar, this);
-		stage = new PlayerStage(root);
-		stage.show();
+		playerPane = new PlayerPane(this, messagePane, menuBar);
+		infoPane = new InfoPane(id, this);
+		dicePane = new DicePane(this);
 		
-						
-//		stage.widthProperty().addListener((obs, oldVal, newVal) -> {
-//			stageWidth = stage.getWidth();
-//			root.enable();
-//		});
-
-	}
-
-	public void enable() {
 		TextInputDialog input = new TextInputDialog();
 		input.setTitle("Speichern/Laden");
 		input.setHeaderText(null);
 		input.setContentText("Dateiname: ");
-		playerPane.update(game.getBoard());
-		infoPane.enable();
-		update();
-			
-			infoPane.saveBtn.setOnAction((ActionEvent t) -> {
-				AudioClip clickSound = new AudioClip("file:src/view/Click-Sound.wav");
-				clickSound.play();
-				Optional<String> result = input.showAndWait();
-						game.save(result.get());});
-			
-			infoPane.loadBtn.setOnAction((ActionEvent t) -> {
-				AudioClip clickSound = new AudioClip("file:src/view/Click-Sound.wav");
-				clickSound.play();
-				Optional<String> result = input.showAndWait();
-				game.load(result.get());});	
-	}
+
+		root = new ScenePane(playerPane, infoPane, dicePane, messagePane, menuBar, this);
+		stage = new PlayerStage(root);
+		
+		
+		infoPane.saveBtn.setOnAction((ActionEvent t) -> {
+			AudioClip clickSound = new AudioClip("file:src/view/Click-Sound.wav");
+			clickSound.play();
+			Optional<String> result = input.showAndWait();
+			game.save(result.get());});
+
+		infoPane.loadBtn.setOnAction((ActionEvent t) -> {
+			AudioClip clickSound = new AudioClip("file:src/view/Click-Sound.wav");
+			clickSound.play();
+			Optional<String> result = input.showAndWait();
+			game.load(result.get());});	
+
+		stage.widthProperty().addListener((obs, oldVal, newVal) -> {
+			stageWidth = stage.getWidth();
+			stageHeight = stage.getHeight();
+			root.enable();
+			playerPane.update(game.getBoard());
+		});
+		
+		stage.heightProperty().addListener((obs, oldVal, newVal) -> {
+			stageWidth = stage.getWidth();
+			stageHeight = stage.getHeight();
+			root.enable();
+			playerPane.update(game.getBoard());
+		});
 	
-	// Werden später wieder gelöscht
-	private void update() {
-//		stageWidth = stage.getWidth();
+		
+		stageWidth = stage.getWidth();
+		stageHeight = stage.getHeight();
 		root.enable();
+		
+		stage.show();
+	}
+
+	/**
+	 * Aktivierung des Spielers
+	 * @author Vanessa
+	 */
+	public void enable() {
+		playerPane.update(game.getBoard());
+		infoPane.setText("Machen Sie Ihren Zug.");
+		update();
+	}
+
+	/**
+	 * Aufrauf der Methode update im Spiel.
+	 */
+	private void update() {
 		game.update();
 
 	}
 
-
+	/**
+	 * Methode um die Menuleiste mit ihren Unterpunkten zu initialisieren. 
+	 * @return Die Menüleiste
+	 * @author Laura, Vanessa
+	 */
 	private MenuBar setMenu() {
 		TextInputDialog input = new TextInputDialog();
 		MenuBar menuBar = new MenuBar();
 		menuBar.setUseSystemMenuBar(true);
 		Menu saveload = new Menu("Save/Load");
 		Menu about = new Menu("About");
-		MenuItem rules = new MenuItem("Rules");
 		
+		MenuItem rules = new MenuItem("Rules");
 		rules.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				Label firstRule = new Label("1. Mensch ärgere Dich nicht wird mit 4 Spielern gespielt, wobei einige von einer KI ersetzt werden können");
@@ -133,87 +163,131 @@ public class PlayerGUI implements Player{
 				Label twelfthRule = new Label("12. In der Zielstraße darf nicht übersprungen werden.");
 				Label thirteenthRule = new Label("13. Gewonnen hat der Spieler, der seine 4 Spielfiguren als Erster in sein Zielfeld manövriert hat.");
 				Group layout = new Group();
-				VBox labelBox = new VBox(20);
-
+				VBox labelBox = new VBox(15);
 				labelBox.getChildren().addAll(firstRule, secondRule, thirdRule, fourthRule, fifthRule, sixthRule, 
-											   seventhRule, eighthRule, ninthRule, tenthRule, eleventhRule, twelfthRule, thirteenthRule);
+						seventhRule, eighthRule, ninthRule, tenthRule, eleventhRule, twelfthRule, thirteenthRule);
 				layout.getChildren().add(labelBox);
-
 				Scene secondScene = new Scene(layout, 1000,500);
-
 				Stage newWindow = new Stage();
 				newWindow.setTitle("Regeln von Mensch Ärgere Dich Nicht");
 				newWindow.setScene(secondScene);
-
 				newWindow.setX(stage.getX() + 200);
 				newWindow.setY(stage.getY() + 100);
 				newWindow.show();	
-			}
-		});
-
+			}});
+		
 		MenuItem exit = new MenuItem("Exit");
 		exit.setAccelerator(KeyCombination.keyCombination("Ctrl+X"));
 		exit.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				System.exit(0);
-			}});
+				System.exit(0);}});
 		
 		MenuItem menusave = new MenuItem("Save");
 		menusave.setOnAction((ActionEvent t) -> {
 			Optional<String> result = input.showAndWait();
-					game.save(result.get());});
+			game.save(result.get());});
 		
 		MenuItem menuload = new MenuItem("Load");
 		menuload.setOnAction((ActionEvent t) -> {
 			Optional<String> result = input.showAndWait();
-			game.load(result.get());});	
-
+			game.load(result.get());});
+		
 		saveload.getItems().addAll(menusave, menuload);
-
 		about.getItems().addAll(rules, exit);
-
 		menuBar.getMenus().addAll(saveload,about);
-
 		return menuBar;
 	}
 
+	/**
+	 * Spieler wird deaktiviert und das Spielfeld aktualisiert.
+	 * @author Vanessa
+	 */
 	public void disable() {
 		playerPane.update(game.getBoard());
-		infoPane.disable();
-		root.disable();
 	}
 
+	/**
+	 * Der Spieler hat gewonnen. Das Spielfeld wird aktualisiert. 
+	 * Eine Nachricht sowie ein Audioclip werden an die MessagePane übergeben.
+	 * @author Vanessa
+	 */
 	public void win() {
 		playerPane.update(game.getBoard());
-		messagePane.win();
+		messagePane.message("Sie haben gewonnen!", new AudioClip("file:src/view/Success-Sound.wav"));
 	}
 
+	/**
+	 * Der Spieler hat verloren. Das Spielfeld wird aktualisiert. 
+	 * Eine Nachricht sowie ein Audioclip werden an die MessagePane übergeben.
+	 * @author Vanessa
+	 */
 	public void lose() {
 		playerPane.update(game.getBoard());
-		messagePane.lose();
+		messagePane.message("Sie haben verloren!", new AudioClip("file:src/view/Lose-Sound.mp3"));
 	}
 
+	/**
+	 * Der Spieler ist dran eine Figur auszuwählen.
+	 * @author Vanessa
+	 */
 	public Position chooseMeeple(){
 		choosing = true;
 		return null;
 	}
 
+	/**
+	 * Verarbeitung und Weiterreichung verschiedener Nachrichten, die vom Spiel geschickt wurden.
+	 * Das Spielfeld wird aktualisiert.
+	 * @author Vanessa
+	 */
 	public void message(String message) {
-		playerPane.update(game.getBoard());
+
+		System.out.println(message);
 		switch (message) {
-		case "Sie haben eine 1 gewürfelt.": dicePane.diceroll(message); break;
-		case "Sie haben eine 2 gewürfelt.": dicePane.diceroll(message); break;
-		case "Sie haben eine 3 gewürfelt.": dicePane.diceroll(message); break;
-		case "Sie haben eine 4 gewürfelt.": dicePane.diceroll(message); break;
-		case "Sie haben eine 5 gewürfelt.": dicePane.diceroll(message); break;
-		case "Sie haben eine 6 gewürfelt.": dicePane.diceroll(message); break;
-		case "Eine Figur wurde geworfen.": messagePane.soundEnemy(message); break;
-		default: messagePane.message(message); break;
+		case "Sie haben eine 1 gewürfelt.": dicePane.diceRoll(message); break;
+		case "Sie haben eine 2 gewürfelt.": dicePane.diceRoll(message); break;
+		case "Sie haben eine 3 gewürfelt.": dicePane.diceRoll(message); break;
+		case "Sie haben eine 4 gewürfelt.": dicePane.diceRoll(message); break;
+		case "Sie haben eine 5 gewürfelt.": dicePane.diceRoll(message); break;
+		case "Sie haben eine 6 gewürfelt.": dicePane.diceRoll(message); break;
+		
+		case "Warten auf Spieler 1." : infoPane.setText(message); break;
+		case "Warten auf Spieler 2." : infoPane.setText(message); break;
+		case "Warten auf Spieler 3." : infoPane.setText(message); break;
+		case "Warten auf Spieler 4." : infoPane.setText(message); break;
+		
+		case "Sie wurden von YELLOW geworfen.": 
+			messagePane.message(message, new AudioClip("file:src/view/EnemyHasThrown.wav"));
+			break;
+		case "Sie wurden von GREEN geworfen.":
+			messagePane.message(message, new AudioClip("file:src/view/EnemyHasThrown.wav"));
+			break;
+		case "Sie wurden von BLUE geworfen.": 
+			messagePane.message(message, new AudioClip("file:src/view/EnemyHasThrown.wav")); 
+			break;
+		case "Sie wurden von RED geworfen.": 
+			messagePane.message(message, new AudioClip("file:src/view/EnemyHasThrown.wav"));
+			break;
+		
+		case "Sie haben eine Figur geworfen.": 
+			messagePane.message(message, new AudioClip("file:src/view/EnemyThrown.mp3")); 
+			break;
+			
+		case "Sie ziehen aus dem Haus." : 
+			messagePane.message(message, new AudioClip("file:src/view/LeaveHouse-Sound.wav")); 
+			break;
+			
+		default: messagePane.message(message, null); break;
 		}
+		playerPane.update(game.getBoard());
 	}
-
+	
+	/**
+	 * Eventhandler, wenn ein Kreis geklickt wurde. Ist nur möglich, wenn chooseMeeple schon 
+	 * aufgerufen wurden.
+	 * @author Vanessa
+	 */
 	public EventHandler<MouseEvent> circleClickedEventHandler = new EventHandler<MouseEvent>() {
-
 		public void handle(MouseEvent t) {
 			CircleWithPos circle = (CircleWithPos) t.getSource();
 			if (choosing) {
@@ -234,12 +308,14 @@ public class PlayerGUI implements Player{
 		}
 	};
 
+	/**
+	 * Eventhandler, wenn die Maus einen Kreis betritt. 
+	 * @author Vanessa
+	 */
 	public EventHandler<MouseEvent> circleEnteredEventHandler = new EventHandler<MouseEvent>() {
-
 		public void handle(MouseEvent t) {
 			CircleWithPos circle = (CircleWithPos) t.getSource();
 			if (choosing) {
-
 				if(circle.getPosition() < 40) {
 					circle.setCursor(Cursor.HAND);
 					circle.setStroke(Color.MAGENTA);
@@ -255,8 +331,11 @@ public class PlayerGUI implements Player{
 		}
 	};
 
+	/**
+	 * Eventhandler, wenn die Maus einen Kreis verlässt. 
+	 * @author Vanessa
+	 */
 	public EventHandler<MouseEvent> circleExitedEventHandler = new EventHandler<MouseEvent>() {
-
 		public void handle(MouseEvent t) {
 			CircleWithPos circle = (CircleWithPos) t.getSource();
 			if (choosing) {

@@ -13,7 +13,7 @@ private ScenePane pane;
 		super();
 		this.pane = pane;
 		init();
-		this.setFullScreen(true);
+//		this.setFullScreen(true);
 	}
 	
 	//(pane,BREITE, HÖHE, Farbe)

@@ -20,7 +20,7 @@ public class Server {
 	/**
 	 * Konstruktor um eine Verbindung mit einem Client zu erzeugen
 	 * @param Der Socket von dem Client
-	 * @param Der zugehÃ¶rige Player zu dem Client
+	 * @param Der zugehörige Player zu dem Client
 	 */
 	public Server(Socket cSocket, PlayerRemote player) {
 		this.player = player;
@@ -31,17 +31,14 @@ public class Server {
 			e.printStackTrace();
 		}
 	}
-						
+
 	/**
 	 * Methode um auf eine Nachricht vom Client zu warten und zu empfangen
-	 * @throws NoMoveException 
 	 */
-	public String listen(){
-		
+	public String listen(){	
 		System.out.println("Server lauscht.");
 		return  receiveString();
 	}
-	
 
 	/**
 	 * Methode um eine Position zu empfangen
@@ -59,7 +56,7 @@ public class Server {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Methode um einen String zu empfangen
 	 * @return Die empfangene Nachricht als String
@@ -74,7 +71,7 @@ public class Server {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Methode um einen Content zu senden
 	 * @param Das zu sendende Content
@@ -88,22 +85,11 @@ public class Server {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Methode um einen int zu senden.
 	 * @param Das zu versendende int.
 	 */
-	public void send(int number, String string){
-		try{
-			System.out.println("Sende " + string + " " + number);
-			out.writeInt(number);
-			out.flush();
-		} catch (IOException e){
-			e.printStackTrace();
-		}
-	}
-	
-	
 	public void send(int number){
 		try{
 			System.out.println("Sende " + number);
@@ -113,14 +99,14 @@ public class Server {
 			e.printStackTrace();
 		}
 	}
-		
+
 	/**
 	 * Methode um ein Board zu versenden
 	 * @param Das zu versendende Board.
 	 */
 	public void send(Board board){
 		try {
-//			System.out.println("Sende Board " + board);
+			//			System.out.println("Sende Board " + board);
 			out.reset();
 			out.writeObject(board);
 			out.flush();
@@ -128,8 +114,7 @@ public class Server {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	/**
 	 * Methode um eine Nachricht zu versenden
 	 * @param Die zu versendende Nachricht als String
@@ -144,5 +129,4 @@ public class Server {
 			e.printStackTrace();
 		}
 	}
-	
 }

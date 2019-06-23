@@ -40,11 +40,9 @@ public class ScenePane extends BorderPane{
 	}
 
 	public void enable(){
-//		setPrefWidth((playerGUI.stageWidth-playerPane.width)*0.5);
-	}
-
-
-	public void disable(){
-
+		infoPane.updateWidth();
+		playerPane.updateWidth();
+		dicePane.updateWidth();
+//		messagePane.updateWidth();
 	}
 }
