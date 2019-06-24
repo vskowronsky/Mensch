@@ -317,8 +317,7 @@ public class PlayerGUI implements Player{
 					circle.setStroke(Color.MAGENTA);
 					circle.setStrokeWidth(5);
 				}
-			}
-			else { circle.setCursor(Cursor.WAIT);
+			} else { circle.setCursor(Cursor.WAIT);
 			}
 		}
 	};

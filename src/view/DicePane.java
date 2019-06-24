@@ -48,11 +48,7 @@ public class DicePane extends VBox {
 
 	private void init() {
 		dice = new Group();
-
-
 		mainRec = new Rectangle();
-
-
 
 		mainRec.setHeight(diceWidth); 
 		mainRec.setWidth(diceWidth);
@@ -173,10 +169,6 @@ public class DicePane extends VBox {
 
 	public void dice(String message) {
 		lastmessage = message;
-
-		
-
-
 
 		switch (message) {
 		case "Sie haben eine 1 gewürfelt.": 
