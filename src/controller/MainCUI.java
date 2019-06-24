@@ -7,6 +7,7 @@ import controller.player.PlayerKI;
 
 public class MainCUI {
 	public static void main(String[] args) {
+		@SuppressWarnings("unused")
 		Game game = new GameImplementation(new PlayerCUI(), new PlayerKI(),new PlayerKI(),new PlayerKI());
 		
 		
