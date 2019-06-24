@@ -28,14 +28,12 @@ public class InfoPane extends VBox {
 	 * Konstruktor der Klasse setzt die Atttributvariablen und erzeugt ein Label.
 	 * @param id ID des Spielers der dran ist
 	 * @param playerGUI Der Spieler
-	 * @author Vanessa
+	 * @author Laura, Vanessa
 	 */
 	public InfoPane(int id, PlayerGUI playerGUI) {
 		super();
 		this.id = id;
 		this.playerGUI = playerGUI;
-		
-
 		
 		if(id == 1) {
 			playerColor = Color.GOLD;
@@ -53,7 +51,7 @@ public class InfoPane extends VBox {
 
 	/**
 	 * Initialisierung der InfoPane
-	 * @author Vanessa
+	 * @author Laura, Vanessa
 	 */
 	private void init() {
 		this.setSpacing(10);
@@ -62,28 +60,19 @@ public class InfoPane extends VBox {
 		statusLabel = new Label("");
 		
 		
-		
-
 		Label playerName = new Label("Spieler " + id);
 		playerName.setTextFill(playerColor);
 
 		InnerShadow innerShadow = new InnerShadow(); 
 
-		//Festlegen der Art der Unschärfe
 		innerShadow.setOffsetX(2); 
 		innerShadow.setOffsetY(2); 
 
-		//Einstellen der Schattenfarbe 
 		innerShadow.setColor(Color.GREY);        
-
-		//Anwendung des Schatteneffekts auf den Text 
 		playerName.setEffect(innerShadow);  
-		//		playerName.setEffect(new Lighting());
 		playerName.setFont(Font.font(Font.getDefault().getFamily(),this.width/5));
 
 		VBox vbButtons = new VBox(10);
-		
-		
 		
 		saveBtn = new Button("Spielstand speichern");
 		saveBtn.setId("glass-grey");
