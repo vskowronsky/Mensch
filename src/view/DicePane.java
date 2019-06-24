@@ -9,6 +9,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
@@ -35,6 +36,9 @@ public class DicePane extends VBox {
 
 	public DicePane(PlayerGUI playerGUI) {
 		super();
+		this.setBackground(Background.EMPTY);
+		String style = "-fx-background-color: rgba(222, 221, 221, 1);";
+		this.setStyle(style);
 		this.playerGUI = playerGUI;
 		this.width = 250;
 		this.unit = width / 5.; //50
@@ -65,7 +69,7 @@ public class DicePane extends VBox {
 
 		dice.getChildren().add(mainRec);
 
-		this.setPadding(new Insets(this.width*1.2,this.width/4,0,0 ));
+		this.setPadding(new Insets(this.width*1.2,this.width/4,0,this.width/4));
 		//		this.setSpacing(30);
 
 		this.getChildren().add(dice);

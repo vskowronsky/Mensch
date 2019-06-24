@@ -1,5 +1,6 @@
 package view;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
@@ -25,12 +26,14 @@ public class MessagePane extends BorderPane {
 	public void init() {
 		VBox messageBox = new VBox();
 		messageBox.setBackground(Background.EMPTY);
-		  String style = "-fx-background-color: rgba(0, 0, 255, 0.5);";
+		  String style = "-fx-background-color: rgba(199, 193, 193, 1);";
 		  messageBox.setStyle(style);
 		label.setFont(Font.font(Font.getDefault().getFamily(),20));
 		label2.setFont(Font.font(Font.getDefault().getFamily(),20));
 		label3.setFont(Font.font(Font.getDefault().getFamily(),20));
 		messageBox.getChildren().addAll(label, label2, label3);
+		
+		this.setPadding(new Insets(6,0,0,0));
 		
 		this.setCenter(messageBox);
 	}

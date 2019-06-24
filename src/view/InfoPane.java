@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 import javafx.scene.effect.Lighting;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -43,23 +44,26 @@ public class InfoPane extends BorderPane {
 			playerColor = Color.FIREBRICK;
 		}
 		this.width = 200;
-		statusLabel = new Label("");		
+		statusLabel = new Label("");
 		init();
 	}
 	
 	private void init() {
 		
 		VBox bigBox = new VBox(30);
+		bigBox.setBackground(Background.EMPTY);
+		  String style = "-fx-background-color: rgba(222, 221, 221, 1);";
+		  bigBox.setStyle(style);
 		bigBox.setPrefWidth(this.width);
 		
 		Label playerName = new Label("Spieler " + id);
 		playerName.setTextFill(playerColor);
-		playerName.setEffect(new Lighting());
+//		playerName.setEffect(new Lighting());
 		playerName.setFont(Font.font(Font.getDefault().getFamily(),this.width/5));
 		
 		saveBtn = new Button("Spielstand speichern");
 		loadBtn = new Button("Spielstand laden");
-		
+
 		statusLabel.setFont(Font.font(Font.getDefault().getFamily(),this.width/11));
 		
 		bigBox.setPadding(new Insets(5, 5, 5, 5));

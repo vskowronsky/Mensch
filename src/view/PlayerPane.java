@@ -10,6 +10,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import controller.player.PlayerGUI;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import model.Board;
 import model.Content;
 
@@ -52,7 +53,12 @@ public class PlayerPane extends Pane{
 		this.dif = 0.05*unit;
 		this.radius = size/2*0.94;
 		this.middle = unit/2;
-
+		
+		/*
+		 * this.setStyle("-fx-border-color: black; -fx-border-width: 3px");
+		 * this.setPadding(new Insets(3.0, 3.0, 3.0, 3.0));
+		 */
+		 
 		init();
 
 	}
