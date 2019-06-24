@@ -1,6 +1,5 @@
 package view;
 
-
 import controller.player.PlayerGUI;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -15,19 +14,25 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+/**
+ * Klasse informiert über den Spielstand und ermöglicht Speichern und Laden des Spiels.
+ * @author Vanessa
+ */
 public class InfoPane extends BorderPane {
 	private int id;
 	private Color playerColor;
 	private PlayerGUI playerGUI;
 	private double width;
 	private Label statusLabel;
-	private String labelDisable;
-	private String labelEnable;
 	public Button saveBtn;
 	public Button loadBtn;
-	private String labelWin;
-	private String labelLose;
 	
+	/**
+	 * Konstruktor der Klasse setzt die Atttributvariablen und erzeugt ein Label.
+	 * @param id ID des Spielers der dran ist
+	 * @param playerGUI Der Spieler
+	 * @author Vanessa
+	 */
 	public InfoPane(int id, PlayerGUI playerGUI) {
 		super();
 		this.id = id;
@@ -47,8 +52,11 @@ public class InfoPane extends BorderPane {
 		init();
 	}
 	
+	/**
+	 * Initialisierung der InfoPane
+	 * @author Vanessa
+	 */
 	private void init() {
-		
 		VBox bigBox = new VBox(30);
 		bigBox.setPrefWidth(this.width);
 		
@@ -68,21 +76,24 @@ public class InfoPane extends BorderPane {
 		bigBox.getChildren().addAll(playerName, statusLabel, saveBtn, loadBtn);
 		
 		this.setCenter(bigBox);
-		
-		
-	}
+		}
 	
-	
+	/**
+	 * Set-Methode des Labels
+	 * @param message Nachricht, die vom Spiel geschickt wurde.
+	 * @author Vanessa
+	 */
 	public void setText(String message) {
 		statusLabel.setText(message);
 	}
 	
+	/**
+	 * Methode passt die Größe der InfoPane dynamisch an die veränderbare Größe des Fensters an.
+	 * @author Vanessa
+	 */
 	public void updateWidth() {
-		
 		this.width = (playerGUI.stageWidth)*0.2;
-		
 		setPrefWidth(this.width);
 		init();
 	}
-
 }
