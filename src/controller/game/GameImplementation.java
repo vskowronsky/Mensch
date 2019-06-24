@@ -344,7 +344,6 @@ public class GameImplementation implements Game {
 		if (status == Status.WIN) {
 			pause(10000);
 			System.exit(0);
-
 		}
 
 		if (status == Status.PLAYER1) {

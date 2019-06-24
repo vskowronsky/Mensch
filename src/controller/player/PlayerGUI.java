@@ -73,15 +73,35 @@ public class PlayerGUI implements Player{
 		infoPane = new InfoPane(id, this);
 		dicePane = new DicePane(this);
 		
-		TextInputDialog input = new TextInputDialog();
-		input.setTitle("Speichern/Laden");
-		input.setHeaderText(null);
-		input.setContentText("Dateiname: ");
-
 		root = new ScenePane(playerPane, infoPane, dicePane, messagePane, menuBar, this);
 		stage = new PlayerStage(root);
 		
 		stage.show();
+	
+		stage.widthProperty().addListener((obs, oldVal, newVal) -> {
+			stageWidth = stage.getWidth();
+			stageHeight = stage.getHeight();
+			root.enable();
+			playerPane.update(game.getBoard());
+		});
+		
+		stageWidth = stage.getWidth();
+		stageHeight = stage.getHeight();
+		root.enable();
+	}
+
+	/**
+	 * Aktivierung des Spielers
+	 * @author Vanessa
+	 */
+	public void enable() {
+		playerPane.update(game.getBoard());
+		infoPane.setText("Machen Sie Ihren Zug.");
+		
+		TextInputDialog input = new TextInputDialog();
+		input.setTitle("Speichern/Laden");
+		input.setHeaderText(null);
+		input.setContentText("Dateiname: ");
 		
 		infoPane.saveBtn.setOnAction((ActionEvent t) -> {
 			AudioClip clickSound = new AudioClip("file:src/view/Click-Sound.wav");
@@ -94,30 +114,7 @@ public class PlayerGUI implements Player{
 			clickSound.play();
 			Optional<String> result = input.showAndWait();
 			game.load(result.get());});	
-
-		stage.widthProperty().addListener((obs, oldVal, newVal) -> {
-			stageWidth = stage.getWidth();
-			stageHeight = stage.getHeight();
-			root.enable();
-			playerPane.update(game.getBoard());
-		});
 		
-	
-		
-		stageWidth = stage.getWidth();
-		stageHeight = stage.getHeight();
-		root.enable();
-		
-	
-	}
-
-	/**
-	 * Aktivierung des Spielers
-	 * @author Vanessa
-	 */
-	public void enable() {
-		playerPane.update(game.getBoard());
-		infoPane.setText("Machen Sie Ihren Zug.");
 		update();
 	}
 
@@ -135,10 +132,10 @@ public class PlayerGUI implements Player{
 	 * @author Laura, Vanessa
 	 */
 	private MenuBar setMenu() {
-		TextInputDialog input = new TextInputDialog();
+//		TextInputDialog input = new TextInputDialog();
 		MenuBar menuBar = new MenuBar();
 		menuBar.setUseSystemMenuBar(true);
-		Menu saveload = new Menu("Save/Load");
+//		Menu saveload = new Menu("Save/Load");
 		Menu about = new Menu("About");
 		
 		MenuItem rules = new MenuItem("Rules");
@@ -176,20 +173,20 @@ public class PlayerGUI implements Player{
 		exit.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				System.exit(0);}});
+//		
+//		MenuItem menusave = new MenuItem("Save");
+//		menusave.setOnAction((ActionEvent t) -> {
+//			Optional<String> result = input.showAndWait();
+//			game.save(result.get());});
+//		
+//		MenuItem menuload = new MenuItem("Load");
+//		menuload.setOnAction((ActionEvent t) -> {
+//			Optional<String> result = input.showAndWait();
+//			game.load(result.get());});
 		
-		MenuItem menusave = new MenuItem("Save");
-		menusave.setOnAction((ActionEvent t) -> {
-			Optional<String> result = input.showAndWait();
-			game.save(result.get());});
-		
-		MenuItem menuload = new MenuItem("Load");
-		menuload.setOnAction((ActionEvent t) -> {
-			Optional<String> result = input.showAndWait();
-			game.load(result.get());});
-		
-		saveload.getItems().addAll(menusave, menuload);
+//		saveload.getItems().addAll(menusave, menuload);
 		about.getItems().addAll(rules, exit);
-		menuBar.getMenus().addAll(saveload,about);
+		menuBar.getMenus().addAll(about);
 		return menuBar;
 	}
 
