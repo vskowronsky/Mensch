@@ -66,17 +66,17 @@ public class InfoPane extends BorderPane {
 		
 		Label playerName = new Label("Spieler " + id);
 		playerName.setTextFill(playerColor);
-		//Instantiating the InnerShadow class  
+		 
 	      InnerShadow innerShadow = new InnerShadow(); 
 	      
-	      //Setting the offset values of the inner shadow 
+	      //Festlegen der Art der Unschärfe
 	      innerShadow.setOffsetX(2); 
 	      innerShadow.setOffsetY(2); 
 	      
-	      //Setting the color of the inner shadow 
+	      //Einstellen der Schattenfarbe 
 	      innerShadow.setColor(Color.GREY);        
 	      
-	      //Applying inner shadow effect to the text 
+	      //Anwendung des Schatteneffekts auf den Text 
 	      playerName.setEffect(innerShadow);  
 //		playerName.setEffect(new Lighting());
 		playerName.setFont(Font.font(Font.getDefault().getFamily(),this.width/5));
