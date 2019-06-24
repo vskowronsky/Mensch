@@ -1,19 +1,13 @@
 package controller.game;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-
-import model.BoardSet;
 import model.PersistenceObject;
-import model.Position;
 
 /**
  * Klasse zum Managen von Speichern und Laden des Spiels in eine "dateiname".ser-Datei
@@ -44,15 +38,15 @@ public class SaveLoad {
 	 * Methode, um ein PersistenceObject aus der Datei "dateiname".ser zu laden.
 	 * @param fileName Name der Datei, die geladen werden soll.
 	 * @return Das geladene PersistenceObject.
+	 * @throws IOException 
 	 */
-	public static PersistenceObject load(String fileName){
-		try {
+	public static PersistenceObject load(String fileName) throws IOException{
+		
 			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName+".ser"));
+			try {
 			PersistenceObject po = (PersistenceObject) ois.readObject();
 			ois.close();
 			return po;
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {

@@ -2,8 +2,7 @@ package controller.player;
 
 import java.util.Optional;
 import controller.game.Game;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
@@ -20,7 +19,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import model.Content;
 import model.Position;
 import view.CircleWithPos;
@@ -42,11 +40,12 @@ public class PlayerGUI implements Player{
 	private InfoPane infoPane;
 	private DicePane dicePane;
 	private MessagePane messagePane;
+	@SuppressWarnings("unused")
 	private Content content;
 	private Game game;
+	@SuppressWarnings("unused")
 	private int id;
 	private boolean choosing;
-	private int position;
 	public double stageWidth;
 	public double stageHeight;
 
@@ -55,7 +54,6 @@ public class PlayerGUI implements Player{
 		this.game = null;
 		this.id = -1;
 		choosing = false;
-		this.position = -1;
 	}
 
 	/**
@@ -69,9 +67,9 @@ public class PlayerGUI implements Player{
 		this.id = id;
 		MenuBar menuBar = setMenu();
 		messagePane = new MessagePane();
-		playerPane = new PlayerPane(this, messagePane, menuBar);
+		playerPane = new PlayerPane(this, messagePane);
 		infoPane = new InfoPane(id, this);
-		dicePane = new DicePane(this);
+		dicePane = new DicePane(this, messagePane);
 		
 		root = new ScenePane(playerPane, infoPane, dicePane, messagePane, menuBar, this);
 		stage = new PlayerStage(root);
@@ -107,13 +105,15 @@ public class PlayerGUI implements Player{
 			AudioClip clickSound = new AudioClip("file:src/view/Click-Sound.wav");
 			clickSound.play();
 			Optional<String> result = input.showAndWait();
-			game.save(result.get());});
+			System.out.println(result);
+			if (result.isPresent()) game.save(result.get());});
 
 		infoPane.loadBtn.setOnAction((ActionEvent t) -> {
 			AudioClip clickSound = new AudioClip("file:src/view/Click-Sound.wav");
 			clickSound.play();
 			Optional<String> result = input.showAndWait();
-			game.load(result.get());});	
+			System.out.println(result);
+			if (result.isPresent()) game.load(result.get());});	
 		
 		update();
 	}
@@ -173,18 +173,7 @@ public class PlayerGUI implements Player{
 		exit.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				System.exit(0);}});
-//		
-//		MenuItem menusave = new MenuItem("Save");
-//		menusave.setOnAction((ActionEvent t) -> {
-//			Optional<String> result = input.showAndWait();
-//			game.save(result.get());});
-//		
-//		MenuItem menuload = new MenuItem("Load");
-//		menuload.setOnAction((ActionEvent t) -> {
-//			Optional<String> result = input.showAndWait();
-//			game.load(result.get());});
-		
-//		saveload.getItems().addAll(menusave, menuload);
+
 		about.getItems().addAll(rules, exit);
 		menuBar.getMenus().addAll(about);
 		return menuBar;
@@ -334,6 +323,25 @@ public class PlayerGUI implements Player{
 				if(circle.getPosition() < 40) {
 					circle.setStroke(Color.BLACK);
 					circle.setStrokeWidth(2);
+					
+					if (circle.getPosition() == 0) {
+						circle.setStrokeWidth(4);
+						circle.setStroke(Color.GOLD);
+					}
+					if (circle.getPosition() == 10) {
+						circle.setStrokeWidth(4);
+						circle.setStroke(Color.MEDIUMSEAGREEN);
+					}
+					if (circle.getPosition() == 20)  {
+						circle.setStrokeWidth(4);
+						circle.setStroke(Color.ROYALBLUE);
+					}
+					if (circle.getPosition() == 30) {
+						circle.setStrokeWidth(4);
+						circle.setStroke(Color.FIREBRICK);
+					}
+					
+
 				}else {
 					circle.setStroke(null);
 					circle.setStrokeWidth(2);

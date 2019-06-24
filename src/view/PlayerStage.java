@@ -23,6 +23,7 @@ private ScenePane pane;
 	private void init(){
 		setTitle("Mensch ärger Dich nicht!");
 		Scene scene = new Scene(pane, 1100, 800, Color.DARKKHAKI);
+		scene.getStylesheets().add("file:src/view/stylesheet.css");
 		setScene(scene);
 	}
 }

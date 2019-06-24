@@ -15,6 +15,7 @@ public class ScenePane extends BorderPane{
 	private DicePane dicePane;
 	private MessagePane messagePane;
 	private MenuBar menuBar;
+	@SuppressWarnings("unused")
 	private PlayerGUI playerGUI;
 
 

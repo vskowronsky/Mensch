@@ -16,7 +16,6 @@ public class PlayerKI implements Player {
 	private Game game;
 	private int meeplecounter;
 	private int enemycounter;
-	private boolean six;
 	private Board board;
 
 	public PlayerKI(){
@@ -42,7 +41,6 @@ public class PlayerKI implements Player {
 	public void enable() {
 		this.meeplecounter = 1;
 		this.enemycounter = 1;
-		six = false;
 		System.out.println("NEUE RUNDE!");
 		System.out.println("KI " +id + " ist dran.");
 		this.board = game.getBoard();

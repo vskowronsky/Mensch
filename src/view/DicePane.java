@@ -4,15 +4,9 @@ import controller.player.PlayerGUI;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.Group;
 
-import javafx.scene.control.Label;
-import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Shadow;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BorderPane;
 
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
@@ -32,6 +26,7 @@ public class DicePane extends VBox {
 	private double diceUnit;
 	private double radius;
 	private PlayerGUI playerGUI;
+	private MessagePane messagePane;
 	private String lastmessage;
 	private Rectangle mainRec;
 	VBox vbox;
@@ -42,12 +37,13 @@ public class DicePane extends VBox {
 	 * @param playerGUI Der übergebene Spieler
 	 * @author Laura, Vanessa
 	 */
-	public DicePane(PlayerGUI playerGUI) {
+	public DicePane(PlayerGUI playerGUI, MessagePane messagePane) {
 		super();
-		this.setBackground(Background.EMPTY);
-		String style = "-fx-background-color: rgba(222, 221, 221, 1);";
-		this.setStyle(style);
+//		this.setBackground(Background.EMPTY);
+//		String style = "-fx-background-color: rgba(222, 221, 221, 1);";
+//		this.setStyle(style);
 		this.playerGUI = playerGUI;
+		this.messagePane = messagePane;
 		this.width = 250;
 		this.unit = width / 5.;
 		this.diceWidth = 2*unit;
@@ -63,8 +59,20 @@ public class DicePane extends VBox {
 	 * @author Laura
 	 */
 	private void init() {
+
+		this.getChildren().clear();
 		dice = new Group();
-		mainRec = new Rectangle();
+		
+		if (playerGUI.stageWidth*0.6 >= playerGUI.stageHeight - messagePane.getHeight()) {
+			dice.setTranslateY(playerGUI.stageWidth*0.3-diceWidth/2- messagePane.getHeight()/2);
+			dice.setTranslateX(playerGUI.stageWidth*0.1-diceWidth/2);
+		} else {
+		dice.setTranslateY(playerGUI.stageWidth*0.3-diceWidth/2);
+		dice.setTranslateX(playerGUI.stageWidth*0.1-diceWidth/2);
+		}
+		
+		mainRec = new Rectangle(diceWidth,diceWidth);
+		
 
 		mainRec.setHeight(diceWidth); 
 		mainRec.setWidth(diceWidth);
@@ -76,36 +84,18 @@ public class DicePane extends VBox {
 
 		dice.getChildren().add(mainRec);
 		
-		 
-	      DropShadow dropShadow = new DropShadow(); 
-	      
-	      //Festlegen der Art der Unschärfe
-	      dropShadow.setBlurType(BlurType.GAUSSIAN); 
-	      
-	      //Einstellen der Schattenfarbe
-	      dropShadow.setColor(Color.GREY); 
-	      
-	      //Einstellen der Schattenhöhe
-	      dropShadow.setHeight(5); 
-	      
-	      //Einstellen der Schattenbreite
-	      dropShadow.setWidth(5); 
-	      
-	      //Einstellen des Radius des Schattens 
-	      dropShadow.setRadius(5); 
-	      
-	      //Einstellen der Verschiebung des Schattens
-	      dropShadow.setOffsetX(3); 
-	      dropShadow.setOffsetY(2); 
-	      
-	      //Einstellen der Ausbreitung des Schattens 
-	      dropShadow.setSpread(12);  
-	      
-	      //Anwendung des Schatteneffekts auf den Würfel 
-	      dice.setEffect(dropShadow);
+		
+		DropShadow dropShadow = new DropShadow(); 
 
-		this.setPadding(new Insets(this.width*1.2,this.width/4,0,this.width/4));
-		//		this.setSpacing(30);
+
+		dropShadow.setHeight(20); 
+		dropShadow.setWidth(20); 
+		dropShadow.setRadius(10); 
+		dropShadow.setOffsetX(10); 
+		dropShadow.setOffsetY(10); 
+
+		mainRec.setEffect(dropShadow);
+
 		this.getChildren().add(dice);
 	}
 
@@ -253,13 +243,34 @@ public class DicePane extends VBox {
 	 */
 	public void updateWidth() {
 		this.getChildren().clear();
-		this.width = (playerGUI.stageWidth)*0.2;
+		this.width = playerGUI.stageWidth*0.2;
 		this.unit = this.width / 5.;
 		this.diceWidth = 2*unit;
 		this.diceUnit = diceWidth/3.;
 		this.radius = diceUnit/3.;
+
+		this.setPrefWidth(this.width);
 		init();
 		dice(lastmessage);
 	}
+	
+	Rectangle createShadowedBox(double size,
+		    double shadowWidth, double shadowHeight,
+		    double offsetX, double offsetY,
+		    double radius)
+		{
+		    Rectangle r = new Rectangle(size, size);
+		    r.setFill(Color.PINK);
+		    r.setStroke(Color.BLACK);
+		    r.setStrokeWidth(2);
+		    DropShadow e = new DropShadow();
+		    e.setWidth(shadowWidth);
+		    e.setHeight(shadowHeight);
+		    e.setOffsetX(offsetX);
+		    e.setOffsetY(offsetY);
+		    e.setRadius(radius);
+		    r.setEffect(e);
+		    return r;
+		}
 
 }

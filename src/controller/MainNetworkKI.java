@@ -13,7 +13,6 @@ public class MainNetworkKI extends Application {
 		launch(args);
 	}
 
-	@Override
 	public void start(Stage arg0) throws Exception {
 		String host = "localhost";
 		int port = 6789;

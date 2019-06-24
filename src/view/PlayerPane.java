@@ -1,13 +1,10 @@
 package view;
 
-import javafx.scene.control.MenuBar;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import controller.player.PlayerGUI;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import model.Board;
 import model.Content;
 
@@ -25,7 +22,6 @@ public class PlayerPane extends Pane{
 	public Board board;
 	private PlayerGUI gui;
 	private MessagePane messagePane;
-	private MenuBar menuBar;
 	public CircleWithPos[] boardOfCircles;
 	public Rectangle[] recStreetGreen;
 	public Rectangle[] recStreetBlue;
@@ -47,12 +43,11 @@ public class PlayerPane extends Pane{
 	 * @param menuBar Die Menüleiste der Szene 
 	 * @author Laura, Vanessa
 	 */
-	public PlayerPane(PlayerGUI gui, MessagePane messagePane, MenuBar menuBar) {
+	public PlayerPane(PlayerGUI gui, MessagePane messagePane) {
 		super();
 		this.gui = gui;
 		this.board = new Board();
 		this.messagePane = messagePane;
-		this.menuBar = menuBar;
 		this.width = 660;
 		this.unit = width/11;
 		this.size = unit*0.9;
@@ -60,9 +55,6 @@ public class PlayerPane extends Pane{
 		this.radius = size/2*0.94;
 		this.middle = unit/2;
 		
-		/*
-		 * this.setPadding(new Insets(3.0, 3.0, 3.0, 3.0));
-		 */
 		 
 		init();
 	}
@@ -86,11 +78,16 @@ public class PlayerPane extends Pane{
 	 */
 	public void updateWidth() {
 		this.getChildren().clear();
-		if (gui.stageWidth*0.6 >= gui.stageHeight - messagePane.getHeight()-menuBar.getHeight()) {
-			this.width = gui.stageWidth*0.6-messagePane.getHeight();
+		if (gui.stageWidth*0.6 >= gui.stageHeight - messagePane.getHeight()) {
+			this.width = (gui.stageWidth*0.6-messagePane.getHeight())*0.95;
+			this.setTranslateX((messagePane.getHeight()) / 2);
+			
+			
 		} else {
-			this.width = gui.stageWidth*0.6-menuBar.getHeight();
+			this.width = gui.stageWidth*0.6*0.95;
+			this.setTranslateX(0);
 		}
+		this.setTranslateY(10);
 		this.unit = width/11;
 		this.size = unit*0.9;
 		this.dif = 0.05*unit;
@@ -271,6 +268,17 @@ public class PlayerPane extends Pane{
 			cir.setOnMouseEntered(gui.circleEnteredEventHandler);
 			cir.setOnMouseExited(gui.circleExitedEventHandler);
 		}
+		
+		boardOfCircles[0].setStroke(Color.GOLD);
+		boardOfCircles[10].setStroke(Color.MEDIUMSEAGREEN);
+		boardOfCircles[20].setStroke(Color.ROYALBLUE);
+		boardOfCircles[30].setStroke(Color.FIREBRICK);
+		
+		boardOfCircles[0].setStrokeWidth(4);
+		boardOfCircles[10].setStrokeWidth(4);
+		boardOfCircles[20].setStrokeWidth(4);
+		boardOfCircles[30].setStrokeWidth(4);
+		
 
 		getChildren().addAll(line0,line1, line2, line3, line4, line5, line6, line7, line8, line9, line10, line11, line12);
 		getChildren().addAll(boardOfCircles);
@@ -436,6 +444,11 @@ public class PlayerPane extends Pane{
 			default: break;
 			}
 		}
+		
+		boardOfCircles[0].setStroke(Color.GOLD);
+		boardOfCircles[10].setStroke(Color.MEDIUMSEAGREEN);
+		boardOfCircles[20].setStroke(Color.ROYALBLUE);
+		boardOfCircles[30].setStroke(Color.FIREBRICK);
 
 		for (int i = 0; i < circleStreetGreen.length; i++) {
 			if (board.getStreetG()[i] == Content.FREE){

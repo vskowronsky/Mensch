@@ -1,25 +1,21 @@
 package view;
 
+
 import controller.player.PlayerGUI;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.InnerShadow;
-import javafx.scene.effect.Lighting;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
+
 
 /**
  * Klasse informiert über den Spielstand und ermöglicht Speichern und Laden des Spiels.
  * @author Vanessa
  */
-public class InfoPane extends BorderPane {
+public class InfoPane extends VBox {
 	private int id;
 	private Color playerColor;
 	private PlayerGUI playerGUI;
@@ -27,7 +23,7 @@ public class InfoPane extends BorderPane {
 	private Label statusLabel;
 	public Button saveBtn;
 	public Button loadBtn;
-	
+
 	/**
 	 * Konstruktor der Klasse setzt die Atttributvariablen und erzeugt ein Label.
 	 * @param id ID des Spielers der dran ist
@@ -39,6 +35,8 @@ public class InfoPane extends BorderPane {
 		this.id = id;
 		this.playerGUI = playerGUI;
 		
+
+		
 		if(id == 1) {
 			playerColor = Color.GOLD;
 		} else if(id == 2) {
@@ -49,51 +47,68 @@ public class InfoPane extends BorderPane {
 			playerColor = Color.FIREBRICK;
 		}
 		this.width = 200;
-		statusLabel = new Label("");
+		
 		init();
 	}
-	
+
 	/**
 	 * Initialisierung der InfoPane
 	 * @author Vanessa
 	 */
 	private void init() {
-		VBox bigBox = new VBox(30);
-		bigBox.setBackground(Background.EMPTY);
-		  String style = "-fx-background-color: rgba(222, 221, 221, 1);";
-		  bigBox.setStyle(style);
-		bigBox.setPrefWidth(this.width);
+		this.setSpacing(10);
+		this.setPadding(new Insets(10));
+		this.getChildren().clear();
+		statusLabel = new Label("");
 		
+		
+		
+
 		Label playerName = new Label("Spieler " + id);
 		playerName.setTextFill(playerColor);
-		 
-	      InnerShadow innerShadow = new InnerShadow(); 
-	      
-	      //Festlegen der Art der Unschärfe
-	      innerShadow.setOffsetX(2); 
-	      innerShadow.setOffsetY(2); 
-	      
-	      //Einstellen der Schattenfarbe 
-	      innerShadow.setColor(Color.GREY);        
-	      
-	      //Anwendung des Schatteneffekts auf den Text 
-	      playerName.setEffect(innerShadow);  
-//		playerName.setEffect(new Lighting());
+
+		InnerShadow innerShadow = new InnerShadow(); 
+
+		//Festlegen der Art der Unschärfe
+		innerShadow.setOffsetX(2); 
+		innerShadow.setOffsetY(2); 
+
+		//Einstellen der Schattenfarbe 
+		innerShadow.setColor(Color.GREY);        
+
+		//Anwendung des Schatteneffekts auf den Text 
+		playerName.setEffect(innerShadow);  
+		//		playerName.setEffect(new Lighting());
 		playerName.setFont(Font.font(Font.getDefault().getFamily(),this.width/5));
+
+		VBox vbButtons = new VBox(10);
+		
+		
 		
 		saveBtn = new Button("Spielstand speichern");
+		saveBtn.setId("glass-grey");
+		
+		
 		loadBtn = new Button("Spielstand laden");
+		loadBtn.setId("glass-grey");
+		
+		saveBtn.setTranslateY(playerGUI.stageWidth*0.18);	
+		loadBtn.setTranslateY(playerGUI.stageWidth*0.18);
+		statusLabel.setTranslateY(playerGUI.stageWidth*0.18);
+		
+		
+		saveBtn.setMaxWidth(Double.MAX_VALUE);
+		loadBtn.setMaxWidth(Double.MAX_VALUE);
+		
+		vbButtons.getChildren().addAll(saveBtn, loadBtn);
 
 		statusLabel.setFont(Font.font(Font.getDefault().getFamily(),this.width/11));
-		
-		bigBox.setPadding(new Insets(5, 5, 5, 5));
-	    bigBox.setSpacing(5);
-	    
-		bigBox.getChildren().addAll(playerName, statusLabel, saveBtn, loadBtn);
-		
-		this.setCenter(bigBox);
-		}
-	
+
+
+		this.getChildren().addAll(playerName, statusLabel, vbButtons);
+
+	}
+
 	/**
 	 * Set-Methode des Labels
 	 * @param message Nachricht, die vom Spiel geschickt wurde.
@@ -102,14 +117,16 @@ public class InfoPane extends BorderPane {
 	public void setText(String message) {
 		statusLabel.setText(message);
 	}
-	
+
 	/**
 	 * Methode passt die Größe der InfoPane dynamisch an die veränderbare Größe des Fensters an.
 	 * @author Vanessa
 	 */
 	public void updateWidth() {
+		String temp = statusLabel.getText();
 		this.width = (playerGUI.stageWidth)*0.2;
 		setPrefWidth(this.width);
 		init();
+		statusLabel.setText(temp);
 	}
 }

@@ -1,5 +1,6 @@
 package controller.game;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import controller.exceptions.LoadException;
@@ -372,6 +373,7 @@ public class GameImplementation implements Game {
 	public void save(String fileName) {
 		PersistenceObject po = new PersistenceObject(status, board);
 		SaveLoad.save(po, fileName);
+		message("Spiel erfolgreich gespeichert.");
 	}
 
 	/**
@@ -380,14 +382,20 @@ public class GameImplementation implements Game {
 	 * @param fileName Name der zu ladenen Datei
 	 */
 	public void load(String fileName) {
-		PersistenceObject po = SaveLoad.load(fileName);
-		this.status = po.getStatus();
-		this.board = po.getBoard();
+		PersistenceObject po;
+		try {
+			po = SaveLoad.load(fileName);
 
-		System.out.println(po.getBoard());
-		System.out.println(this.board);
+			this.status = po.getStatus();
+			this.board = po.getBoard();
 
-		message("Loading successfull");
+			System.out.println(po.getBoard());
+			System.out.println(this.board);
+
+			message("Spiel erfolgreich geladen.");
+		} catch (IOException e) {
+			message("Eine Datei mit dem Namen " + fileName + " existiert nicht.");
+		}
 	}
 
 	/**

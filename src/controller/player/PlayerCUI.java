@@ -2,9 +2,7 @@ package controller.player;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.nio.file.Files;
 
-import controller.exceptions.NoMoveException;
 import controller.game.Game;
 import model.Content;
 import model.Position;
@@ -14,6 +12,7 @@ import model.Position;
  *
  */
 public class PlayerCUI implements Player {
+	@SuppressWarnings("unused")
 	private Content content;
 	private Game game;
 	private int id;
