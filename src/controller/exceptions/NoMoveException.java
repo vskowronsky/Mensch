@@ -1,5 +1,9 @@
 package controller.exceptions;
 
+/**
+ * Klasse erzeugt eine Exception, die geworfen wird, wenn kein Zug möglich ist.
+ * @author Vanessa
+ */
 public class NoMoveException extends Exception{
 
 	/**

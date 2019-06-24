@@ -1,24 +1,30 @@
 package view;
 
-
 import controller.player.PlayerGUI;
 import javafx.animation.FadeTransition;
-import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
+
 import javafx.scene.control.Label;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Shadow;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
+
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 import javafx.util.Duration;
 
+/**
+ * Klasse zeigt den Würfel an.
+ * @author Laura, Vanessa
+ */
 public class DicePane extends VBox {
 	public double width;
 	private double unit;
@@ -26,14 +32,16 @@ public class DicePane extends VBox {
 	private double diceUnit;
 	private double radius;
 	private PlayerGUI playerGUI;
-
 	private String lastmessage;
 	private Rectangle mainRec;
-
-
 	VBox vbox;
 	Group dice;
 
+	/**
+	 * Konstruktor der Klasse. Setzt die Atttributvariablen.
+	 * @param playerGUI Der übergebene Spieler
+	 * @author Laura, Vanessa
+	 */
 	public DicePane(PlayerGUI playerGUI) {
 		super();
 		this.setBackground(Background.EMPTY);
@@ -41,7 +49,7 @@ public class DicePane extends VBox {
 		this.setStyle(style);
 		this.playerGUI = playerGUI;
 		this.width = 250;
-		this.unit = width / 5.; //50
+		this.unit = width / 5.;
 		this.diceWidth = 2*unit;
 		this.diceUnit = diceWidth/3.;
 		this.radius = diceUnit/3.;
@@ -50,112 +58,116 @@ public class DicePane extends VBox {
 		init();
 	}
 
+	/**
+	 * Initalisierung des Würfels noch ohne Augenzahl.
+	 * @author Laura
+	 */
 	private void init() {
 		dice = new Group();
 		mainRec = new Rectangle();
 
 		mainRec.setHeight(diceWidth); 
 		mainRec.setWidth(diceWidth);
-
 		mainRec.setStroke(Color.BLACK);
 		mainRec.setStrokeWidth(1.5);
-		mainRec.setFill(Color.WHITE);
-
-		mainRec.setStroke(Color.BLACK); 
 		mainRec.setFill(Color.FLORALWHITE);
 		mainRec.setArcWidth(20.);
 		mainRec.setArcHeight(20.);
 
-
 		dice.getChildren().add(mainRec);
+		
+		 
+	      DropShadow dropShadow = new DropShadow(); 
+	      
+	      //Festlegen der Art der Unschärfe
+	      dropShadow.setBlurType(BlurType.GAUSSIAN); 
+	      
+	      //Einstellen der Schattenfarbe
+	      dropShadow.setColor(Color.GREY); 
+	      
+	      //Einstellen der Schattenhöhe
+	      dropShadow.setHeight(5); 
+	      
+	      //Einstellen der Schattenbreite
+	      dropShadow.setWidth(5); 
+	      
+	      //Einstellen des Radius des Schattens 
+	      dropShadow.setRadius(5); 
+	      
+	      //Einstellen der Verschiebung des Schattens
+	      dropShadow.setOffsetX(3); 
+	      dropShadow.setOffsetY(2); 
+	      
+	      //Einstellen der Ausbreitung des Schattens 
+	      dropShadow.setSpread(12);  
+	      
+	      //Anwendung des Schatteneffekts auf den Würfel 
+	      dice.setEffect(dropShadow);
 
 		this.setPadding(new Insets(this.width*1.2,this.width/4,0,this.width/4));
 		//		this.setSpacing(30);
-
 		this.getChildren().add(dice);
-
 	}
 
-
-	public void diceRoll(String message ) {
-		
+	/**
+	 * Methode zum Erzeugen eines mischenden Würfels. Fünf falsche Würfel werden gezeigt bevor
+	 * der richtige Würfel gezeigt wird.
+	 * @param message Vom Spiel weitergereichtes Würfelergebnis
+	 * @author Vanessa
+	 */
+	public void diceRoll(String message) {
 		AudioClip sound = new AudioClip("file:src/view/Dice.mp3");
 		sound.play();
 
 		dice("Sie haben eine 3 gewürfelt.");
-
 		FadeTransition trans = new FadeTransition(Duration.seconds(0.05), dice);
 		trans.setFromValue(1.0);
 		trans.setToValue(.20);
-		// Let the animation run forever
 		trans.setCycleCount(2);
-		// Reverse direction on alternating cycles
 		trans.setAutoReverse(true);
-		// Play the Animation
 		trans.play();
-
 		trans.setOnFinished(new EventHandler<ActionEvent>() {
 
-			@Override
 			public void handle(ActionEvent event) {
 				dice("Sie haben eine 5 gewürfelt.");
 				FadeTransition trans = new FadeTransition(Duration.seconds(0.05), dice);
 				trans.setFromValue(1.0);
 				trans.setToValue(.20);
-				// Let the animation run forever
 				trans.setCycleCount(2);
-				// Reverse direction on alternating cycles
 				trans.setAutoReverse(true);
-				// Play the Animation
 				trans.play();
-
 				trans.setOnFinished(new EventHandler<ActionEvent>() {
 
-					@Override
 					public void handle(ActionEvent event) {
 						dice("Sie haben eine 3 gewürfelt.");
 						FadeTransition trans = new FadeTransition(Duration.seconds(0.05), dice);
 						trans.setFromValue(1.0);
 						trans.setToValue(.20);
-						// Let the animation run forever
 						trans.setCycleCount(2);
-						// Reverse direction on alternating cycles
 						trans.setAutoReverse(true);
-						// Play the Animation
 						trans.play();
 						trans.setOnFinished(new EventHandler<ActionEvent>() {
 
-							@Override
 							public void handle(ActionEvent event) {
 								dice("Sie haben eine 4 gewürfelt.");
 								FadeTransition trans = new FadeTransition(Duration.seconds(0.05), dice);
 								trans.setFromValue(1.0);
 								trans.setToValue(.20);
-								// Let the animation run forever
 								trans.setCycleCount(2);
-								// Reverse direction on alternating cycles
 								trans.setAutoReverse(true);
-								// Play the Animation
 								trans.play();
-
 								trans.setOnFinished(new EventHandler<ActionEvent>() {
 
-									@Override
 									public void handle(ActionEvent event) {
 										dice("Sie haben eine 2 gewürfelt.");
 										FadeTransition trans = new FadeTransition(Duration.seconds(0.05), dice);
 										trans.setFromValue(1.0);
 										trans.setToValue(.20);
-										// Let the animation run forever
 										trans.setCycleCount(2);
-										// Reverse direction on alternating cycles
 										trans.setAutoReverse(true);
-										// Play the Animation
 										trans.play();
-
 										trans.setOnFinished(new EventHandler<ActionEvent>() {
 
-											@Override
 											public void handle(ActionEvent event) {
 												dice(message);
 											}
@@ -171,6 +183,11 @@ public class DicePane extends VBox {
 
 	}
 
+	/**
+	 * Methode zeigt entsprechend der Nachricht die Würfelzahl an.
+	 * @param message Vom Spiel weitergereichtes Würfelergebnis
+	 * @author Laura
+	 */
 	public void dice(String message) {
 		lastmessage = message;
 
@@ -230,14 +247,17 @@ public class DicePane extends VBox {
 		}
 	}
 
+	/**
+	 * Methode passt die Größe des Würfels dynamisch an die veränderbare Größe des Fensters an.
+	 * @author Vanessa
+	 */
 	public void updateWidth() {
 		this.getChildren().clear();
 		this.width = (playerGUI.stageWidth)*0.2;
-		this.unit = this.width / 5.; //50
+		this.unit = this.width / 5.;
 		this.diceWidth = 2*unit;
 		this.diceUnit = diceWidth/3.;
 		this.radius = diceUnit/3.;
-
 		init();
 		dice(lastmessage);
 	}

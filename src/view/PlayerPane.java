@@ -1,11 +1,8 @@
 package view;
 
-import javafx.scene.Cursor;
 import javafx.scene.control.MenuBar;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import controller.player.PlayerGUI;
@@ -14,6 +11,10 @@ import javafx.geometry.Insets;
 import model.Board;
 import model.Content;
 
+/**
+ * Klasse zeichnet das Spielfeld, die Häuser und die Zielstraßen. 
+ * @author Laura, Vanessa
+ */
 public class PlayerPane extends Pane{
 	public double width;
 	private double unit;
@@ -39,8 +40,13 @@ public class PlayerPane extends Pane{
 	public CircleWithPos[] circleHouseRed;
 	public CircleWithPos[] circleHouseYellow;
 
-
-
+	/**
+	 * Konstuktor der Klasse. Setzt die übergebenen Parameter und die Attributvariablen.
+	 * @param gui Der Spieler
+	 * @param messagePane Die MessagePane der Szene
+	 * @param menuBar Die Menüleiste der Szene 
+	 * @author Laura, Vanessa
+	 */
 	public PlayerPane(PlayerGUI gui, MessagePane messagePane, MenuBar menuBar) {
 		super();
 		this.gui = gui;
@@ -55,14 +61,16 @@ public class PlayerPane extends Pane{
 		this.middle = unit/2;
 		
 		/*
-		 * this.setStyle("-fx-border-color: black; -fx-border-width: 3px");
 		 * this.setPadding(new Insets(3.0, 3.0, 3.0, 3.0));
 		 */
 		 
 		init();
-
 	}
 
+	/**
+	 * Initialisierung der einzelnen Elemente über Untermethoden.
+	 * @author Laura, Vanessa
+	 */
 	private void init() {
 		initHouse();
 		initBoard();
@@ -71,6 +79,11 @@ public class PlayerPane extends Pane{
 		circleHouse();
 	}
 
+	/**
+	 * Methode passt die Größe der PlayerPane dynamisch an die veränderbare Größe des Fensters an und
+	 * zeichnet die Elemente neu.
+	 * @author Vanessa
+	 */
 	public void updateWidth() {
 		this.getChildren().clear();
 		if (gui.stageWidth*0.6 >= gui.stageHeight - messagePane.getHeight()-menuBar.getHeight()) {
@@ -92,6 +105,10 @@ public class PlayerPane extends Pane{
 
 	}
 
+	/**
+	 * Methode zeichnet die Häuser auf dem Spielbrett.
+	 * @author Laura
+	 */
 	private void initHouse() {
 		Rectangle recHouseGreen1 = new Rectangle(0+dif, 0+dif, size, size);
 		Rectangle recHouseGreen2 = new Rectangle(unit+dif, 0+dif, size, size);
@@ -179,6 +196,11 @@ public class PlayerPane extends Pane{
 				recHouseYellow1, recHouseYellow2, recHouseYellow3, recHouseYellow4);
 	}
 
+	/**
+	 * Methode initialisiert und zeichnet das Hauptspielfeld. Ebenso werden den Objekten EventHandler
+	 * zugefügt.
+	 * @author Laura, Vanessa
+	 */
 	private void initBoard() {
 		//Verbindungslinien
 		Line line0 = new Line(4.5*unit, 10.5*unit, 4.5*unit, 6.5*unit);
@@ -254,6 +276,10 @@ public class PlayerPane extends Pane{
 		getChildren().addAll(boardOfCircles);
 	}
 
+	/**
+	 * Methode zeichnet die Rechtecke der Zielstraße.
+	 * @author Laura
+	 */
 	private void initStreet() {
 		recStreetGreen = new Rectangle[4];
 		for(int i = 0; i < 4; i++) {
@@ -293,6 +319,11 @@ public class PlayerPane extends Pane{
 		getChildren().addAll(recStreetYellow);
 	}
 
+	/**
+	 * Methode initialisiert Spielfiguren, die sich in der Zielstraße befinden und fügt ihnen 
+	 * EventHandler zu
+	 * @author Vanessa
+	 */
 	private void circleStreet() {
 		circleStreetGreen = new CircleWithPos[4];
 		for(int i = 0; i < 4; i++) {
@@ -301,7 +332,6 @@ public class PlayerPane extends Pane{
 			circleStreetGreen[i].setOnMouseClicked(gui.circleClickedEventHandler);
 			circleStreetGreen[i].setOnMouseEntered(gui.circleEnteredEventHandler);
 			circleStreetGreen[i].setOnMouseExited(gui.circleExitedEventHandler);
-
 		}
 
 		circleStreetBlue = new CircleWithPos[4];
@@ -329,7 +359,6 @@ public class PlayerPane extends Pane{
 			circleStreetYellow[i].setOnMouseClicked(gui.circleClickedEventHandler);
 			circleStreetYellow[i].setOnMouseEntered(gui.circleEnteredEventHandler);
 			circleStreetYellow[i].setOnMouseExited(gui.circleExitedEventHandler);
-
 		}
 
 		getChildren().addAll(circleStreetGreen);
@@ -338,6 +367,10 @@ public class PlayerPane extends Pane{
 		getChildren().addAll(circleStreetYellow);
 	}
 
+	/**
+	 * Methode zeichnet Spielfiguren in den Häusern.
+	 * @author Vanessa
+	 */
 	private void circleHouse() {
 		circleHouseGreen = new CircleWithPos[4];
 		circleHouseGreen[0] = new CircleWithPos(0+middle, 0+middle, radius, 0);
@@ -385,6 +418,12 @@ public class PlayerPane extends Pane{
 		getChildren().addAll(circleHouseYellow);
 	}
 
+	/**
+	 * Methode gleicht das Spielfeld des Spiels mit dem Spielfeld der GUI ab und färbt die Objekte 
+	 * entsprechend.
+	 * @param board
+	 * @author Vanessa
+	 */
 	public void update(Board board) {
 
 		for (int i = 0; i < boardOfCircles.length; i++) {

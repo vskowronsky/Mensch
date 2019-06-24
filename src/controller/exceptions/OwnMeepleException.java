@@ -1,5 +1,10 @@
 package controller.exceptions;
 
+/**
+ * Klasse erzeugt eine Exception, die geworfen wird, wenn man seine eigene Figur werfen würde.
+ * @author Vanessa
+ */
+
 public class OwnMeepleException extends Exception{
 
 	/**
