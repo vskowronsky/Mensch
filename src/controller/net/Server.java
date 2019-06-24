@@ -5,7 +5,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import controller.exceptions.NoMoveException;
 import controller.player.PlayerRemote;
 import model.Board;
 import model.Content;
@@ -15,6 +14,7 @@ public class Server {
 
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
+	@SuppressWarnings("unused")
 	private PlayerRemote player;
 
 	/**
